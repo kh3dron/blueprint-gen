@@ -8,10 +8,11 @@ Geometry (composite-local tiles, y grows south):
   rows B0 .. B0+3L-1    : bus; lane j uses rows s_a(j)=B0+3j, s_b(j)=B0+3j+1, belt(j)=B0+3j+2
   columns > x_max       : export drops (lane j drops at d_j, deeper lanes further west), southbound
 
-pull  : splitter on belt(j) at column bc-1; branch exits east into (bc, s_b(j)), turns north, then
-        per lane above: underground out at s_b, underground in at s_a. Top of bus -> routing band.
-push  : chain south from the port; per lane above the target: underground in at s_b, out at s_a
-        of the next lane. At the target: belt south into belt(j): curve if the lane starts here,
+pull  : splitter on belt(j) at column bc-1; branch exits east into (bc, s_b(j)) and turns north.
+        The last consumer of a lane takes the whole lane instead: belt(j) itself turns north.
+push  : chain south from the port.
+crossing: a vertical chain tunnels (underground in/out around the belt row) only where the crossed
+        lane actually has a belt at that column; otherwise it is a plain belt. At the target: belt south into belt(j): curve if the lane starts here,
         sideload (merge) if it already exists.
 """
 import copy
@@ -71,6 +72,21 @@ class Grid:
 
     def ug(self, x, y, d, kind):
         return self.place(UNDERGROUND[self.belt], x, y, d, type=kind)
+
+    def vertical(self, x, rows, d, blocked):
+        """Belt chain down `rows` (in travel order) at column x, travelling d. Rows in `blocked` hold a
+        lane belt and are tunnelled under: underground in on the tile before, out on the tile after."""
+        for i, y in enumerate(rows):
+            if y in blocked:
+                continue
+            nxt = rows[i + 1] if i + 1 < len(rows) else None
+            prv = rows[i - 1] if i > 0 else None
+            if nxt in blocked:
+                self.ug(x, y, d, "input")
+            elif prv in blocked:
+                self.ug(x, y, d, "output")
+            else:
+                self.belt_tile(x, y, d)
 
     def splitter_east(self, x, y_top):
         """Splitter facing east occupying (x, y_top) and (x, y_top+1); center at (x+0.5, y_top+1)."""
@@ -213,23 +229,19 @@ def compose(name, modules, belt="transport-belt", exports=None):
             if bc - 1 <= ln.start:
                 raise ValueError(f"{m.name}: input {p.item} at column {px} is west of lane {j} start {ln.start}; "
                                  f"order producers before consumers")
-            grid.splitter_east(bc - 1, s_b(j))
-            grid.belt_tile(bc, belt_row(j), E)          # lane continues after the splitter
-            grid.belt_tile(bc, s_b(j), N)               # branch: curve E->N
-            if j == 0:
-                grid.belt_tile(bc, s_a(0), N)
-            else:
-                grid.ug(bc, s_a(j), N, "input")
-                for jj in range(j - 1, -1, -1):
-                    grid.ug(bc, s_b(jj), N, "output")
-                    if jj > 0:
-                        grid.ug(bc, s_a(jj), N, "input")
-                    else:
-                        grid.belt_tile(bc, s_a(0), N)
-            # routing band: up column bc to row r, across to px, up to by+1
             r = B0 - 1 - k
-            for yy in range(B0 - 1, r, -1):
-                grid.belt_tile(bc, yy, N)
+            blocked = {belt_row(o.index) for o in bus.lanes.values() if o.index < j and o.start <= bc <= o.end}
+            if bc == ln.end:
+                # last consumer: the lane itself turns north, no splitter
+                grid.belt_tile(bc, belt_row(j), N)
+                rows = list(range(s_b(j), r, -1))
+            else:
+                grid.splitter_east(bc - 1, s_b(j))
+                grid.belt_tile(bc, belt_row(j), E)          # lane continues after the splitter
+                grid.belt_tile(bc, s_b(j), N)               # branch: curve E->N
+                rows = list(range(s_a(j), r, -1))
+            grid.vertical(bc, rows, N, blocked)
+            # routing band: row r turns toward px, then up to by+1
             if px == bc:
                 grid.belt_tile(bc, r, N)
             else:
@@ -247,15 +259,8 @@ def compose(name, modules, belt="transport-belt", exports=None):
             ln = bus.lane(p.item)
             j = ln.index
             col = x0 + p.x
-            for yy in range(by + 1, B0):
-                grid.belt_tile(col, yy, S)
-            for jj in range(j):
-                if jj == 0:
-                    grid.belt_tile(col, s_a(0), S)
-                grid.ug(col, s_b(jj), S, "input")
-                grid.ug(col, s_a(jj + 1), S, "output")
-            if j == 0:
-                grid.belt_tile(col, s_a(0), S)
+            blocked = {belt_row(o.index) for o in bus.lanes.values() if o.index < j and o.start <= col <= o.end}
+            grid.vertical(col, list(range(by + 1, s_b(j))), S, blocked)
             if ln.start == col:
                 grid.belt_tile(col, s_b(j), S)   # new lane: S->E curve at belt(j)
             else:

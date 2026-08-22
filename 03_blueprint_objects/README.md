@@ -60,10 +60,10 @@ Lane order: external inputs (order of first use), then produced items (productio
 
 | Operation | Mechanism |
 |---|---|
-| pull (input k of a module at x0) | splitter on `belt(j)` at column `bc-1`, `bc = x0+2k`; branch exits east into `(bc, s_b)` and turns north; per lane above: underground out at `s_b`, in at `s_a`; up the routing band, jog on row `B0-1-k` to the port column, feed the port from behind |
-| push (lane starts here) | port belt south; per lane above the target: underground in at `s_b`, out at the next `s_a`; S->E curve at `belt(j)` |
+| pull (input k of a module at x0) | `bc = x0+2k`. If this is the last consumer of the lane (nothing east of `bc`: no pull, merge, or export), `belt(j)` itself turns north at `bc` and the whole lane is consumed. Otherwise a splitter on `belt(j)` at `bc-1`; the branch exits east into `(bc, s_b)` and turns north. Then up the routing band, jog on row `B0-1-k` to the port column, feed the port from behind |
+| push (lane starts here) | port belt south to `s_b(j)`; S->E curve at `belt(j)` |
 | merge (lane exists) | same descent, then east into the upper input of a splitter sitting on the lane; its upper output tile is left empty so the whole flow continues on the lane (full merge, as in `samples/bus_merge.md`) |
-| crossing | underground pairs with a 1-tile gap under each lane; any depth |
+| crossing | a vertical chain tunnels (underground in on the tile before the belt row, out on the tile after) only where the crossed lane has a belt at that column; elsewhere it is a plain belt. Any depth |
 | power | medium pole in each inter-module gap on row `by`, wired to each neighbour's nearest pole within 9 tiles |
 
 Tile conflicts raise `ValueError` (grid occupancy is checked for every placement). A consumer placed west of its lane's start is rejected. Lane rate above belt capacity (15/30/45/60 per belt) prints a WARNING.
