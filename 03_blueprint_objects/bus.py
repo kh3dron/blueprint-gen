@@ -5,7 +5,7 @@ Geometry (composite-local tiles, y grows south):
   columns 0..E-1        : external-input risers (lane j enters at column j, northbound)
   columns E+GAP ..      : modules, bottom-aligned on row `by`, GAP columns apart
   rows by+1 .. by+R     : routing band (jogs between a port column and its bus column)
-  rows B0 .. B0+3L-1    : bus; lane j uses rows s_a(j)=B0+3j, s_b(j)=B0+3j+1, belt(j)=B0+3j+2
+  rows B0 .. B0+L-1     : bus; lane j is row B0+j (one row per lane); row B0+L is a spare row
   columns > x_max       : export drops (lane j drops at d_j, deeper lanes further west), southbound
 
 Lanes and capacity: an item may occupy several lanes (LANE_CAPACITY each). A module output is one
@@ -15,15 +15,17 @@ Pulls take the tightest lane whose unclaimed supply covers the port, else the la
 a WARNING, not an error); leftover supply on a consumed item stays on its lane (belt backs up);
 external pulls are first-fit on capacity, creating new external lanes as needed.
 
-pull  : splitter on belt(j) at column bc-1; branch exits east into (bc, s_b(j)) and turns north.
-        The last consumer of a lane takes the whole lane instead: belt(j) itself turns north.
-push  : chain south from the port. At the target: S->E curve if the lane starts here, otherwise
-        merge: curve east into the upper input of a splitter on the lane whose upper output tile is
-        left empty (full merge).
-crossing: a vertical chain tunnels (underground in/out around the belt row) only where the crossed
-        lane actually has a belt at that column; otherwise it is a plain belt.
+pull  : splitter on the lane at column bc-1 (rows j-1, j); branch exits east into (bc, j-1) and turns
+        north. The last consumer of a lane takes the whole lane instead: the lane turns north at bc.
+push  : chain south from the port. At the target: S->E curve if the lane starts here; left merge:
+        curve east at row j-1 into the upper input of a splitter at (col+1, rows j-1..j) whose upper
+        output is blocked; right merge: through the lane row (the lane ducks), east along row j+1,
+        north at col+2 to sideload the lane from the south.
+crossing: vertical chains run straight. Every lane ducks underground (in/out on the lane row) under
+        each run of foreign tiles in its row: crossing chains, other lanes' splitters, merge feeders.
+        Runs separated by one free tile merge; a run longer than MAX_GAP[belt] is a PackError.
 Ports of one module are grouped by proximity (gap <= 2 columns); each group gets its own bus
-columns bc = first_px + 2*k and jog rows, so multi-column modules route without conflicts.
+columns bc = first_px + spacing*k and jog rows. compose() searches spacing 3..6 until the pack fits.
 """
 import copy
 import os
@@ -42,6 +44,8 @@ UNDERGROUND = {"transport-belt": "underground-belt", "fast-transport-belt": "fas
 SPLITTER = {"transport-belt": "splitter", "fast-transport-belt": "fast-splitter",
             "express-transport-belt": "express-splitter", "turbo-transport-belt": "turbo-splitter"}
 POLE_REACH = {"small-electric-pole": 7.5, "medium-electric-pole": 9.0, "big-electric-pole": 30.0}
+MAX_GAP = {"transport-belt": 4, "fast-transport-belt": 6, "express-transport-belt": 8, "turbo-transport-belt": 10}
+SEARCH = ((3, 3), (4, 3), (4, 4), (5, 4), (6, 5))   # (chain spacing, module gap) candidates, in order
 LANE_CAPACITY = {"transport-belt": 15.0, "fast-transport-belt": 30.0, "express-transport-belt": 45.0,
                  "turbo-transport-belt": 60.0}
 
@@ -76,12 +80,30 @@ class Grid:
         self.ents = []
         self.occ = {}
         self.belt = belt
+        self.log = None        # keys placed since begin(), for rollback()
 
-    def place(self, name, x, y, direction=N, **kw):
-        key = (x, y)
+    def begin(self):
+        self.log = []
+        self.n_ents = len(self.ents)
+
+    def rollback(self):
+        for key in self.log:
+            self.occ.pop(key, None)
+        del self.ents[self.n_ents:]
+        self.log = None
+
+    def commit(self):
+        self.log = None
+
+    def _take(self, key, name):
         if key in self.occ:
             raise ValueError(f"tile {key} already holds {self.occ[key]}, cannot place {name}")
         self.occ[key] = name
+        if self.log is not None:
+            self.log.append(key)
+
+    def place(self, name, x, y, direction=N, **kw):
+        self._take((x, y), name)
         e = {"name": name, "position": {"x": x + 0.5, "y": y + 0.5}, "direction": direction}
         e.update(kw)
         self.ents.append(e)
@@ -111,10 +133,7 @@ class Grid:
     def splitter_east(self, x, y_top):
         """Splitter facing east occupying (x, y_top) and (x, y_top+1); center at (x+0.5, y_top+1)."""
         for dy in (0, 1):
-            key = (x, y_top + dy)
-            if key in self.occ:
-                raise ValueError(f"tile {key} already holds {self.occ[key]}, cannot place splitter")
-            self.occ[key] = SPLITTER[self.belt]
+            self._take((x, y_top + dy), SPLITTER[self.belt])
         e = {"name": SPLITTER[self.belt], "position": {"x": x + 0.5, "y": y_top + 1}, "direction": E}
         self.ents.append(e)
         return e
@@ -205,9 +224,26 @@ def allocate(modules, belt):
     return lanes, pull_lane, push_lane, warnings
 
 
+
+
+class PackError(ValueError):
+    pass
+
+
 def compose(name, modules, belt="transport-belt", exports=None):
-    """Stitch modules (list of Module, producers before consumers) over a bus. Returns a Module."""
-    exports = set(exports or [])
+    """Stitch modules (producers before consumers) over a bus; retries with wider chain spacing
+    until every lane can duck under its crossings. Returns a Module."""
+    last = None
+    for spacing, gap in SEARCH:
+        try:
+            return _layout(name, modules, belt, set(exports or []), spacing, gap)
+        except PackError as ex:
+            last = ex
+            print(f"spacing {spacing} gap {gap}: {ex}; retrying", file=sys.stderr)
+    raise ValueError(f"bus does not pack with (spacing, gap) in {SEARCH}: {last}")
+
+
+def _layout(name, modules, belt, exports, spacing, gap):
     lanes, pull_lane, push_lane, warnings = allocate(modules, belt)
     for w in warnings:
         print(w, file=sys.stderr)
@@ -219,15 +255,15 @@ def compose(name, modules, belt="transport-belt", exports=None):
 
     by = max(m.height for m in modules) - 1
     B0 = by + R + 1
-    s_a = lambda j: B0 + 3 * j            # noqa: E731
-    s_b = lambda j: B0 + 3 * j + 1        # noqa: E731
-    belt_row = lambda j: B0 + 3 * j + 2   # noqa: E731
-    H = B0 + 3 * L
+    row = lambda j: B0 + j              # noqa: E731
+    H = B0 + L + 1                      # one spare row under the last lane (right merges, ports)
     grid = Grid(belt)
     wires = []
+    own = {ln.index: set() for ln in lanes}   # (x, row) tiles placed on a lane row that belong to that lane
+    plain = {ln.index: set() for ln in lanes} # own tiles that are plain eastbound belts (may become undergrounds)
 
-    # ---- place modules ---------------------------------------------------------------
-    x = Ecount + GAP
+    # ---- place modules; a module's footprint also covers its bus columns ---------------
+    x = Ecount + gap
     placements = []
     for m in modules:
         x0, y0 = x, by - m.height + 1
@@ -243,10 +279,12 @@ def compose(name, modules, belt="transport-belt", exports=None):
         for w in m.wires:
             wires.append([w[0] + base, w[1], w[2] + base, w[3]])
         placements.append((m, x0, y0))
-        x += m.width + GAP
-    x_max = x - GAP - 1
+        extent = m.width
+        for p, (first, k) in zip(m.inputs, port_groups(m.inputs)):
+            extent = max(extent, first + spacing * k + spacing + 2)   # room for candidate shifts
+        x += extent + gap
+    x_max = x - gap - 1
 
-    # a medium pole in each inter-module gap (bottom module row), wired to the nearest pole of each neighbour
     def nearest_pole(m, x0, gx):
         best = None
         for i, e in enumerate(grid.ents):
@@ -267,53 +305,65 @@ def compose(name, modules, belt="transport-belt", exports=None):
                 print(f"WARNING gap pole at {gx} cannot reach {m.name} pole ({best[0]:.1f} tiles)", file=sys.stderr)
 
     # ---- bus columns for every port --------------------------------------------------
-    pulls = []   # (module, port, lane, bc, px, k_local)
-    pushes = []  # (module, port, lane, col)
+    pulls, pushes = [], []
     for mi, (m, x0, y0) in enumerate(placements):
         for pi, (p, (first, k)) in enumerate(zip(m.inputs, port_groups(m.inputs))):
-            ln = pull_lane[(mi, pi)]
-            bc = x0 + first + 2 * k
-            ln.pulls.append(bc)
-            pulls.append((m, p, ln, bc, x0 + p.x, k))
+            pulls.append((m, pull_lane[(mi, pi)], x0 + first + spacing * k, x0 + p.x, k, p))
         for oi, p in enumerate(m.outputs):
             ln, side = push_lane[(mi, oi)]
             ln.pushes.append(x0 + p.x)
             pushes.append((m, p, ln, x0 + p.x, side))
 
-    # ---- lane starts / ends ----------------------------------------------------------
     for ln in lanes:
         ln.start = ln.index if ln.external else min(ln.pushes)
-        last_pull = max(ln.pulls) if ln.pulls else ln.start
-        last_merge = max((c + 2 for c in ln.pushes if c > ln.start), default=ln.start)
-        ln.end = max(ln.start, last_pull, last_merge)
     drops = {}
     for ln in exported:
         d = x_max + 3 + (L - 1 - ln.index)
         drops[ln.index] = d
-        ln.end = d
 
-    def present(ln, x):
-        return ln.start <= x <= ln.end
+    def lane_tile(ln, x, d):
+        own[ln.index].add((x, row(ln.index)))
+        return grid.belt_tile(x, row(ln.index), d)
 
-    # ---- pulls (splitters sit on the lane, so place them before the lane belts) -----
-    for m, p, ln, bc, px, k in pulls:
+    # ---- pushes (placed first so pull chains route around them) -----------------------
+    for m, p, ln, col, side in pushes:
         j = ln.index
-        if bc - 1 <= ln.start:
-            raise ValueError(f"{m.name}: input {p.item} at column {px} is west of lane {j} start {ln.start}; "
-                             f"order producers before consumers")
-        r = B0 - 1 - k
-        blocked = {belt_row(o.index) for o in lanes if o.index < j and present(o, bc)}
-        if bc == ln.end:
-            grid.belt_tile(bc, belt_row(j), N)          # last consumer: the lane itself turns north
-            rows = list(range(s_b(j), r, -1))
+        if ln.start == col:
+            for yy in range(by + 1, row(j)):
+                grid.belt_tile(col, yy, S)
+            lane_tile(ln, col, E)                     # new lane: S->E curve
+        elif side == "left":
+            for yy in range(by + 1, row(j) - 1):
+                grid.belt_tile(col, yy, S)
+            grid.belt_tile(col, row(j) - 1, E)        # feeder into the splitter's upper input
+            grid.splitter_east(col + 1, row(j) - 1)   # upper output blocked -> full merge onto the lane
+            own[j].add((col + 1, row(j)))
         else:
-            grid.splitter_east(bc - 1, s_b(j))
-            grid.belt_tile(bc, belt_row(j), E)          # lane continues after the splitter
-            grid.belt_tile(bc, s_b(j), N)               # branch: curve E->N
-            rows = list(range(s_a(j), r, -1))
-        grid.vertical(bc, rows, N, blocked)
+            for yy in range(by + 1, row(j) + 1):
+                grid.belt_tile(col, yy, S)            # through the lane row; the lane ducks under it
+            grid.belt_tile(col, row(j) + 1, E)
+            grid.belt_tile(col + 1, row(j) + 1, E)
+            grid.belt_tile(col + 2, row(j) + 1, N)    # sideloads the lane from the south: right belt-lane
+
+    # ---- pulls: candidate bus columns bc, bc+1, ... with rollback on collision --------
+    def place_pull(ln, bc, px, k, whole):
+        j = ln.index
+        r = B0 - 1 - k
+        if whole:
+            lane_tile(ln, bc, N)                      # last consumer: the lane turns north
+            top = row(j) - 1
+        else:
+            grid.splitter_east(bc - 1, row(j) - 1)
+            own[j].add((bc - 1, row(j)))
+            lane_tile(ln, bc, E)                      # lane continues after the splitter
+            plain[j].add((bc, row(j)))
+            grid.belt_tile(bc, row(j) - 1, N)         # branch: curve E->N
+            top = row(j) - 2
+        for yy in range(top, r, -1):
+            grid.belt_tile(bc, yy, N)
         if px == bc:
-            grid.belt_tile(bc, r, N)
+            if (bc, r) not in grid.occ:               # lane-0 branch curve already sits on row B0-1
+                grid.belt_tile(bc, r, N)
         else:
             step = 1 if px > bc else -1
             grid.belt_tile(bc, r, E if step > 0 else W)
@@ -323,54 +373,95 @@ def compose(name, modules, belt="transport-belt", exports=None):
         for yy in range(r - 1, by, -1):
             grid.belt_tile(px, yy, N)
 
-    # ---- pushes ----------------------------------------------------------------------
-    for m, p, ln, col, side in pushes:
-        j = ln.index
-        blocked = {belt_row(o.index) for o in lanes if o.index < j and present(o, col)}
-        if ln.start == col:
-            grid.vertical(col, list(range(by + 1, s_b(j))), S, blocked)
-            grid.belt_tile(col, s_b(j), S)   # new lane: S->E curve at belt(j)
-        elif side == "left":
-            grid.vertical(col, list(range(by + 1, s_b(j))), S, blocked)
-            grid.belt_tile(col, s_b(j), E)   # merge: into the upper input of a splitter on the lane
-            grid.splitter_east(col + 1, s_b(j))
-        else:
-            # right belt-lane: tunnel under the lane, come back up one column east and sideload from the south
-            grid.vertical(col, list(range(by + 1, s_b(j + 1))), S, blocked | {belt_row(j)})
-            grid.belt_tile(col, s_b(j + 1), E)
-            grid.belt_tile(col + 1, s_b(j + 1), N)
-            grid.belt_tile(col + 1, s_a(j + 1), N)
-
-    # ---- lane belts ------------------------------------------------------------------
+    # the last consumer of a lane (largest nominal bc) takes the whole lane
+    last_bc = {}
+    for m, ln, bc, px, k, p in pulls:
+        last_bc[ln.index] = max(last_bc.get(ln.index, -1), bc)
     for ln in lanes:
-        for xx in range(ln.start, ln.end + 1):
-            if (xx, belt_row(ln.index)) not in grid.occ:
-                grid.belt_tile(xx, belt_row(ln.index), E)
+        last_merge = max((c + 2 for c in ln.pushes if c > ln.start), default=ln.start)
+        ln.end = max(ln.start, last_bc.get(ln.index, ln.start), last_merge, drops.get(ln.index, ln.start))
+    for m, ln, bc0, px, k, p in pulls:
+        if bc0 - 1 <= ln.start:
+            raise ValueError(f"{m.name}: input {p.item} at column {px} is west of lane {ln.index} start {ln.start}; "
+                             f"order producers before consumers")
+        whole = ln.index not in drops and bc0 == last_bc[ln.index] and ln.end == bc0
+        placed = False
+        for bc in range(bc0, bc0 + spacing):
+            grid.begin()
+            try:
+                place_pull(ln, bc, px, k, whole)
+                own_snapshot = None
+            except ValueError:
+                grid.rollback()
+                own[ln.index].discard((bc, row(ln.index)))
+                own[ln.index].discard((bc - 1, row(ln.index)))
+                plain[ln.index].discard((bc, row(ln.index)))
+                continue
+            grid.commit()
+            ln.pulls.append(bc)
+            if whole:
+                ln.end = bc
+            else:
+                ln.end = max(ln.end, bc)
+            placed = True
+            break
+        if not placed:
+            raise PackError(f"{m.name}: no bus column for {p.item} in {bc0}..{bc0 + spacing - 1}")
 
-    # ---- external input risers -------------------------------------------------------
-    inputs = []
+    # ---- external input risers and export drops ---------------------------------------
+    inputs, outputs = [], []
     for ln in lanes:
-        if not ln.external:
-            continue
-        j = ln.index
-        for yy in range(H - 1, belt_row(j), -1):
-            grid.belt_tile(j, yy, N)
-        inputs.append(Port("in", "belt", ln.item, "both", j, H - 1, N, ln.claimed))
-
-    # ---- export drops ----------------------------------------------------------------
-    outputs = []
+        if ln.external:
+            j = ln.index
+            for yy in range(H - 1, row(j), -1):
+                grid.belt_tile(j, yy, N)
+            lane_tile(ln, j, E)                       # N->E curve starts the lane
+            inputs.append(Port("in", "belt", ln.item, "both", j, H - 1, N, ln.claimed))
     for ln in exported:
         d = drops[ln.index]
-        grid.ents = [e for e in grid.ents if not (e["position"] == {"x": d + 0.5, "y": belt_row(ln.index) + 0.5})]
-        grid.occ.pop((d, belt_row(ln.index)))
-        grid.belt_tile(d, belt_row(ln.index), S)
-        for yy in range(belt_row(ln.index) + 1, H):
+        lane_tile(ln, d, S)                           # E->S curve ends the lane
+        for yy in range(row(ln.index) + 1, H):
             grid.belt_tile(d, yy, S)
         outputs.append(Port("out", "belt", ln.item, "both", d, H - 1, S, ln.surplus))
     outputs.sort(key=lambda p: p.x)
 
+    # ---- lanes: duck under foreign tiles, then fill -----------------------------------
+    max_gap = MAX_GAP[belt]
+    ug_count = 0
+    for ln in lanes:
+        j, y = ln.index, row(ln.index)
+        blocked = [x for x in range(ln.start, ln.end + 1) if (x, y) in grid.occ and (x, y) not in own[j]]
+        runs = []
+        for x in blocked:
+            if runs and x - runs[-1][1] <= 2:         # adjacent, or one free tile between: same run
+                runs[-1][1] = x
+            else:
+                runs.append([x, x])
+        for a, b in runs:
+            if b - a + 1 > max_gap:
+                raise PackError(f"lane {j} {ln.item} must duck under columns {a}-{b} ({b - a + 1} tiles) "
+                                f"but {belt} spans at most {max_gap}")
+            for xx, kind in ((a - 1, "input"), (b + 1, "output")):
+                if (xx, y) in plain[j]:               # a plain lane belt: replace it with the underground
+                    grid.ents = [e for e in grid.ents if e["position"] != {"x": xx + 0.5, "y": y + 0.5}]
+                    grid.occ.pop((xx, y))
+                    plain[j].discard((xx, y))
+                if not ln.start < xx < ln.end or (xx, y) in grid.occ:
+                    held = grid.occ.get((xx, y))
+                    raise PackError(f"lane {j} {ln.item}: no free tile at column {xx} for an underground {kind} "
+                                    f"around columns {a}-{b} (tile holds {held}, own={(xx, y) in own[j]}; lane cols "
+                                    f"{ln.start}-{ln.end}, pushes {ln.pushes}, pulls {ln.pulls}; run tiles "
+                                    f"{[grid.occ.get((c, y)) for c in range(a, b + 1)]})")
+            grid.ug(a - 1, y, E, "input")
+            grid.ug(b + 1, y, E, "output")
+            ug_count += 1
+        for xx in range(ln.start, ln.end + 1):
+            if (xx, y) not in grid.occ:
+                grid.belt_tile(xx, y, E)
+
     Wc = max(tx for tx, _ in grid.occ) + 1
-    notes = [f"bus: {L} lanes, {belt}, rows {B0}-{H - 1}; modules: " + ", ".join(m.name for m in modules)]
+    notes = [f"bus: {L} lanes, {belt}, rows {B0}-{H - 1}, chain spacing {spacing}, {ug_count} lane ducks; modules: "
+             + ", ".join(m.name for m in modules)]
     for ln in lanes:
         kind = "external" if ln.external else ("export" if ln in exported else "internal")
         flow = ln.claimed if ln.external else ln.supply

@@ -81,7 +81,7 @@ def analyze(ents):
     }
 
 
-CGAP = 1             # columns between stacks inside a module
+CGAP = 2             # columns between stacks inside a module (room for a lane to surface between a push and the next pull)
 
 
 def _column(tmpl, info, n, machine, recipe, belt_name):
