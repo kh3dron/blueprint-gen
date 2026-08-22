@@ -41,6 +41,8 @@ MACHINES = {
     "captive-spawner-process": ("captive-biter-spawner", 1.0),
 }
 SOURCE_RANK = {s: i for i, s in enumerate(SOURCES)}
+MACHINES_BY_NAME = {m: s for m, s in MACHINES.values()}
+MACHINES_BY_NAME.update({"assembling-machine-1": 0.5, "assembling-machine-3": 1.25})
 
 # Mined / pumped inputs. Never expanded. From data/*/prototypes/entity/resources.lua plus water.
 RAW = {

@@ -26,6 +26,8 @@ BOX_LINE = (140, 140, 140, 255)
 ARROW = (255, 220, 60, 255)
 WIRE = {1: (230, 60, 60, 255), 2: (60, 200, 60, 255), 3: (230, 60, 60, 255), 4: (60, 200, 60, 255)}
 COPPER = (210, 130, 60, 255)
+PORT_IN = (80, 220, 120, 255)
+PORT_OUT = (255, 150, 50, 255)
 TILE_COLORS = {
     "stone-path": (120, 115, 105, 255),
     "concrete": (95, 100, 105, 255),
@@ -45,9 +47,18 @@ OPP = {0: 8, 4: 12, 8: 0, 12: 4}
 BELT_TYPES = {"transport-belt", "underground-belt", "splitter", "loader", "loader-1x1", "linked-belt"}
 # Belt sheet row (0-based) by (belt direction, feeding direction). Rows from transport-belts.lua.
 BELT_ROW_STRAIGHT = {4: 0, 12: 1, 0: 2, 8: 3}
-BELT_ROW_CURVE = {  # (out_dir, in_dir) -> row
-    (0, 4): 4, (4, 0): 5, (0, 12): 6, (12, 0): 7,
-    (4, 8): 8, (8, 4): 9, (12, 8): 10, (8, 12): 11,
+# (belt direction, travel direction of the feeding belt) -> 0-based sheet row.
+# Sheet names are side_to_side: "north_to_east" enters from the NORTH side (feeder travelling south)
+# and exits east. Feeder travelling N enters from the south side, etc.
+BELT_ROW_CURVE = {
+    (0, 12): 4,   # east_to_north:  exits N, feeder travels W (enters from east side)
+    (4, 8): 5,    # north_to_east:  exits E, feeder travels S
+    (0, 4): 6,    # west_to_north:  exits N, feeder travels E
+    (12, 8): 7,   # north_to_west:  exits W, feeder travels S
+    (4, 0): 8,    # south_to_east:  exits E, feeder travels N
+    (8, 12): 9,   # east_to_south:  exits S, feeder travels W
+    (12, 0): 10,  # south_to_west:  exits W, feeder travels N
+    (8, 4): 11,   # west_to_south:  exits S, feeder travels E
 }
 # Types that get a direction arrow drawn on top of the icon.
 ARROW_TYPES = {"inserter", "underground-belt", "splitter", "loader", "loader-1x1", "mining-drill",
@@ -296,6 +307,29 @@ def main():
         if a in centers and b in centers:
             color = WIRE.get(ca, COPPER)
             draw.line([centers[a], centers[b]], fill=color, width=max(1, T // 16))
+
+    # ports (non-vanilla key written by 03_blueprint_objects): {io, kind, item, lane, x, y, direction, rate}
+    for p in bp.get("ports", []):
+        x0, y0 = px(p["x"], p["y"])
+        x0, y0 = int(x0), int(y0)
+        color = PORT_IN if p["io"] == "in" else PORT_OUT
+        lw = max(2, T // 12)
+        draw.rectangle([x0 + 1, y0 + 1, x0 + T - 2, y0 + T - 2], outline=color, width=lw)
+        ic = icon(p["item"])
+        s = max(8, T // 2)
+        # lane badge: left lane on the left half of the tile (relative to flow direction), right on the right
+        dx, dy = DIRS.get(p["direction"], (1, 0))
+        side = {"left": -1, "right": 1, "both": 0}[p["lane"]]
+        nx, ny = -dy * side, dx * side  # right-hand normal of flow
+        cx = x0 + T / 2 + nx * T / 4
+        cy = y0 + T / 2 + ny * T / 4
+        if ic is not None:
+            ic = ic.resize((s, s), Image.LANCZOS)
+            img.alpha_composite(ic, (int(cx - s / 2), int(cy - s / 2)))
+        tag = ("IN" if p["io"] == "in" else "OUT") + ("" if p["lane"] == "both" else p["lane"][0].upper())
+        ty = y0 + T - 12 if ny > 0 else y0 + 1
+        tx = x0 + T - 6 * len(tag) - 3 if nx > 0 else x0 + 2
+        draw.text((tx, ty), tag, fill=color, font=ImageFont.load_default())
 
     out = args.out or (bp.get("label") or "blueprint").replace("/", "_") + ".png"
     img.convert("RGB").save(out)
