@@ -2,13 +2,15 @@
 """Stitch modules over a bus into one composite module.
 
     python compose.py <name> <spec>... [--belt NAME] [--export ITEM]... [-o DIR] [--no-render]
-    python compose.py <item> <rate>  [--raw ITEM]... [--belt NAME] [-o DIR] [--no-render]
+    python compose.py <item> <rate>  [--from-plates] [--no-smelting] [--raw ITEM]... [--belt NAME] [-o DIR] [--no-render]
 
 <spec> is either a path to a .module.json or item=rate (generated on the fly with templates.py).
 The second form is factory mode: the recipe tree of <item> is expanded with the 01 calculator,
 one module is generated per intermediate at its total rate, and mined/pumped resources, --raw
 items, and recipes the templates cannot build (fluids, >4 ingredients, unsupported category)
-become external inputs. Output name is <item>-factory.
+become external inputs. --from-plates = --raw iron-plate --raw copper-plate (smelting handled
+elsewhere); --no-smelting treats every smelting-category product (plates, steel, bricks) as raw.
+Output name is <item>-factory.
 Modules are ordered producers-before-consumers automatically. Items consumed but not produced
 become external inputs (bottom-left risers); items produced but not consumed (or named with
 --export) become outputs (bottom-right drops).
@@ -55,7 +57,7 @@ def is_rate(s):
         return False
 
 
-def factory(item, rate, rt, by_product, raw, belt):
+def factory(item, rate, rt, by_product, raw, belt, no_smelting=False):
     """Modules for every craftable intermediate of `item`, each at its summed rate. Returns (modules, externals)."""
     totals = {}
     order = []          # first-visit order, leaves last
@@ -65,6 +67,9 @@ def factory(item, rate, rt, by_product, raw, belt):
         if it in raw or it in rt.RAW or it not in by_product:
             return False
         r = by_product[it][0]
+        if no_smelting and "smelting" in (r.get("categories") or []):
+            blocked[it] = "smelting"
+            return False
         ings = r["ingredients"]
         if any(i["type"] == "fluid" for i in ings) or any(x["type"] == "fluid" for x in r["results"]):
             blocked[it] = "fluid"
@@ -136,6 +141,8 @@ def main():
     ap.add_argument("--belt", default="transport-belt", choices=sorted(bus.LANE_CAPACITY))
     ap.add_argument("--export", action="append", default=[], help="also export this item (repeatable)")
     ap.add_argument("--raw", action="append", default=[], help="factory mode: treat this item as an external input (repeatable)")
+    ap.add_argument("--from-plates", action="store_true", help="factory mode: iron-plate and copper-plate are external inputs")
+    ap.add_argument("--no-smelting", action="store_true", help="factory mode: every smelting recipe's product is an external input")
     ap.add_argument("-o", "--out-dir", default=os.path.join(HERE, "out"))
     ap.add_argument("--no-render", action="store_true")
     args = ap.parse_args()
@@ -147,7 +154,9 @@ def main():
         if args.name not in by_product:
             sys.exit(f"no recipe produces {args.name!r}")
         try:
-            modules, externals = factory(args.name, rt.parse_rate(args.specs[0]), rt, by_product, set(args.raw), args.belt)
+            raw = set(args.raw) | ({"iron-plate", "copper-plate"} if args.from_plates else set())
+            modules, externals = factory(args.name, rt.parse_rate(args.specs[0]), rt, by_product, raw, args.belt,
+                                         no_smelting=args.no_smelting)
         except ValueError as ex:
             sys.exit(str(ex))
         name = args.name + "-factory"

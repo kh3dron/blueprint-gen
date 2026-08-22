@@ -13,8 +13,11 @@ Factorio recipe tools
   - [x] bus: push, bus: merge, bus: lanes
   - [x] needs to be able to skip over / under lanes
   - [x] can scale submodules OUT if belt lane capacity exceeded
+  - [x] pack lanes tighter
+  - [x] option to ignore raws
 
-  - [x] pack lanes tighter: one row per lane; vertical chains run straight and every lane ducks (underground) under foreign tiles in its row, runs limited by the belt's underground span; pull columns placed by candidate search with rollback, `(spacing, gap)` searched (military 1/s: 90x83 -> 106x58; 10/s: 295x234 -> 335x173)
+  - [ ] space for roboports
+  
   - [ ] power reach into nested composites (gap pole cannot reach a sub-composite's poles)
   - [ ] better use of both sides of a lane
   - [ ] flip components horizontally to match
