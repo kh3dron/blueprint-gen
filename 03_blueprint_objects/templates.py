@@ -81,27 +81,13 @@ def analyze(ents):
     }
 
 
-def build(item, rate, recipe, rt, machine=None, belt="transport-belt"):
-    ings = recipe["ingredients"]
-    if any(i["type"] == "fluid" for i in ings) or any(r["type"] == "fluid" for r in recipe["results"]):
-        raise ValueError(f"{recipe['name']}: fluid ingredients/results not supported")
-    if not 1 <= len(ings) <= 4:
-        raise ValueError(f"{recipe['name']}: {len(ings)} ingredients; templates cover 1-4")
-    tmpl = load_template(len(ings))
-    info = analyze(tmpl)
-    machine = machine or info["machine"]["name"]
-    speed = rt.MACHINES_BY_NAME[machine]
-    per_craft = rt.net_output(recipe, item)
-    crafts = rate / per_craft
-    time = recipe.get("energy_required", 0.5)
-    n = max(1, -(-int(crafts * time / speed * 1e9) // 10**9))  # ceil with float guard
-    capacity = n * speed / time * per_craft
-    belt_name = belt
-    scale = BELT_SCALE[belt_name]
+CGAP = 1             # columns between stacks inside a module
 
+
+def _column(tmpl, info, n, machine, recipe, belt_name):
+    """One stack of n cells. Returns (entities, pole entity indices bottom-up, height)."""
     ents = []
-    # cell 0 = the template itself, shifted down by (n-1) cells so stacked cells fit above
-    shift = (n - 1) * CELL_ROWS
+    shift = (n - 1) * CELL_ROWS   # cell 0 = the template itself, pushed down so stacked cells fit above
     for e in tmpl:
         e = copy.deepcopy(e)
         e["position"]["y"] += shift
@@ -130,20 +116,67 @@ def build(item, rate, recipe, rt, machine=None, belt="transport-belt"):
         pole["position"]["y"] += off
         pole_ids.append(len(ents))
         ents.append(pole)
-    wires = [[a + 1, 5, b + 1, 5] for a, b in zip(pole_ids, pole_ids[1:])]  # copper, 1-based entity numbers
+    return ents, pole_ids, info["height"] + shift
 
-    H = info["height"] + shift
-    W = info["width"]
-    caps = INPUT_CAPACITY[len(ings)]
-    inputs, notes = [], []
-    for i, (ing, x) in enumerate(zip(ings, info["inputs"])):
-        r = crafts * ing["amount"]
-        inputs.append(Port("in", "belt", ing["name"], "both", int(x), H - 1, 0, r))
-        if r > caps[i] * scale + 1e-9:
-            notes.append(f"WARNING input {i + 1} {ing['name']} {r:.3g}/s exceeds port capacity {caps[i] * scale:g}/s")
-    outputs = [Port("out", "belt", item, "left", int(info["output"]), H - 1, 8, rate)]
-    if rate > OUTPUT_CAPACITY * scale + 1e-9:
-        notes.append(f"WARNING output {rate:.3g}/s exceeds lane capacity {OUTPUT_CAPACITY * scale:g}/s")
-    notes.insert(0, f"{n}x {machine} {recipe['name']} -> {capacity:.3g}/s capacity; template {len(ings)}_to_1, belt {belt_name}")
+
+def build(item, rate, recipe, rt, machine=None, belt="transport-belt"):
+    """Module for `item` at `rate`. Machines are split into side-by-side columns only when a port would
+    exceed what its belt can carry (INPUT_CAPACITY per template port, OUTPUT_CAPACITY for the
+    single-lane output, scaled by belt tier). Ports: per column, inputs then outputs, left to right."""
+    ings = recipe["ingredients"]
+    if any(i["type"] == "fluid" for i in ings) or any(r["type"] == "fluid" for r in recipe["results"]):
+        raise ValueError(f"{recipe['name']}: fluid ingredients/results not supported")
+    if not 1 <= len(ings) <= 4:
+        raise ValueError(f"{recipe['name']}: {len(ings)} ingredients; templates cover 1-4")
+    tmpl = load_template(len(ings))
+    info = analyze(tmpl)
+    machine = machine or info["machine"]["name"]
+    speed = rt.MACHINES_BY_NAME[machine]
+    per_craft = rt.net_output(recipe, item)
+    crafts = rate / per_craft
+    time = recipe.get("energy_required", 0.5)
+    n = max(1, -(-int(crafts * time / speed * 1e9) // 10**9))  # ceil with float guard
+    capacity = n * speed / time * per_craft
+    scale = BELT_SCALE[belt]
+    ing_rates = [crafts * i["amount"] for i in ings]
+    caps = [c * scale for c in INPUT_CAPACITY[len(ings)]] + [OUTPUT_CAPACITY * scale]
+    # machines per column: the most that keeps every port within its belt capacity
+    per_col = n
+    for r, cap in zip(ing_rates + [rate], caps):
+        if r > 0:
+            per_col = min(per_col, int(cap * n / r + 1e-9))
+    per_col = max(1, per_col)
+    c = -(-n // per_col)
+    q, rem = divmod(n, c)
+    counts = [q + 1 if i < rem else q for i in range(c)]
+
+    stride = info["width"] + CGAP
+    cols = [_column(tmpl, info, cnt, machine, recipe, belt) for cnt in counts]
+    H = max(h for _, _, h in cols)
+    ents, wires, inputs, outputs = [], [], [], []
+    bottom_poles = []
+    for ci, ((cents, pole_ids, h), cnt) in enumerate(zip(cols, counts)):
+        xoff, yoff, base = ci * stride, H - h, len(ents)
+        for e in cents:
+            e["position"] = {"x": e["position"]["x"] + xoff, "y": e["position"]["y"] + yoff}
+            ents.append(e)
+        wires += [[base + a + 1, 5, base + b + 1, 5] for a, b in zip(pole_ids, pole_ids[1:])]
+        bottom_poles.append(base + pole_ids[0])
+        share = cnt / n
+        for ing, x, r in zip(ings, info["inputs"], ing_rates):
+            inputs.append(Port("in", "belt", ing["name"], "both", int(x) + xoff, H - 1, 0, r * share))
+        outputs.append(Port("out", "belt", item, "left", int(info["output"]) + xoff, H - 1, 8, rate * share))
+    for a, b in zip(bottom_poles, bottom_poles[1:]):
+        dx = ents[b]["position"]["x"] - ents[a]["position"]["x"]
+        if dx <= 9.0:
+            wires.append([a + 1, 5, b + 1, 5])
+    W = (c - 1) * stride + info["width"]
+    notes = []
+    for p in inputs + outputs:
+        cap = caps[-1] if p.io == "out" else caps[[i["name"] for i in ings].index(p.item)]
+        if p.rate > cap + 1e-9:
+            notes.append(f"WARNING port {p.item} {p.rate:.3g}/s exceeds its belt capacity {cap:g}/s (one machine already exceeds it)")
+    notes += [f"{n}x {machine} {recipe['name']} -> {capacity:.3g}/s capacity; template {len(ings)}_to_1, belt {belt}, "
+             f"{c} column(s) {counts}; port caps in {caps[:-1]} out {caps[-1]:g} /s"]
     return Module(name=f"{item} {rate:g}/s", width=W, height=H, entities=ents, inputs=inputs,
                   outputs=outputs, notes=notes, wires=wires)

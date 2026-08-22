@@ -12,11 +12,9 @@ Factorio recipe tools
   - [x] a new intermediate method / type called "bus"
   - [x] bus: push, bus: merge, bus: lanes
   - [x] needs to be able to skip over / under lanes
+  - [x] can scale submodules OUT if belt lane capacity exceeded
 
   - [ ] pack lanes tighter (sample tunnels adjacent lanes under splitters; current bus uses 3 rows per lane)
   - [ ] power reach into nested composites (gap pole cannot reach a sub-composite's poles)
-
-A couple improvements to the bus use:
-
-- [x] if we're using an item as an input, we don't need to use the splitter to leave a forward lane, we can just consume the entire lane (last consumer turns the lane north; earlier consumers still split)
-- [x] similarly, if there's no horizontal lane, a vertical lane does not need to use an underground belt (military factory: 292 -> 90 undergrounds, 14 -> 2 splitters)
+  - [ ] better use of both sides of a lane
+  - [ ] flip components horizontally to match

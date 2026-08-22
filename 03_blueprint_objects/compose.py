@@ -30,7 +30,7 @@ import make  # noqa: E402
 import templates  # noqa: E402
 
 
-def load_spec(spec, rt, by_product):
+def load_spec(spec, rt, by_product, belt):
     if os.path.exists(spec):
         return Module.load(spec)
     if "=" not in spec:
@@ -44,7 +44,7 @@ def load_spec(spec, rt, by_product):
     machine = next((make.CATEGORY_MACHINE[c] for c in cats if c in make.CATEGORY_MACHINE), None)
     if machine is None:
         sys.exit(f"recipe {recipe['name']} categories {cats}: no supported machine")
-    return templates.build(item, rt.parse_rate(rate), recipe, rt, machine=machine)
+    return templates.build(item, rt.parse_rate(rate), recipe, rt, machine=machine, belt=belt)
 
 
 def is_rate(s):
@@ -157,7 +157,7 @@ def main():
         if not modules:
             sys.exit(f"{args.name}: nothing to build ({externals[0][2]})")
     else:
-        modules = [load_spec(s, rt, by_product) for s in args.specs]
+        modules = [load_spec(s, rt, by_product, args.belt) for s in args.specs]
     modules = topo_sort(modules)
     try:
         mod = bus.compose(name, modules, belt=args.belt, exports=args.export)

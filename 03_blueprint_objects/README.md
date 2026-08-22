@@ -29,7 +29,11 @@ that stitches objects into larger objects. All commands from this directory with
 
 Template anatomy: inputs enter the bottom row northbound (ingredient order); bends under the machine merge them onto lanes (N=2: in1 left lane, in2 right lane; N=3,4: a second belt column reached by a long-handed inserter); output exits bottom-right southbound on the far lane. The machine's 3 rows + the pole row form a 4-row cell; cells stack upward with straight belts in every column the template's top row carries a belt, poles wired.
 
-Machine count `n = ceil(crafts/s * time / speed)`; machine = category default (`assembling-machine-2`, `electric-furnace`) or `--machine`. Port capacities (yellow belt): N=1 [15], N=2 [7.5, 7.5], N=3 [15, 7.5, 7.5], N=4 [7.5 x4], output 7.5; over capacity adds a WARNING note.
+Machine count `n = ceil(crafts/s * time / speed)`; machine = category default (`assembling-machine-2`, `electric-furnace`) or `--machine`.
+
+Scaling out: a module is one column of stacked cells unless a port would exceed what its belt can carry. Port capacities (yellow, scaled by belt tier): inputs per template N=1 [15], N=2 [7.5, 7.5], N=3 [15, 7.5, 7.5], N=4 [7.5 x4]; output 7.5 (one belt-lane). Machines per column = `min over ports of floor(cap_port * n / rate_port)`; columns = `ceil(n / per_col)`, machines distributed evenly, columns side by side (stride = template width + 1, bottom-aligned, bottom poles wired). Each column has its own ports, so a module's `inputs`/`outputs` may list the same item several times (rate split by machine share). A recipe whose single machine already exceeds a port's capacity adds a WARNING note. There is no height limit.
+
+Examples: `iron-plate 5.75` -> 1 column of 10 furnaces; `iron-plate 57.5` -> 92 furnaces in 8 columns (output 7.2/s each); `copper-cable 20` -> 4 columns; `electronic-circuit 12` -> 8 columns of 1 (cable 4.5/s per port).
 
 ## 4.0 Bus and composition (`bus.py`, `compose.py`)
 
@@ -42,8 +46,8 @@ Factory mode (second form): the recipe tree of `<item>` is walked with `01_recip
 
 | Command | Result |
 |---|---|
-| `compose.py military-science-pack 1` | 9 modules (iron-plate 5.75/s, copper-plate, steel-plate, stone-brick, firearm-magazine, piercing-rounds-magazine, grenade, stone-wall, military-science-pack), 13 lanes, 90x83, 1,398 entities; IN iron-ore 5.75/s, copper-ore 0.5/s, coal 5/s, stone 10/s; OUT 1/s |
-| `compose.py military-science-pack 10` | same modules scaled, 90x411, 5,592 entities; 5 lanes over yellow-belt capacity (WARNINGs) |
+| `compose.py military-science-pack 1` | 9 modules (iron-plate 5.75/s, copper-plate, steel-plate, stone-brick, firearm-magazine, piercing-rounds-magazine, grenade, stone-wall, military-science-pack), one column each, 13 lanes, 90x83, 1,499 entities; IN iron-ore 5.75/s, copper-ore 0.5/s, coal 5/s, stone 10/s; OUT 1/s |
+| `compose.py military-science-pack 10` | same modules scaled out where a port would exceed its belt (iron-plate 8 columns, stone-brick 7, ...), 31 lanes, 295x234, 13,432 entities; 4 ports short by 0.3-0.9/s (packing fragmentation, see LIMITS) |
 | `compose.py electronic-circuit 2 --raw iron-plate --raw copper-plate` | plates fed from outside instead of smelted |
 
 Geometry (composite-local tiles, y down; `E` external inputs, `L` lanes, `R = 4`, `GAP = 2`):
@@ -56,7 +60,9 @@ Geometry (composite-local tiles, y down; `E` external inputs, `L` lanes, `R = 4`
 | Bus | | lane j: `s_a = B0+3j`, `s_b = B0+3j+1`, `belt = B0+3j+2`; `B0 = by+R+1` |
 | Export drops | `x_max+3+(L-1-j)`, deeper lanes further west, southbound | `belt(j)` to bottom row |
 
-Lane order: external inputs (order of first use), then produced items (production order). Non-exported lanes end at their last consumer.
+Lanes and capacity (`allocate()`): an item may occupy several lanes, each `LANE_CAPACITY` (15/30/45/60 for yellow/red/blue/turbo). A module output is one belt-lane wide and is pushed onto a lane's left belt-lane (start curve or splitter merge) or right belt-lane (sideload from the south), whichever has more room, so two half-belt pushes fill one lane. Pulls of produced items take the tightest lane whose unclaimed supply covers the port, else the largest with a `WARNING ... short x/s` (in game that port runs under-supplied); external pulls are first-fit on capacity and open new external lanes as needed. Lane order: external lanes first (creation order), then internal. Non-exported lanes end at their last consumer. Exports = internal lanes with surplus for items no module consumes (or `--export`).
+
+Ports of one module are grouped by proximity (column gap <= 2); each group gets bus columns `bc = first_px + 2k` and jog row `B0-1-k`, so the columns of a scaled-out module route independently.
 
 | Operation | Mechanism |
 |---|---|
@@ -79,6 +85,7 @@ Verified objects in `out/`:
 All round-trip through the blueprint string with ports, wires, and recipes intact.
 
 LIMITS
+- Lane packing is greedy. With exact supply = demand (factory mode) and discrete column sizes, some ports can end up on a lane with less unclaimed supply than they need; each is reported as `WARNING ... short x/s`. Mitigations: `--belt fast-transport-belt` (larger lanes, fewer fragments) or a small rate margin on the top-level item.
 - Port spacing assumes template port columns satisfy `px_k <= 2k+2` (true for the four samples).
 - One row of modules per bus (no vertical stacking of modules).
 - 3 rows per lane; the reference sample packs tighter by tunnelling adjacent lanes under splitters.
