@@ -34,8 +34,17 @@ Machine count `n = ceil(crafts/s * time / speed)`; machine = category default (`
 ## 4.0 Bus and composition (`bus.py`, `compose.py`)
 
     compose.py <name> <spec>... [--belt NAME] [--export ITEM]... [-o DIR] [--no-render]
+    compose.py <item> <rate>  [--raw ITEM]... [--belt NAME] [-o DIR] [--no-render]
 
 `<spec>` = `path.module.json` or `item=rate`. Modules are topologically ordered (producers west of consumers). Items consumed but not produced = external inputs; produced but not consumed (or `--export`) = outputs.
+
+Factory mode (second form): the recipe tree of `<item>` is walked with `01_recipe_generatpr/recipe.py` (same recipe choice rules: recipe named after the item, else non-recycling recipe with fewest outputs), rates are summed per intermediate, and one module is generated per intermediate at its total. External inputs = `RAW` resources (ores, coal, stone, crude-oil, water, ...), `--raw` items, and anything the templates cannot build (fluid ingredient/result, >4 ingredients, category without a 3x3 machine, e.g. plastic-bar, sulfur, processing-unit); each is printed with its reason. Output name `<item>-factory`.
+
+| Command | Result |
+|---|---|
+| `compose.py military-science-pack 1` | 9 modules (iron-plate 5.75/s, copper-plate, steel-plate, stone-brick, firearm-magazine, piercing-rounds-magazine, grenade, stone-wall, military-science-pack), 13 lanes, 90x83, 1,398 entities; IN iron-ore 5.75/s, copper-ore 0.5/s, coal 5/s, stone 10/s; OUT 1/s |
+| `compose.py military-science-pack 10` | same modules scaled, 90x411, 5,592 entities; 5 lanes over yellow-belt capacity (WARNINGs) |
+| `compose.py electronic-circuit 2 --raw iron-plate --raw copper-plate` | plates fed from outside instead of smelted |
 
 Geometry (composite-local tiles, y down; `E` external inputs, `L` lanes, `R = 4`, `GAP = 2`):
 

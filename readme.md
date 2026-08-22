@@ -19,6 +19,7 @@ the BUS is an organizational method for transporting types of resources in and o
 another thing: we can now generate "objects" which themselves are comprised of objects and BUSses. we should be able to stitch together any number of objects
 
 - [x] `compose.py <name> item=rate ... | x.module.json ...` -> one Module (object + sub-bus); composites nest (`out/inserters-nested`)
+- [x] `compose.py <item> <rate>` -> whole subfactory from raw materials via the 01 calculator (`out/military-science-pack-factory`: 9 modules, 13 lanes, inputs iron-ore/copper-ore/coal/stone)
 - [ ] pack lanes tighter (sample tunnels adjacent lanes under splitters; current bus uses 3 rows per lane)
 - [ ] power reach into nested composites (gap pole cannot reach a sub-composite's poles)
 

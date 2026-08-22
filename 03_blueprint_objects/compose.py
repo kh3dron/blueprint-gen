@@ -2,8 +2,13 @@
 """Stitch modules over a bus into one composite module.
 
     python compose.py <name> <spec>... [--belt NAME] [--export ITEM]... [-o DIR] [--no-render]
+    python compose.py <item> <rate>  [--raw ITEM]... [--belt NAME] [-o DIR] [--no-render]
 
 <spec> is either a path to a .module.json or item=rate (generated on the fly with templates.py).
+The second form is factory mode: the recipe tree of <item> is expanded with the 01 calculator,
+one module is generated per intermediate at its total rate, and mined/pumped resources, --raw
+items, and recipes the templates cannot build (fluids, >4 ingredients, unsupported category)
+become external inputs. Output name is <item>-factory.
 Modules are ordered producers-before-consumers automatically. Items consumed but not produced
 become external inputs (bottom-left risers); items produced but not consumed (or named with
 --export) become outputs (bottom-right drops).
@@ -42,6 +47,62 @@ def load_spec(spec, rt, by_product):
     return templates.build(item, rt.parse_rate(rate), recipe, rt, machine=machine)
 
 
+def is_rate(s):
+    try:
+        float(s[:-2] if s.endswith(("/s", "/m")) else s)
+        return True
+    except ValueError:
+        return False
+
+
+def factory(item, rate, rt, by_product, raw, belt):
+    """Modules for every craftable intermediate of `item`, each at its summed rate. Returns (modules, externals)."""
+    totals = {}
+    order = []          # first-visit order, leaves last
+    blocked = {}        # item -> reason it is treated as raw
+
+    def buildable(it):
+        if it in raw or it in rt.RAW or it not in by_product:
+            return False
+        r = by_product[it][0]
+        ings = r["ingredients"]
+        if any(i["type"] == "fluid" for i in ings) or any(x["type"] == "fluid" for x in r["results"]):
+            blocked[it] = "fluid"
+            return False
+        if not 1 <= len(ings) <= 4:
+            blocked[it] = f"{len(ings)} ingredients"
+            return False
+        cats = r.get("categories") or ["crafting"]
+        if not any(c in make.CATEGORY_MACHINE for c in cats):
+            blocked[it] = f"category {cats}"
+            return False
+        return True
+
+    def walk(it, r):
+        totals[it] = totals.get(it, 0.0) + r
+        if it not in order:
+            order.append(it)
+        if not buildable(it):
+            return
+        recipe = by_product[it][0]
+        crafts = r / rt.net_output(recipe, it)
+        for ing in recipe["ingredients"]:
+            if ing["name"] != it:
+                walk(ing["name"], crafts * ing["amount"])
+
+    walk(item, rate)
+    modules, externals = [], []
+    for it in order:
+        if buildable(it):
+            recipe = by_product[it][0]
+            cats = recipe.get("categories") or ["crafting"]
+            machine = next(make.CATEGORY_MACHINE[c] for c in cats if c in make.CATEGORY_MACHINE)
+            modules.append(templates.build(it, totals[it], recipe, rt, machine=machine, belt=belt))
+        else:
+            externals.append((it, totals[it], blocked.get(it, "raw")))
+    return modules, externals
+
+
 def topo_sort(modules):
     """Producers before consumers. Stable for independent modules."""
     produced_by = {}
@@ -74,15 +135,32 @@ def main():
     ap.add_argument("specs", nargs="+")
     ap.add_argument("--belt", default="transport-belt", choices=sorted(bus.LANE_CAPACITY))
     ap.add_argument("--export", action="append", default=[], help="also export this item (repeatable)")
+    ap.add_argument("--raw", action="append", default=[], help="factory mode: treat this item as an external input (repeatable)")
     ap.add_argument("-o", "--out-dir", default=os.path.join(HERE, "out"))
     ap.add_argument("--no-render", action="store_true")
     args = ap.parse_args()
 
     rt = make.load_recipe_tool()
     by_product = rt.build_index(rt.load_recipes())
-    modules = topo_sort([load_spec(s, rt, by_product) for s in args.specs])
+    name = args.name
+    if len(args.specs) == 1 and is_rate(args.specs[0]) and not os.path.exists(args.name):
+        if args.name not in by_product:
+            sys.exit(f"no recipe produces {args.name!r}")
+        try:
+            modules, externals = factory(args.name, rt.parse_rate(args.specs[0]), rt, by_product, set(args.raw), args.belt)
+        except ValueError as ex:
+            sys.exit(str(ex))
+        name = args.name + "-factory"
+        print(f"factory {args.name}: {len(modules)} modules, {len(externals)} external inputs")
+        for it, r, why in externals:
+            print(f"  external {it:<24} {r:.3g}/s  ({why})")
+        if not modules:
+            sys.exit(f"{args.name}: nothing to build ({externals[0][2]})")
+    else:
+        modules = [load_spec(s, rt, by_product) for s in args.specs]
+    modules = topo_sort(modules)
     try:
-        mod = bus.compose(args.name, modules, belt=args.belt, exports=args.export)
+        mod = bus.compose(name, modules, belt=args.belt, exports=args.export)
     except ValueError as ex:
         sys.exit(str(ex))
     problems = mod.check()
@@ -90,7 +168,7 @@ def main():
         sys.exit("composite check failed:\n  " + "\n  ".join(problems[:20]))
 
     os.makedirs(args.out_dir, exist_ok=True)
-    base = os.path.join(args.out_dir, args.name)
+    base = os.path.join(args.out_dir, name)
     mod.save(base + ".module.json")
     with open(base + ".txt", "w") as f:
         f.write(mod.to_string() + "\n")
