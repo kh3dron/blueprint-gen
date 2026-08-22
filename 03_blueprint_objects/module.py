@@ -168,6 +168,31 @@ class Module:
         return problems
 
 
+FLIP_NS = {0: 8, 8: 0}
+
+
+def mirror(mod):
+    """Vertical mirror of a module: row y -> height-1-y. Belt/inserter/underground directions N<->S;
+    ports move to the opposite edge with flipped flow direction. Entity order and wires are kept."""
+    H = mod.height
+    ents = []
+    for e in mod.entities:
+        e = dict(e)
+        e["position"] = {"x": e["position"]["x"], "y": H - e["position"]["y"]}
+        d = e.get("direction", 0)
+        if e["name"].endswith("splitter"):
+            pass                                           # east/west splitters are symmetric
+        else:
+            e["direction"] = FLIP_NS.get(d, d)
+        ents.append(e)
+
+    def flip_port(p):
+        return Port(p.io, p.kind, p.item, p.lane, p.x, H - 1 - p.y, FLIP_NS.get(p.direction, p.direction), p.rate)
+    return Module(name=mod.name, width=mod.width, height=H, entities=ents, tiles=list(mod.tiles),
+                  inputs=[flip_port(p) for p in mod.inputs], outputs=[flip_port(p) for p in mod.outputs],
+                  notes=list(mod.notes), wires=[list(w) for w in mod.wires])
+
+
 def port_table(mod):
     rows = [f"{'IO':<4}{'KIND':<6}{'ITEM':<24}{'LANE':<7}{'TILE':<9}{'DIR':<5}RATE"]
     for p in mod.inputs + mod.outputs:

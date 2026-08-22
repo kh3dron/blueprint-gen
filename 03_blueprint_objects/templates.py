@@ -119,10 +119,9 @@ def _column(tmpl, info, n, machine, recipe, belt_name):
     return ents, pole_ids, info["height"] + shift
 
 
-def build(item, rate, recipe, rt, machine=None, belt="transport-belt"):
-    """Module for `item` at `rate`. Machines are split into side-by-side columns only when a port would
-    exceed what its belt can carry (INPUT_CAPACITY per template port, OUTPUT_CAPACITY for the
-    single-lane output, scaled by belt tier). Ports: per column, inputs then outputs, left to right."""
+def plan(item, rate, recipe, rt, machine=None, belt="transport-belt"):
+    """Sizing for `item` at `rate` without building: machine count n, minimum columns c_min (belt
+    capacity), template info. Column count is finalised by build_columns(columns=...)."""
     ings = recipe["ingredients"]
     if any(i["type"] == "fluid" for i in ings) or any(r["type"] == "fluid" for r in recipe["results"]):
         raise ValueError(f"{recipe['name']}: fluid ingredients/results not supported")
@@ -140,43 +139,102 @@ def build(item, rate, recipe, rt, machine=None, belt="transport-belt"):
     scale = BELT_SCALE[belt]
     ing_rates = [crafts * i["amount"] for i in ings]
     caps = [c * scale for c in INPUT_CAPACITY[len(ings)]] + [OUTPUT_CAPACITY * scale]
-    # machines per column: the most that keeps every port within its belt capacity
     per_col = n
     for r, cap in zip(ing_rates + [rate], caps):
         if r > 0:
             per_col = min(per_col, int(cap * n / r + 1e-9))
     per_col = max(1, per_col)
-    c = -(-n // per_col)
+    return {"item": item, "rate": rate, "recipe": recipe, "machine": machine, "belt": belt, "tmpl": tmpl,
+            "info": info, "n": n, "capacity": capacity, "ing_rates": ing_rates, "caps": caps,
+            "c_min": -(-n // per_col), "width": info["width"], "base_height": info["height"]}
+
+
+def build_columns(item, rate, recipe, rt, machine=None, belt="transport-belt", columns=None):
+    """Modules for `item` at `rate`, one per column. Machines are split into at least c_min columns
+    (so no port exceeds what its belt can carry: INPUT_CAPACITY per template port, OUTPUT_CAPACITY for
+    the single-lane output, scaled by belt tier); `columns` may ask for more to limit height.
+    Each column is a complete Module (own ports and poles)."""
+    pl = plan(item, rate, recipe, rt, machine=machine, belt=belt)
+    return build_from_plan(pl, columns)
+
+
+def build_from_plan(pl, columns=None):
+    n, ings = pl["n"], pl["recipe"]["ingredients"]
+    c = max(pl["c_min"], min(columns or 1, n))
     q, rem = divmod(n, c)
     counts = [q + 1 if i < rem else q for i in range(c)]
+    info, caps, ing_rates = pl["info"], pl["caps"], pl["ing_rates"]
+    item, rate, machine, recipe, belt = pl["item"], pl["rate"], pl["machine"], pl["recipe"], pl["belt"]
+    mods = []
+    for ci, cnt in enumerate(counts):
+        ents, pole_ids, h = _column(pl["tmpl"], info, cnt, machine, recipe, belt)
+        wires = [[a + 1, 5, b + 1, 5] for a, b in zip(pole_ids, pole_ids[1:])]
+        share = cnt / n
+        inputs = [Port("in", "belt", ing["name"], "both", int(x), h - 1, 0, r * share)
+                  for ing, x, r in zip(ings, info["inputs"], ing_rates)]
+        outputs = [Port("out", "belt", item, "left", int(info["output"]), h - 1, 8, rate * share)]
+        notes = []
+        for p in inputs + outputs:
+            cap = caps[-1] if p.io == "out" else caps[[i["name"] for i in ings].index(p.item)]
+            if p.rate > cap + 1e-9:
+                notes.append(f"WARNING port {p.item} {p.rate:.3g}/s exceeds its belt capacity {cap:g}/s (one machine already exceeds it)")
+        tag = f" [{ci + 1}/{c}]" if c > 1 else ""
+        notes.append(f"{cnt}x {machine} {recipe['name']}; column {ci + 1} of {c} for {item} {rate:g}/s "
+                     f"({n} machines -> {pl['capacity']:.3g}/s); template {len(ings)}_to_1, belt {belt}; "
+                     f"port caps in {caps[:-1]} out {caps[-1]:g} /s")
+        mods.append(Module(name=f"{item} {rate:g}/s{tag}", width=info["width"], height=h, entities=ents,
+                           inputs=inputs, outputs=outputs, notes=notes, wires=wires))
+    return mods
 
-    stride = info["width"] + CGAP
-    cols = [_column(tmpl, info, cnt, machine, recipe, belt) for cnt in counts]
-    H = max(h for _, _, h in cols)
-    ents, wires, inputs, outputs = [], [], [], []
-    bottom_poles = []
-    for ci, ((cents, pole_ids, h), cnt) in enumerate(zip(cols, counts)):
-        xoff, yoff, base = ci * stride, H - h, len(ents)
-        for e in cents:
+
+def choose_cells(plans, fixed_heights=(), gap=3, bus_rows=0, cells=None, spacing=3):
+    """Target machines per column for a set of plans: the value minimising the bounding-box area
+    estimate (sum of column extents incl. bus columns and gaps) x (tallest column + routing + bus rows).
+    `cells` forces the target."""
+    if cells:
+        return cells
+    best = None
+    max_n = max([pl["n"] for pl in plans] + [1])
+    for T in range(1, max_n + 1):
+        width = height = 0
+        for pl in plans:
+            c = max(pl["c_min"], -(-pl["n"] // T))
+            per = -(-pl["n"] // c)
+            n_ports = len(pl["recipe"]["ingredients"])
+            extent = max(pl["width"], spacing * (n_ports - 1) + spacing + 2)
+            width += c * (extent + gap)
+            height = max(height, pl["base_height"] + (per - 1) * CELL_ROWS)
+        height = max([height] + list(fixed_heights))
+        area = width * (height + bus_rows)
+        if best is None or area < best[0] or (area == best[0] and T > best[1]):
+            best = (area, T)
+    return best[1]
+def build(item, rate, recipe, rt, machine=None, belt="transport-belt"):
+    """Single Module: the columns of build_columns() side by side (stride = width + CGAP, bottom-aligned,
+    bottom poles wired). Ports: per column, inputs then outputs, left to right."""
+    cols = build_columns(item, rate, recipe, rt, machine=machine, belt=belt)
+    if len(cols) == 1:
+        return cols[0]
+    stride = cols[0].width + CGAP
+    H = max(m.height for m in cols)
+    ents, wires, inputs, outputs, bottom_poles = [], [], [], [], []
+    for ci, m in enumerate(cols):
+        xoff, yoff, base = ci * stride, H - m.height, len(ents)
+        for e in m.entities:
+            e = copy.deepcopy(e)
             e["position"] = {"x": e["position"]["x"] + xoff, "y": e["position"]["y"] + yoff}
             ents.append(e)
-        wires += [[base + a + 1, 5, base + b + 1, 5] for a, b in zip(pole_ids, pole_ids[1:])]
-        bottom_poles.append(base + pole_ids[0])
-        share = cnt / n
-        for ing, x, r in zip(ings, info["inputs"], ing_rates):
-            inputs.append(Port("in", "belt", ing["name"], "both", int(x) + xoff, H - 1, 0, r * share))
-        outputs.append(Port("out", "belt", item, "left", int(info["output"]) + xoff, H - 1, 8, rate * share))
+        wires += [[w[0] + base, w[1], w[2] + base, w[3]] for w in m.wires]
+        poles = [i for i, e in enumerate(m.entities) if e["name"].endswith("electric-pole")]
+        bottom_poles.append(base + max(poles, key=lambda i: m.entities[i]["position"]["y"]))
+        for p in m.inputs:
+            inputs.append(Port(p.io, p.kind, p.item, p.lane, p.x + xoff, H - 1, p.direction, p.rate))
+        for p in m.outputs:
+            outputs.append(Port(p.io, p.kind, p.item, p.lane, p.x + xoff, H - 1, p.direction, p.rate))
     for a, b in zip(bottom_poles, bottom_poles[1:]):
-        dx = ents[b]["position"]["x"] - ents[a]["position"]["x"]
-        if dx <= 9.0:
+        if ents[b]["position"]["x"] - ents[a]["position"]["x"] <= 9.0:
             wires.append([a + 1, 5, b + 1, 5])
-    W = (c - 1) * stride + info["width"]
-    notes = []
-    for p in inputs + outputs:
-        cap = caps[-1] if p.io == "out" else caps[[i["name"] for i in ings].index(p.item)]
-        if p.rate > cap + 1e-9:
-            notes.append(f"WARNING port {p.item} {p.rate:.3g}/s exceeds its belt capacity {cap:g}/s (one machine already exceeds it)")
-    notes += [f"{n}x {machine} {recipe['name']} -> {capacity:.3g}/s capacity; template {len(ings)}_to_1, belt {belt}, "
-             f"{c} column(s) {counts}; port caps in {caps[:-1]} out {caps[-1]:g} /s"]
+    W = (len(cols) - 1) * stride + cols[0].width
+    notes = [n for m in cols for n in m.notes]
     return Module(name=f"{item} {rate:g}/s", width=W, height=H, entities=ents, inputs=inputs,
                   outputs=outputs, notes=notes, wires=wires)

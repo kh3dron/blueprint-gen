@@ -35,10 +35,14 @@ Scaling out: a module is one column of stacked cells unless a port would exceed 
 
 Examples: `iron-plate 5.75` -> 1 column of 10 furnaces; `iron-plate 57.5` -> 92 furnaces in 8 columns (output 7.2/s each); `copper-cable 20` -> 4 columns; `electronic-circuit 12` -> 8 columns of 1 (cable 4.5/s per port).
 
+Column count defaults to the belt-capacity minimum (narrowest blueprint). `plan()` sizes an item without building; `build_from_plan(columns=...)` builds; `compose.py --cells N` caps machines per column (splits more, wider and shorter), `--tune` tries N's neighbours and keeps the smallest real area; `choose_cells()` is the area-estimate picker used only when asked. `make.py` is unaffected.
+
 ## 4.0 Bus and composition (`bus.py`, `compose.py`)
 
-    compose.py <name> <spec>... [--belt NAME] [--export ITEM]... [-o DIR] [--no-render]
-    compose.py <item> <rate>  [--raw ITEM]... [--belt NAME] [-o DIR] [--no-render]
+    compose.py <name> <spec>... [--belt NAME] [--export ITEM]... [--roboports [SPACING]] [-o DIR] [--no-render]
+    compose.py <item> <rate>  [--raw ITEM]... [--from-plates] [--no-smelting] [--belt NAME] [--roboports [SPACING]] [-o DIR] [--no-render]
+
+`--from-plates` = `--raw iron-plate --raw copper-plate`; `--no-smelting` makes every smelting-category product (plates, steel, bricks) an external input.
 
 `<spec>` = `path.module.json` or `item=rate`. Modules are topologically ordered (producers west of consumers). Items consumed but not produced = external inputs; produced but not consumed (or `--export`) = outputs.
 
@@ -46,19 +50,25 @@ Factory mode (second form): the recipe tree of `<item>` is walked with `01_recip
 
 | Command | Result |
 |---|---|
-| `compose.py military-science-pack 1` | 9 modules (iron-plate 5.75/s, copper-plate, steel-plate, stone-brick, firearm-magazine, piercing-rounds-magazine, grenade, stone-wall, military-science-pack), one column each, 13 lanes in 13 rows, 106x58, 1,150 entities, 42 lane ducks; IN iron-ore 5.75/s, copper-ore 0.5/s, coal 5/s, stone 10/s; OUT 1/s |
-| `compose.py military-science-pack 10` | same modules scaled out where a port would exceed its belt (iron-plate 8 columns, stone-brick 7, ...), 31 lanes in 31 rows, 335x173, 10,206 entities, 519 lane ducks; 4 ports short by 0.3-0.9/s (packing fragmentation, see LIMITS) |
+| `compose.py military-science-pack 1` | 9 intermediates, 5 north / 4 south, 13 lanes, 86x87, 1,253 entities (one-sided: 98x58); IN iron-ore 5.75/s, copper-ore 0.5/s, coal 5/s, stone 10/s; OUT 1/s |
+| `compose.py military-science-pack 10` | 33 column-modules, 17 north / 16 south, 31 lanes, 260x310, 11,672 entities (one-sided: 368x173); 4 ports short by 0.3-0.9/s (packing fragmentation, see LIMITS) |
+| `compose.py military-science-pack 10 --raw iron-plate --raw copper-plate --roboports` | 267x306, 9,862 entities, 42 roboports, one pole network (one-sided: 465x73) |
 | `compose.py electronic-circuit 2 --raw iron-plate --raw copper-plate` | plates fed from outside instead of smelted |
+| `compose.py military-science-pack 1 --roboports` | 112x87, 6 roboports (bottom-left first), all wired |
 
-Geometry (composite-local tiles, y down; `E` external inputs, `L` lanes, `R = 4`; `spacing` and `gap` are searched, see below):
+Geometry (composite-local tiles, y down; `E` external inputs, `L` lanes, `R = 4`; `spacing` and `gap` are searched, see below). Modules sit on BOTH sides of the bus (`--one-sided` to disable): each module goes to the side whose x cursor is further west, and is never placed west of the push columns of its producers. South modules are mirrored vertically (`module.mirror`: rows flipped, N<->S directions, ports on the top edge).
 
 | Region | Columns | Rows |
 |---|---|---|
-| External input risers | `0..E-1`, lane j at column j, northbound | bottom row up to `row(j)`, N->E curve |
-| Modules | from `E+gap`, `gap` apart, bottom-aligned on `by = max(height)-1`; a module's footprint also covers its bus columns | `0..by` |
-| Routing band | | `by+1 .. by+R` |
-| Bus | | one row per lane: `row(j) = B0+j`, `B0 = by+R+1`; one spare row `B0+L` below |
-| Export drops | `x_max+3+(L-1-j)`, deeper lanes further west, southbound | `row(j)` to bottom row |
+| External input risers | `x_start..x_start+E-1` (x_start = 5 with roboports), lane j at its own column, northbound | bottom row up to `row(j)`, N->E curve |
+| North modules | x cursor, `gap` apart, bottom-aligned on `by = max(north height)-1` | `0..by` |
+| North routing band | | `by+1 .. by+R` |
+| Bus | | one row per lane: `row(j) = B0+j`, `B0 = by+R+1`; spare row `B0+L` |
+| South routing band | | `B0+L+1 .. B0+L+R` |
+| South modules (mirrored) | x cursor, top-aligned on `bys = B0+L+R+1` | `bys ..` |
+| Export drops | from `x_max+3`, deeper lanes further west, southbound | `row(j)` to bottom row |
+
+Cross-side conflicts: a module reserves its bus columns (push col..col+2, nominal pull bc-1..bc); a later module whose columns would overlap a reserved one slides east. Pull candidates also reject a column where the lane could not surface before the splitter/turn, where the chain would sit beside another continuing lane's splitter/turn, or inside a roboport band.
 
 Lanes and capacity (`allocate()`): an item may occupy several lanes, each `LANE_CAPACITY` (15/30/45/60 for yellow/red/blue/turbo). A module output is one belt-lane wide and is pushed onto a lane's left belt-lane (start curve or splitter merge) or right belt-lane (sideload from the south), whichever has more room, so two half-belt pushes fill one lane. Pulls of produced items take the tightest lane whose unclaimed supply covers the port, else the largest with a `WARNING ... short x/s` (in game that port runs under-supplied); external pulls are first-fit on capacity and open new external lanes as needed. Lane order: external lanes first (creation order), then internal. Non-exported lanes end at their last consumer. Exports = internal lanes with surplus for items no module consumes (or `--export`).
 
@@ -66,13 +76,14 @@ Ports of one module are grouped by proximity (column gap <= 2); port k of a grou
 
 | Operation | Mechanism |
 |---|---|
-| pull (input k) | If this is the last consumer of the lane (no pull, merge, or export east of it), the lane itself turns north at `bc`. Otherwise a splitter on the lane at `bc-1` (rows `j-1`, `j`); the branch exits east into `(bc, j-1)` and turns north. Then straight up to jog row `B0-1-k`, across to the port column, up to the port. Placement is a candidate search: `bc, bc+1, ..., bc+spacing-1` are tried in a grid transaction and rolled back on any tile collision (pushes are placed first, so chains route around the module's own push columns) |
-| push (lane starts here) | port belt south to `row(j)-1`; S->E curve at `row(j)` |
-| merge, left belt-lane | descent to `row(j)-2`, east feeder at `row(j)-1` into the upper input of a splitter at `(col+1, rows j-1..j)`; its upper output is blocked (the next lane's underground exit or nothing), so the whole flow continues on the lane (as in `samples/bus_merge.md`) |
-| merge, right belt-lane | chain passes straight through `row(j)` (the lane ducks under it), east along `row(j)+1` for two tiles, north at `col+2` to sideload the lane from the south |
-| crossing | vertical chains never tunnel. Each lane ducks under every run of foreign tiles in its row (crossing chains, other lanes' splitters, merge feeders): underground in on the free tile before the run, out on the free tile after. Runs separated by one free tile merge. A plain "lane continues" tile after a splitter may itself become the underground entrance |
+| pull (input k) | If this is the last consumer of the lane (no pull, merge, or export east of it), the lane itself turns toward the module at `bc`. Otherwise a splitter on the lane at `bc-1` (north module: rows `j-1`, `j`, branch exits into `(bc, j-1)`; south module: rows `j`, `j+1`, branch into `(bc, j+1)`). Then straight to jog row `k` of that side's band, across to the port column, into the port. Placement is a candidate search: `bc, bc+1, ..., bc+spacing-1` are tried in a grid transaction and rolled back on any tile collision (pushes are placed first, so chains route around push columns) |
+| push (lane starts here) | port belt to the row beside the lane; curve into `row(j)` |
+| merge, natural belt-lane (north: left, south: right) | feeder on the module-side row into the module-side input of a splitter at `(col+1)` spanning the lane row and that row; its other output is blocked, so the whole flow continues on the lane (as in `samples/bus_merge.md`) |
+| merge, far belt-lane | chain passes straight through `row(j)` (the lane ducks under it), two tiles east along the far-side row, back toward the lane at `col+2` to sideload it |
+| crossing | vertical chains never tunnel. Each lane ducks under every run of foreign tiles in its row (crossing chains, other lanes' splitters, merge feeders): underground in on the free tile before the run, out on the free tile after. Runs separated by one free tile merge. A plain "lane continues" tile after a splitter may itself become the underground entrance. The pair uses the slowest underground tier whose span covers the run (yellow 4, fast 6, express 8, turbo 10), so a yellow lane may duck with a fast pair under a 5-6 tile run |
 | search | `compose()` tries `(spacing, gap)` in `SEARCH = (3,3),(4,3),(4,4),(5,4),(6,5)`; a `PackError` (a run longer than `MAX_GAP[belt]` = 4/6/8/10, or no free tile to surface) moves to the next candidate |
-| power | medium pole in each inter-module gap on row `by`, wired to each neighbour's nearest pole within 9 tiles |
+| power | a chain of medium poles along each module row between consecutive modules, every 9 tiles until the next module's nearest pole is in reach; the south network is bridged to the north one by a pole path after the chains are laid; each roboport gets a pole beside it, wired to a pole in reach or connected by a pole path (vertical, then horizontal, steps never longer than the remaining distance; on lane rows a path pole keeps two free tiles on each side so the lane can duck) |
+| roboports (`--roboports [SPACING]`) | first roboport at the bottom-left (tiles 0-3 x H-4..H-1), then every SPACING tiles in both directions (default 48; 50 is the logistic-area touching limit, 110x110 construction area). Column bands `[SPACING*i-1, SPACING*i+4]` (roboport, pole, one surfacing tile) are kept free of modules, chains, and drops; risers start at column 5; lanes duck under the roboports that sit in the bus band. A module wider than `SPACING-7` cannot be placed, which is why `item=rate` specs and factory mode hand each column of a scaled-out module to the bus as its own module |
 
 Other tile conflicts raise `ValueError`. A consumer placed west of its lane's start is rejected.
 
@@ -93,4 +104,5 @@ LIMITS
 - The `(spacing, gap)` search is small; spacings above 3 cannot route 3- and 4-port templates (the third bus column would pass the module's own push column), so in practice a pack must succeed at spacing 3. If it does not, the error names the lane and columns.
 - A pull splitter diverts up to half the lane into the branch; the branch backs up when the module is full, which is the intended behaviour.
 - The gap pole cannot reach a nested composite's poles (they sit above its internal bus); WARNING printed, connect in game.
+- Roboport power paths are greedy (vertical, then horizontal, with a waypoint past the riser wall for the west column); a roboport boxed in by south modules can stay unpowered — `WARNING roboport at (x, y) has no pole path` names it (1 of 42 in the 10/s roboport build). Connect it in game.
 - No fluids; belts only.
