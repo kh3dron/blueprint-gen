@@ -5,7 +5,7 @@
 
 Writes <DIR>/<item>.module.json, <DIR>/<item>.txt (vanilla blueprint string), <DIR>/<item>.png.
 
---layout template (default): vertical cells from 03_samples/<N>_to_1.md, N = ingredient count (1-4),
+--layout template (default): vertical cells from samples/<N>_to_1.md, N = ingredient count (1-4),
 stacked upward to n machines. Inputs enter the bottom edge northbound (left to right), output exits
 the bottom-right southbound. See templates.py.
 

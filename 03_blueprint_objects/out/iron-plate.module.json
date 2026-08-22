@@ -34,39 +34,7 @@
    "name": "fast-transport-belt",
    "position": {
     "x": 0.5,
-    "y": 63.5
-   },
-   "direction": 0
-  },
-  {
-   "name": "fast-transport-belt",
-   "position": {
-    "x": 0.5,
-    "y": 62.5
-   },
-   "direction": 0
-  },
-  {
-   "name": "fast-transport-belt",
-   "position": {
-    "x": 0.5,
-    "y": 61.5
-   },
-   "direction": 0
-  },
-  {
-   "name": "fast-transport-belt",
-   "position": {
-    "x": 0.5,
     "y": 60.5
-   },
-   "direction": 0
-  },
-  {
-   "name": "electric-furnace",
-   "position": {
-    "x": 3.5,
-    "y": 61.5
    },
    "direction": 0
   },
@@ -81,26 +49,10 @@
   {
    "name": "fast-transport-belt",
    "position": {
-    "x": 6.5,
+    "x": 0.5,
     "y": 61.5
    },
-   "direction": 8
-  },
-  {
-   "name": "fast-transport-belt",
-   "position": {
-    "x": 6.5,
-    "y": 62.5
-   },
-   "direction": 8
-  },
-  {
-   "name": "fast-transport-belt",
-   "position": {
-    "x": 6.5,
-    "y": 63.5
-   },
-   "direction": 8
+   "direction": 0
   },
   {
    "name": "inserter",
@@ -111,12 +63,52 @@
    "direction": 12
   },
   {
+   "name": "electric-furnace",
+   "position": {
+    "x": 3.5,
+    "y": 61.5
+   },
+   "direction": 0
+  },
+  {
    "name": "inserter",
    "position": {
     "x": 5.5,
     "y": 61.5
    },
    "direction": 12
+  },
+  {
+   "name": "fast-transport-belt",
+   "position": {
+    "x": 6.5,
+    "y": 61.5
+   },
+   "direction": 8
+  },
+  {
+   "name": "fast-transport-belt",
+   "position": {
+    "x": 0.5,
+    "y": 62.5
+   },
+   "direction": 0
+  },
+  {
+   "name": "fast-transport-belt",
+   "position": {
+    "x": 6.5,
+    "y": 62.5
+   },
+   "direction": 8
+  },
+  {
+   "name": "fast-transport-belt",
+   "position": {
+    "x": 0.5,
+    "y": 63.5
+   },
+   "direction": 0
   },
   {
    "name": "medium-electric-pole",
@@ -129,6 +121,14 @@
   {
    "name": "fast-transport-belt",
    "position": {
+    "x": 6.5,
+    "y": 63.5
+   },
+   "direction": 8
+  },
+  {
+   "name": "fast-transport-belt",
+   "position": {
     "x": 0.5,
     "y": 56.5
    },
@@ -189,14 +189,6 @@
     "y": 59.5
    },
    "direction": 8
-  },
-  {
-   "name": "electric-furnace",
-   "position": {
-    "x": 3.5,
-    "y": 57.5
-   },
-   "direction": 0
   },
   {
    "name": "inserter",
@@ -205,6 +197,14 @@
     "y": 57.5
    },
    "direction": 12
+  },
+  {
+   "name": "electric-furnace",
+   "position": {
+    "x": 3.5,
+    "y": 57.5
+   },
+   "direction": 0
   },
   {
    "name": "inserter",
@@ -287,20 +287,20 @@
    "direction": 8
   },
   {
-   "name": "electric-furnace",
-   "position": {
-    "x": 3.5,
-    "y": 53.5
-   },
-   "direction": 0
-  },
-  {
    "name": "inserter",
    "position": {
     "x": 1.5,
     "y": 53.5
    },
    "direction": 12
+  },
+  {
+   "name": "electric-furnace",
+   "position": {
+    "x": 3.5,
+    "y": 53.5
+   },
+   "direction": 0
   },
   {
    "name": "inserter",
@@ -383,20 +383,20 @@
    "direction": 8
   },
   {
-   "name": "electric-furnace",
-   "position": {
-    "x": 3.5,
-    "y": 49.5
-   },
-   "direction": 0
-  },
-  {
    "name": "inserter",
    "position": {
     "x": 1.5,
     "y": 49.5
    },
    "direction": 12
+  },
+  {
+   "name": "electric-furnace",
+   "position": {
+    "x": 3.5,
+    "y": 49.5
+   },
+   "direction": 0
   },
   {
    "name": "inserter",
@@ -479,20 +479,20 @@
    "direction": 8
   },
   {
-   "name": "electric-furnace",
-   "position": {
-    "x": 3.5,
-    "y": 45.5
-   },
-   "direction": 0
-  },
-  {
    "name": "inserter",
    "position": {
     "x": 1.5,
     "y": 45.5
    },
    "direction": 12
+  },
+  {
+   "name": "electric-furnace",
+   "position": {
+    "x": 3.5,
+    "y": 45.5
+   },
+   "direction": 0
   },
   {
    "name": "inserter",
@@ -575,20 +575,20 @@
    "direction": 8
   },
   {
-   "name": "electric-furnace",
-   "position": {
-    "x": 3.5,
-    "y": 41.5
-   },
-   "direction": 0
-  },
-  {
    "name": "inserter",
    "position": {
     "x": 1.5,
     "y": 41.5
    },
    "direction": 12
+  },
+  {
+   "name": "electric-furnace",
+   "position": {
+    "x": 3.5,
+    "y": 41.5
+   },
+   "direction": 0
   },
   {
    "name": "inserter",
@@ -671,20 +671,20 @@
    "direction": 8
   },
   {
-   "name": "electric-furnace",
-   "position": {
-    "x": 3.5,
-    "y": 37.5
-   },
-   "direction": 0
-  },
-  {
    "name": "inserter",
    "position": {
     "x": 1.5,
     "y": 37.5
    },
    "direction": 12
+  },
+  {
+   "name": "electric-furnace",
+   "position": {
+    "x": 3.5,
+    "y": 37.5
+   },
+   "direction": 0
   },
   {
    "name": "inserter",
@@ -767,20 +767,20 @@
    "direction": 8
   },
   {
-   "name": "electric-furnace",
-   "position": {
-    "x": 3.5,
-    "y": 33.5
-   },
-   "direction": 0
-  },
-  {
    "name": "inserter",
    "position": {
     "x": 1.5,
     "y": 33.5
    },
    "direction": 12
+  },
+  {
+   "name": "electric-furnace",
+   "position": {
+    "x": 3.5,
+    "y": 33.5
+   },
+   "direction": 0
   },
   {
    "name": "inserter",
@@ -863,20 +863,20 @@
    "direction": 8
   },
   {
-   "name": "electric-furnace",
-   "position": {
-    "x": 3.5,
-    "y": 29.5
-   },
-   "direction": 0
-  },
-  {
    "name": "inserter",
    "position": {
     "x": 1.5,
     "y": 29.5
    },
    "direction": 12
+  },
+  {
+   "name": "electric-furnace",
+   "position": {
+    "x": 3.5,
+    "y": 29.5
+   },
+   "direction": 0
   },
   {
    "name": "inserter",
@@ -959,20 +959,20 @@
    "direction": 8
   },
   {
-   "name": "electric-furnace",
-   "position": {
-    "x": 3.5,
-    "y": 25.5
-   },
-   "direction": 0
-  },
-  {
    "name": "inserter",
    "position": {
     "x": 1.5,
     "y": 25.5
    },
    "direction": 12
+  },
+  {
+   "name": "electric-furnace",
+   "position": {
+    "x": 3.5,
+    "y": 25.5
+   },
+   "direction": 0
   },
   {
    "name": "inserter",
@@ -1055,20 +1055,20 @@
    "direction": 8
   },
   {
-   "name": "electric-furnace",
-   "position": {
-    "x": 3.5,
-    "y": 21.5
-   },
-   "direction": 0
-  },
-  {
    "name": "inserter",
    "position": {
     "x": 1.5,
     "y": 21.5
    },
    "direction": 12
+  },
+  {
+   "name": "electric-furnace",
+   "position": {
+    "x": 3.5,
+    "y": 21.5
+   },
+   "direction": 0
   },
   {
    "name": "inserter",
@@ -1151,20 +1151,20 @@
    "direction": 8
   },
   {
-   "name": "electric-furnace",
-   "position": {
-    "x": 3.5,
-    "y": 17.5
-   },
-   "direction": 0
-  },
-  {
    "name": "inserter",
    "position": {
     "x": 1.5,
     "y": 17.5
    },
    "direction": 12
+  },
+  {
+   "name": "electric-furnace",
+   "position": {
+    "x": 3.5,
+    "y": 17.5
+   },
+   "direction": 0
   },
   {
    "name": "inserter",
@@ -1247,20 +1247,20 @@
    "direction": 8
   },
   {
-   "name": "electric-furnace",
-   "position": {
-    "x": 3.5,
-    "y": 13.5
-   },
-   "direction": 0
-  },
-  {
    "name": "inserter",
    "position": {
     "x": 1.5,
     "y": 13.5
    },
    "direction": 12
+  },
+  {
+   "name": "electric-furnace",
+   "position": {
+    "x": 3.5,
+    "y": 13.5
+   },
+   "direction": 0
   },
   {
    "name": "inserter",
@@ -1343,20 +1343,20 @@
    "direction": 8
   },
   {
-   "name": "electric-furnace",
-   "position": {
-    "x": 3.5,
-    "y": 9.5
-   },
-   "direction": 0
-  },
-  {
    "name": "inserter",
    "position": {
     "x": 1.5,
     "y": 9.5
    },
    "direction": 12
+  },
+  {
+   "name": "electric-furnace",
+   "position": {
+    "x": 3.5,
+    "y": 9.5
+   },
+   "direction": 0
   },
   {
    "name": "inserter",
@@ -1439,20 +1439,20 @@
    "direction": 8
   },
   {
-   "name": "electric-furnace",
-   "position": {
-    "x": 3.5,
-    "y": 5.5
-   },
-   "direction": 0
-  },
-  {
    "name": "inserter",
    "position": {
     "x": 1.5,
     "y": 5.5
    },
    "direction": 12
+  },
+  {
+   "name": "electric-furnace",
+   "position": {
+    "x": 3.5,
+    "y": 5.5
+   },
+   "direction": 0
   },
   {
    "name": "inserter",
@@ -1535,20 +1535,20 @@
    "direction": 8
   },
   {
-   "name": "electric-furnace",
-   "position": {
-    "x": 3.5,
-    "y": 1.5
-   },
-   "direction": 0
-  },
-  {
    "name": "inserter",
    "position": {
     "x": 1.5,
     "y": 1.5
    },
    "direction": 12
+  },
+  {
+   "name": "electric-furnace",
+   "position": {
+    "x": 3.5,
+    "y": 1.5
+   },
+   "direction": 0
   },
   {
    "name": "inserter",
@@ -1570,7 +1570,7 @@
  "tiles": [],
  "wires": [
   [
-   12,
+   11,
    5,
    24,
    5

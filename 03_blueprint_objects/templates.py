@@ -1,4 +1,4 @@
-"""Template cells from 03_samples/<N>_to_1.md, scaled to n machines.
+"""Template cells from samples/<N>_to_1.md, scaled to n machines.
 
 Template anatomy (all four samples):
   - input belts enter the bottom row northbound, left to right = input 1..N
@@ -19,8 +19,7 @@ import zlib
 
 from module import Module, Port
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SAMPLES = os.path.join(ROOT, "03_samples")
+SAMPLES = os.path.join(os.path.dirname(os.path.abspath(__file__)), "samples")
 CELL_ROWS = 4
 MACHINE_TYPES = {"assembling-machine-1", "assembling-machine-2", "assembling-machine-3", "electric-furnace"}
 # items/s each input port can carry on a yellow belt, by template. 15 = whole belt, 7.5 = one lane.
