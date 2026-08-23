@@ -242,4 +242,5 @@ def combine(cols, name):
     W = (len(cols) - 1) * stride + cols[0].width
     notes = [n for m in cols for n in m.notes]
     return Module(name=name, width=W, height=H, entities=ents, inputs=inputs,
-                  outputs=outputs, notes=notes, wires=wires)
+                  outputs=outputs, notes=notes, wires=wires,
+                  no_mirror=any(m.no_mirror for m in cols))

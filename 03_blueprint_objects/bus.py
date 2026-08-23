@@ -45,7 +45,8 @@ from module import Module, Port, mirror  # noqa: E402
 R = 5            # routing band rows per side (jog rows B0-2-k; row B0-1 holds lane-0 branch curves)
 EPS = 1e-6
 N, E, S, W = 0, 4, 8, 12
-MACHINE_NAMES = {"assembling-machine-1", "assembling-machine-2", "assembling-machine-3", "electric-furnace"}
+MACHINE_SIZE = {"assembling-machine-1": 3, "assembling-machine-2": 3, "assembling-machine-3": 3,
+                "electric-furnace": 3, "chemical-plant": 3, "oil-refinery": 5}
 UNDERGROUND = {"transport-belt": "underground-belt", "fast-transport-belt": "fast-underground-belt",
                "express-transport-belt": "express-underground-belt", "turbo-transport-belt": "turbo-underground-belt"}
 SPLITTER = {"transport-belt": "splitter", "fast-transport-belt": "fast-splitter",
@@ -62,6 +63,18 @@ LANE_CAPACITY = {"transport-belt": 15.0, "fast-transport-belt": 30.0, "express-t
 
 class PackError(ValueError):
     pass
+
+
+WARNINGS = []           # filled during compose(); the caller prints them grouped and keeps them in the notes
+
+
+def warn(msg):
+    WARNINGS.append(msg)
+
+
+def progress(stage, ex):
+    """Called when a (spacing, gap) candidate fails. Replaced by compose.py to fold it into its report."""
+    print(f"{stage}: {ex}; retrying", file=sys.stderr)
 
 
 class Lane:
@@ -137,11 +150,12 @@ class Grid:
 
 
 def entity_tiles(e):
-    """Tiles covered by an entity: machines 3x3, roboports 4x4, splitters 1x2/2x1, else 1x1."""
+    """Tiles covered by an entity: machines MACHINE_SIZE^2, roboports 4x4, splitters 1x2/2x1, else 1x1."""
     x, y = e["position"]["x"], e["position"]["y"]
-    if e["name"] in MACHINE_NAMES:
-        cx, cy = int(x - 1.5), int(y - 1.5)
-        return [(cx + dx, cy + dy) for dx in range(3) for dy in range(3)]
+    if e["name"] in MACHINE_SIZE:
+        n = MACHINE_SIZE[e["name"]]
+        cx, cy = int(x - n / 2), int(y - n / 2)
+        return [(cx + dx, cy + dy) for dx in range(n) for dy in range(n)]
     if e["name"] == "roboport":
         cx, cy = int(x - 2), int(y - 2)
         return [(cx + dx, cy + dy) for dx in range(4) for dy in range(4)]
@@ -245,11 +259,12 @@ def compose(name, modules, belt="transport-belt", exports=None, roboport=None, t
     every lane can duck under its crossings. Returns a Module."""
     last = None
     for spacing, gap in SEARCH:
+        WARNINGS.clear()                       # a failed candidate leaves nothing behind
         try:
             return _layout(name, modules, belt, set(exports or []), spacing, gap, roboport, two_sided)
         except PackError as ex:
             last = ex
-            print(f"spacing {spacing} gap {gap}: {ex}; retrying", file=sys.stderr)
+            progress(f"spacing {spacing} gap {gap}", ex)
     raise ValueError(f"bus does not pack with (spacing, gap) in {SEARCH}: {last}")
 
 
@@ -289,7 +304,7 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True)
     cursor = {"N": x_start + Espan + gap, "S": x_start + Espan + gap}
     reserved = set()                   # bus columns claimed by placed modules (both sides)
     for mi, m in enumerate(modules):
-        side = "N" if (not two_sided or cursor["N"] <= cursor["S"]) else "S"
+        side = "N" if (not two_sided or m.no_mirror or cursor["N"] <= cursor["S"]) else "S"
         x = cursor[side]
         for p in m.inputs:
             if p.item in produced_at:
@@ -321,7 +336,7 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True)
         cursor[side] = x + ext + gap
     lanes, pull_lane, push_lane, warnings = allocate(modules, sides, belt)
     for w in warnings:
-        print(w, file=sys.stderr)
+        warn(w)
     L = len(lanes)
     riser_col, Espan = riser_columns(lanes)
     consumed = {p.item for m in modules for p in m.inputs}
@@ -465,7 +480,7 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True)
                     if best and best[0] <= reach:
                         wires.append([gid + 1, 5, best[1] + 1, 5])
                     elif best:
-                        print(f"WARNING gap pole at {gx} cannot reach {ma.name} pole ({best[0]:.1f} tiles)", file=sys.stderr)
+                        warn(f"WARNING gap pole at {gx} cannot reach {ma.name} pole ({best[0]:.1f} tiles)")
                 else:
                     wires.append([prev + 1, 5, gid + 1, 5])
                 best = nearest_pole(mb, xb, gx, prow, n_module_ents)
@@ -473,7 +488,7 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True)
                     wires.append([gid + 1, 5, best[1] + 1, 5])
                     break
                 if gx + int(reach) >= xb + mb.width:
-                    print(f"WARNING pole chain at {gx} cannot reach {mb.name} pole", file=sys.stderr)
+                    warn(f"WARNING pole chain at {gx} cannot reach {mb.name} pole")
                     break
                 prev = gid
                 gx += int(reach)
@@ -561,6 +576,35 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True)
     def foreign(x, y, j):
         return (x, y) in grid.occ and (x, y) not in own[j]
 
+    def jog(bc, px, r, into):
+        """Horizontal run of a pull chain from bus column `bc` to port column `px` on jog row `r`,
+        ending with a belt into the module (`into` = N or S). A push chain of the same module can sit
+        between the two: the jog ducks under it with an underground pair (vertical chains never tunnel,
+        so it is the horizontal run that goes under)."""
+        step = 1 if px > bc else -1
+        d = E if step > 0 else W
+        tiers_ = TIERS[TIERS.index(belt):]
+        xx = bc
+        while xx != px:
+            end = xx + step                              # first tile of a run of foreign tiles, if any
+            while end != px and (end, r) in grid.occ:
+                end += step
+            gap_ = abs(end - xx) - 1                     # tiles to duck under
+            if gap_ == 0:
+                grid.belt_tile(xx, r, d)
+                xx += step
+                continue
+            tier = next((t for t in tiers_ if MAX_GAP[t] >= gap_), None)
+            if tier is None:
+                raise ValueError(f"jog row {r} must duck under {gap_} tiles at column {xx + step}, "
+                                 f"more than any underground spans ({MAX_GAP[tiers_[-1]]})")
+            if (end, r) in grid.occ:
+                raise ValueError(f"jog row {r} blocked at column {end} by {grid.occ[(end, r)]}, no tile to surface")
+            grid.place(UNDERGROUND[tier], xx, r, d, type="input")
+            grid.place(UNDERGROUND[tier], end, r, d, type="output")
+            xx = end + step
+        grid.belt_tile(px, r, into)
+
     def place_pull(ln, bc, px, k, whole, side):
         j = ln.index
         if ln.kind == "pipe":
@@ -599,11 +643,7 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True)
                 if (bc, r) not in grid.occ:
                     grid.belt_tile(bc, r, N)
             else:
-                step = 1 if px > bc else -1
-                grid.belt_tile(bc, r, E if step > 0 else W)
-                for xx in range(bc + step, px, step):
-                    grid.belt_tile(xx, r, E if step > 0 else W)
-                grid.belt_tile(px, r, N)
+                jog(bc, px, r, N)
             for yy in range(r - 1, by, -1):
                 grid.belt_tile(px, yy, N)
         else:
@@ -624,11 +664,7 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True)
                 if (bc, r) not in grid.occ:
                     grid.belt_tile(bc, r, S)
             else:
-                step = 1 if px > bc else -1
-                grid.belt_tile(bc, r, E if step > 0 else W)
-                for xx in range(bc + step, px, step):
-                    grid.belt_tile(xx, r, E if step > 0 else W)
-                grid.belt_tile(px, r, S)
+                jog(bc, px, r, S)
             for yy in range(r + 1, bys):
                 grid.belt_tile(px, yy, S)
 
@@ -639,9 +675,20 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True)
         whole = ln.index not in drops and bc0 == last_bc[ln.index] and ln.end == bc0
         placed = False
         reasons = []
-        for bc in (range(bc0, bc0 + 1) if p.kind == "pipe" else range(bc0, bc0 + spacing)):
+        cands = [bc0] if p.kind == "pipe" else list(range(bc0, bc0 + spacing))
+        if p.kind != "pipe":
+            # fall back west, toward the port column: a nominal column east of the module's own push
+            # column cannot be reached, because the jog row would have to cross that push chain.
+            # A whole-lane pull ends the lane where it turns, so it may not move west of anything
+            # the lane still has to reach (its merges and the pulls already placed on it).
+            floor = px if not whole else max([px, ln.start + 1] + [c + 2 for c in ln.pushes if c > ln.start] + ln.pulls)
+            cands += list(range(bc0 - 1, floor - 1, -1))
+        for bc in cands:
             if forbidden(bc) or (p.kind != "pipe" and forbidden(bc - 1)):
                 reasons.append(f"{bc}: roboport band")
+                continue
+            if bc - 1 <= ln.start:
+                reasons.append(f"{bc}: west of lane {ln.index} start {ln.start}")
                 continue
             grid.begin()
             try:
@@ -659,7 +706,8 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True)
             placed = True
             break
         if not placed:
-            raise PackError(f"{m.name}: no bus column for {p.item} in {bc0}..{bc0 + spacing - 1} ({'; '.join(reasons)})")
+            raise PackError(f"{m.name}: no bus column for {p.item} in {min(cands)}..{max(cands)} "
+                            f"({'; '.join(reasons)})")
 
     # ---- power bridge south -> north (after the chains, so it routes around them) ----------
     if has_south:
@@ -668,7 +716,7 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True)
         if south and north_ids:
             i, e = min(south, key=lambda t: (t[1]["position"]["y"], t[1]["position"]["x"]))
             if not power_path(i, int(e["position"]["x"] - 0.5), int(e["position"]["y"] - 0.5), north_ids):
-                print("WARNING could not bridge the south pole network to the north one", file=sys.stderr)
+                warn("WARNING could not bridge the south pole network to the north one")
 
     # ---- external input risers and export drops ------------------------------------------
     inputs, outputs = [], []
@@ -688,21 +736,32 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True)
     outputs.sort(key=lambda p: p.x)
 
     # ---- roboport grid --------------------------------------------------------------------
-    n_rp = unpowered_rp = 0
+    n_rp = unpowered_rp = skipped_rp = 0
     if rp:
         network = [i for i, e in enumerate(grid.ents) if e["name"].endswith("electric-pole")]   # connected poles
         W_now = max(tx for tx, _ in grid.occ) + 1
-        spots = [(xl, yt) for yt in range(H - 4, -1, -rp) for xl in range(0, W_now, rp)]
+        rows = list(range(H - 4, -1, -rp))
+        chain_rows = [r for r in (by, bys) if r is not None]     # module pole chains run right across
+        dy = next((d for d in range(12)
+                   if all(not (yt - d <= pr <= yt - d + 3) for yt in rows for pr in chain_rows)), 0)
+        spots = [(xl, yt - dy) for yt in rows if yt - dy >= 0 for xl in range(0, W_now, rp)]
         pole_ids = []
+        placed_spots = []
         for xl, yt in spots:                        # all roboports and their poles first (paths route around them)
-            for tx in range(xl, xl + 4):
-                for ty in range(yt, yt + 4):
-                    grid._take((tx, ty), "roboport")
+            tiles = [(tx, ty) for tx in range(xl, xl + 4) for ty in range(yt, yt + 4)] + [(xl + 4, yt + 3)]
+            held = next(((t, grid.occ[t]) for t in tiles if t in grid.occ), None)
+            if held:                                # a pole chain or power path got there first
+                warn(f"WARNING roboport at ({xl}, {yt}) skipped: tile {held[0]} holds {held[1]}")
+                skipped_rp += 1
+                continue
+            for t in tiles[:16]:
+                grid._take(t, "roboport")
             grid.ents.append({"name": "roboport", "position": {"x": xl + 2, "y": yt + 2}, "direction": N})
             pole_ids.append(len(grid.ents))
             grid.place("medium-electric-pole", xl + 4, yt + 3)
+            placed_spots.append((xl, yt))
             n_rp += 1
-        for (xl, yt), pid in zip(spots, pole_ids):
+        for (xl, yt), pid in zip(placed_spots, pole_ids):
             via = (xl + 4, B0 - 2) if xl < x_start + Ecount and yt + 3 >= B0 else None   # west of the riser wall: up past the bus first
             n_before = len(grid.ents)
             if power_path(pid, xl + 4, yt + 3, network, via=via):
@@ -710,7 +769,7 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True)
                 network.extend(i for i in range(n_before, len(grid.ents)) if grid.ents[i]["name"].endswith("electric-pole"))
             else:
                 unpowered_rp += 1
-                print(f"WARNING roboport at ({xl}, {yt}) has no pole path to the network: {last_path[0]}", file=sys.stderr)
+                warn(f"WARNING roboport at ({xl}, {yt}) has no pole path to the network: {last_path[0]}")
 
     # ---- lanes: duck under foreign tiles, then fill ----------------------------------------
     tiers = TIERS[TIERS.index(belt):]
@@ -767,15 +826,17 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True)
     duck_txt = ", ".join(f"{n} {t.replace('-transport-belt', '') or 'yellow'}" for t, n in ug_tiers.items())
     pipes = sum(1 for ln in lanes if ln.kind == "pipe")
     n_s = sum(1 for s in sides if s == "S")
-    notes = [f"bus: {L} lanes ({pipes} pipe), {belt}, rows {B0}-{spare - 1}, chain spacing {spacing}, gap {gap}, {ug_count} lane ducks ({duck_txt}), "
-             f"{n_mod - n_s} modules north / {n_s} south"
-             + (f", {n_rp} roboports every {rp} tiles ({unpowered_rp} with no pole in reach)" if rp else "") + "; modules: "
-             + ", ".join(f"{m.name}({s})" for m, s in zip(modules, sides))]
+    notes = [f"bus: {L} lanes ({pipes} pipe), {belt}, rows {B0}-{spare - 1}, chain spacing {spacing}, gap {gap}, "
+             f"{ug_count} lane ducks ({duck_txt}), {n_mod - n_s} modules north / {n_s} south"
+             + (f", {n_rp} roboports every {rp} tiles ({unpowered_rp} with no pole in reach, "
+                f"{skipped_rp} spots skipped)" if rp else ""),
+             "modules: " + ", ".join(f"{m.name}({s})" for m, s in zip(modules, sides))]
     for ln in lanes:
         kind = "external" if ln.external else ("export" if ln in exported else "internal")
         flow = ln.claimed if ln.external else ln.supply
         bal = "" if ln.external or ln.kind == "pipe" else f" (L {ln.left:.3g} R {ln.right:.3g}, claimed {ln.claimed:.3g})"
         cap = "pipe" if ln.kind == "pipe" else f"{ln.cap:g}/s"
         notes.append(f"lane {ln.index} {ln.item} {ln.kind} {kind} {flow:.3g}/{cap} cols {ln.start}-{ln.end}{bal}")
+    notes += WARNINGS
     return Module(name=name, width=Wc, height=H, entities=grid.ents, inputs=inputs, outputs=outputs,
-                  notes=notes, wires=wires)
+                  notes=notes, wires=wires, no_mirror=any(m.no_mirror for m in modules))

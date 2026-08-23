@@ -65,12 +65,16 @@ class Module:
     outputs: list = field(default_factory=list)  # [Port]
     notes: list = field(default_factory=list)    # free-text lines kept in the description
     wires: list = field(default_factory=list)    # [[e1, c1, e2, c2]] 1-based entity numbers
+    no_mirror: bool = False                      # vertical mirroring would break it (fluid boxes)
 
     # ---- blueprint JSON ----------------------------------------------------------------
     def blueprint(self):
         """Vanilla blueprint object. Entities are shifted so module tile (0,0) is at world (0,0)."""
+        notes = list(self.notes)
+        if self.no_mirror and not any(n.startswith("NO-MIRROR") for n in notes):
+            notes.append("NO-MIRROR vertical flip would swap fluid boxes")
         desc = "\n".join([f"SIZE {self.width}x{self.height}"]
-                         + [p.line() for p in self.inputs + self.outputs] + self.notes)
+                         + [p.line() for p in self.inputs + self.outputs] + notes)
         return {
             "item": "blueprint",
             "label": self.name,
@@ -105,6 +109,7 @@ class Module:
             "name": self.name, "width": self.width, "height": self.height,
             "inputs": [asdict(p) for p in self.inputs], "outputs": [asdict(p) for p in self.outputs],
             "notes": self.notes, "entities": self.entities, "tiles": self.tiles, "wires": self.wires,
+            "no_mirror": self.no_mirror,
         }
 
     @classmethod
@@ -113,7 +118,8 @@ class Module:
                    entities=d.get("entities", []), tiles=d.get("tiles", []),
                    inputs=[Port(**p) for p in d.get("inputs", [])],
                    outputs=[Port(**p) for p in d.get("outputs", [])],
-                   notes=d.get("notes", []), wires=d.get("wires", []))
+                   notes=d.get("notes", []), wires=d.get("wires", []),
+                   no_mirror=d.get("no_mirror", False))
 
     def save(self, path):
         with open(path, "w") as f:
@@ -148,7 +154,8 @@ class Module:
             height = int(max(ys) - min(ys)) + 1 if ys else 0
         return cls(name=bp.get("label", "module"), width=width, height=height, entities=ents,
                    tiles=tiles, inputs=[p for p in ports if p.io == "in"],
-                   outputs=[p for p in ports if p.io == "out"], notes=notes, wires=bp.get("wires", []))
+                   outputs=[p for p in ports if p.io == "out"], notes=notes, wires=bp.get("wires", []),
+                   no_mirror=any(n.startswith("NO-MIRROR") for n in notes))
 
     # ---- checks ------------------------------------------------------------------------
     def check(self):
@@ -174,6 +181,8 @@ FLIP_NS = {0: 8, 8: 0}
 def mirror(mod):
     """Vertical mirror of a module: row y -> height-1-y. Belt/inserter/underground directions N<->S;
     ports move to the opposite edge with flipped flow direction. Entity order and wires are kept."""
+    if mod.no_mirror:
+        raise ValueError(f"{mod.name}: marked no_mirror (fluid boxes would swap), cannot be mirrored")
     H = mod.height
     ents = []
     for e in mod.entities:
@@ -191,6 +200,27 @@ def mirror(mod):
     return Module(name=mod.name, width=mod.width, height=H, entities=ents, tiles=list(mod.tiles),
                   inputs=[flip_port(p) for p in mod.inputs], outputs=[flip_port(p) for p in mod.outputs],
                   notes=list(mod.notes), wires=[list(w) for w in mod.wires])
+
+
+def port_summary(mod):
+    """One row per (io, kind, item): how many ports carry it, their total rate, their column span.
+    port_table() prints every port instead."""
+    rows, order = {}, []
+    for p in mod.inputs + mod.outputs:
+        key = (p.io, p.kind, p.item)
+        if key not in rows:
+            rows[key] = [0, 0.0, p.x, p.x]
+            order.append(key)
+        r = rows[key]
+        r[0] += 1
+        r[1] += p.rate
+        r[2], r[3] = min(r[2], p.x), max(r[3], p.x)
+    out = [f"{'IO':<4}{'KIND':<6}{'ITEM':<26}{'PORTS':>6}{'RATE':>12}  COLUMNS"]
+    for io, kind, item in order:
+        n, rate, x0, x1 = rows[(io, kind, item)]
+        span = f"{x0}" if x0 == x1 else f"{x0}-{x1}"
+        out.append(f"{io.upper():<4}{kind:<6}{item:<26}{n:>6}{rate:>10.4g}/s  {span}")
+    return "\n".join(out)
 
 
 def port_table(mod):

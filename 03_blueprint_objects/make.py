@@ -149,7 +149,8 @@ def main():
     if has_fluid:
         try:
             crafts = rate / rt.net_output(recipe, args.item)
-            pl = fluidcells.plan(recipe, crafts, rt, belt=args.belt)
+            pl = fluidcells.plan(recipe, crafts, rt, belt=args.belt,
+                                 machine=args.machine if args.machine in fluidcells.MACHINES else None)
             cols = fluidcells.build_from_plan(pl)
         except ValueError as ex:
             sys.exit(str(ex))
