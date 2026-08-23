@@ -31,6 +31,34 @@ from module import Module, port_table  # noqa: E402
 import bus  # noqa: E402
 import make  # noqa: E402
 import templates  # noqa: E402
+import fluidcells  # noqa: E402
+
+OIL = {"petroleum-gas", "heavy-oil", "light-oil"}
+
+
+def has_fluid(recipe):
+    return any(i["type"] == "fluid" for i in recipe["ingredients"]) or any(r["type"] == "fluid" for r in recipe["results"])
+
+
+def build_plan(pl, columns=None):
+    if pl.get("kind") == "fluid":
+        return fluidcells.build_from_plan(pl, columns)
+    return templates.build_from_plan(pl, columns)
+
+
+def oil_plans(demand, rt, by_name, belt):
+    """Advanced oil processing sized for petroleum-gas / heavy-oil / light-oil demand, with all surplus
+    heavy and light oil cracked. Returns plans for the refinery and the two cracking steps."""
+    P, Hd, Ld = demand.get("petroleum-gas", 0.0), demand.get("heavy-oil", 0.0), demand.get("light-oil", 0.0)
+    c = (P + 0.5 * Hd + (2 / 3) * Ld) / 97.5           # refinery crafts/s: 55 + 30 + 12.5 petgas per craft when all cracked
+    c = max(c, Hd / 25, Ld / 45)
+    hc = max(0.0, (25 * c - Hd) / 40)                   # heavy cracking crafts/s
+    lc = max(0.0, (45 * c + 30 * hc - Ld) / 30)         # light cracking crafts/s
+    plans = []
+    for name, crafts in (("advanced-oil-processing", c), ("heavy-oil-cracking", hc), ("light-oil-cracking", lc)):
+        if crafts > 1e-9:
+            plans.append(fluidcells.plan(by_name[name], crafts, rt, belt=belt))
+    return plans
 
 
 def load_spec(spec, rt, by_product, belt):
@@ -44,6 +72,9 @@ def load_spec(spec, rt, by_product, belt):
     if not recipe:
         sys.exit(f"no recipe produces {item!r}")
     recipe = recipe[0]
+    if has_fluid(recipe):
+        crafts = rt.parse_rate(rate) / rt.net_output(recipe, item)
+        return ("plan", fluidcells.plan(recipe, crafts, rt, belt=belt))
     cats = recipe.get("categories") or ["crafting"]
     machine = next((make.CATEGORY_MACHINE[c] for c in cats if c in make.CATEGORY_MACHINE), None)
     if machine is None:
@@ -59,23 +90,31 @@ def is_rate(s):
         return False
 
 
-def factory(item, rate, rt, by_product, raw, belt, no_smelting=False):
+def factory(item, rate, rt, by_product, by_name, raw, belt, no_smelting=False):
     """Plans for every craftable intermediate of `item`, each at its summed rate. Returns (plans, externals)."""
     totals = {}
     order = []          # first-visit order, leaves last
     blocked = {}        # item -> reason it is treated as raw
 
+    oil_demand = {}
+
     def buildable(it):
         if it in raw or it in rt.RAW or it not in by_product:
             return False
+        if it in OIL:
+            return True                              # handled by oil_plans()
         r = by_product[it][0]
         if no_smelting and "smelting" in (r.get("categories") or []):
             blocked[it] = "smelting"
             return False
         ings = r["ingredients"]
-        if any(i["type"] == "fluid" for i in ings) or any(x["type"] == "fluid" for x in r["results"]):
-            blocked[it] = "fluid"
-            return False
+        if has_fluid(r):
+            try:
+                fluidcells.plan(r, 1.0, rt, belt=belt)
+                return True
+            except ValueError as ex:
+                blocked[it] = str(ex)
+                return False
         if not 1 <= len(ings) <= 4:
             blocked[it] = f"{len(ings)} ingredients"
             return False
@@ -91,6 +130,9 @@ def factory(item, rate, rt, by_product, raw, belt, no_smelting=False):
             order.append(it)
         if not buildable(it):
             return
+        if it in OIL:
+            oil_demand[it] = oil_demand.get(it, 0.0) + r
+            return
         recipe = by_product[it][0]
         crafts = r / rt.net_output(recipe, it)
         for ing in recipe["ingredients"]:
@@ -100,13 +142,28 @@ def factory(item, rate, rt, by_product, raw, belt, no_smelting=False):
     walk(item, rate)
     plans, externals = [], []
     for it in order:
-        if buildable(it):
+        if not buildable(it):
+            externals.append((it, totals[it], blocked.get(it, "raw")))
+        elif it in OIL:
+            continue
+        else:
             recipe = by_product[it][0]
+            if has_fluid(recipe):
+                plans.append(fluidcells.plan(recipe, totals[it] / rt.net_output(recipe, it), rt, belt=belt))
+                for ing in recipe["ingredients"]:               # fluid raws feed in from outside
+                    if ing["type"] == "fluid" and ing["name"] in rt.RAW and ing["name"] not in [e[0] for e in externals]:
+                        externals.append((ing["name"], totals.get(ing["name"], 0.0), "raw"))
+                continue
             cats = recipe.get("categories") or ["crafting"]
             machine = next(make.CATEGORY_MACHINE[c] for c in cats if c in make.CATEGORY_MACHINE)
             plans.append(templates.plan(it, totals[it], recipe, rt, machine=machine, belt=belt))
-        else:
-            externals.append((it, totals[it], blocked.get(it, "raw")))
+    if oil_demand:
+        oil = oil_plans(oil_demand, rt, by_name, belt)
+        plans.extend(oil)
+        water = sum(pl["crafts"] * next(i["amount"] for i in pl["recipe"]["ingredients"] if i["name"] == "water") for pl in oil)
+        crude = sum(pl["crafts"] * 100 for pl in oil if pl["recipe"]["name"] == "advanced-oil-processing")
+        externals.append(("crude-oil", crude, "raw"))
+        externals.append(("water", water, "raw"))
     return plans, externals
 
 
@@ -156,14 +213,16 @@ def main():
     args = ap.parse_args()
 
     rt = make.load_recipe_tool()
-    by_product = rt.build_index(rt.load_recipes())
+    recipes = rt.load_recipes()
+    by_product = rt.build_index(recipes)
+    by_name = {r["name"]: r for r in recipes}
     name = args.name
     if len(args.specs) == 1 and is_rate(args.specs[0]) and not os.path.exists(args.name):
         if args.name not in by_product:
             sys.exit(f"no recipe produces {args.name!r}")
         try:
             raw = set(args.raw) | ({"iron-plate", "copper-plate"} if args.from_plates else set())
-            plans, externals = factory(args.name, rt.parse_rate(args.specs[0]), rt, by_product, raw, args.belt,
+            plans, externals = factory(args.name, rt.parse_rate(args.specs[0]), rt, by_product, by_name, raw, args.belt,
                                        no_smelting=args.no_smelting)
             fixed = []
         except ValueError as ex:
@@ -182,7 +241,7 @@ def main():
     cells = args.cells or max([pl["n"] for pl in plans] + [1])      # default: no height balancing, minimum columns
 
     def layout(T):
-        mods = fixed + [m for pl in plans for m in templates.build_from_plan(pl, columns=-(-pl["n"] // T))]
+        mods = fixed + [m for pl in plans for m in build_plan(pl, columns=-(-pl["n"] // T))]
         return bus.compose(name, topo_sort(mods), belt=args.belt, exports=args.export, roboport=args.roboports,
                            two_sided=not args.one_sided)
 

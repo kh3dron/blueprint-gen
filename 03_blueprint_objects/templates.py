@@ -213,6 +213,11 @@ def build(item, rate, recipe, rt, machine=None, belt="transport-belt"):
     """Single Module: the columns of build_columns() side by side (stride = width + CGAP, bottom-aligned,
     bottom poles wired). Ports: per column, inputs then outputs, left to right."""
     cols = build_columns(item, rate, recipe, rt, machine=machine, belt=belt)
+    return combine(cols, f"{item} {rate:g}/s")
+
+
+def combine(cols, name):
+    """Side-by-side combination of column modules (stride = width + CGAP, bottom-aligned, bottom poles wired)."""
     if len(cols) == 1:
         return cols[0]
     stride = cols[0].width + CGAP
@@ -236,5 +241,5 @@ def build(item, rate, recipe, rt, machine=None, belt="transport-belt"):
             wires.append([a + 1, 5, b + 1, 5])
     W = (len(cols) - 1) * stride + cols[0].width
     notes = [n for m in cols for n in m.notes]
-    return Module(name=f"{item} {rate:g}/s", width=W, height=H, entities=ents, inputs=inputs,
+    return Module(name=name, width=W, height=H, entities=ents, inputs=inputs,
                   outputs=outputs, notes=notes, wires=wires)

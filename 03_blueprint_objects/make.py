@@ -32,6 +32,7 @@ ROOT = os.path.dirname(HERE)
 sys.path.insert(0, HERE)
 from module import Module, Port, port_table  # noqa: E402
 import templates  # noqa: E402
+import fluidcells  # noqa: E402
 
 
 def load_recipe_tool():
@@ -140,11 +141,20 @@ def main():
         sys.exit(f"no recipe produces {args.item!r}")
     cats = recipe.get("categories") or ["crafting"]
     machine = args.machine or next((CATEGORY_MACHINE[c] for c in cats if c in CATEGORY_MACHINE), None)
-    if machine is None:
+    if machine is None and not any(c in fluidcells.CATEGORY_MACHINE for c in cats):
         sys.exit(f"recipe {recipe['name']} categories {cats}: no supported machine")
 
     rate = rt.parse_rate(args.rate)
-    if args.layout == "template":
+    has_fluid = any(i["type"] == "fluid" for i in recipe["ingredients"]) or any(r["type"] == "fluid" for r in recipe["results"])
+    if has_fluid:
+        try:
+            crafts = rate / rt.net_output(recipe, args.item)
+            pl = fluidcells.plan(recipe, crafts, rt, belt=args.belt)
+            cols = fluidcells.build_from_plan(pl)
+        except ValueError as ex:
+            sys.exit(str(ex))
+        mod = templates.combine(cols, pl["machine"])
+    elif args.layout == "template":
         try:
             mod = templates.build(args.item, rate, recipe, rt, machine=machine, belt=args.belt)
         except (ValueError, FileNotFoundError) as ex:

@@ -16,9 +16,8 @@ Factorio recipe tools
   - [x] pack lanes tighter
   - [x] option to ignore raws: `--raw iron-place --raw copper-place`
   - [x] space for roboports: `--roboports`
-  - [x] narrower: modules on both sides of the bus (south side mirrored vertically, pulls/pushes mirrored, pole networks bridged; `--one-sided` to disable); module gap 2; lane ducks may use faster underground tiers for 5-10 tile runs. Width: military 1/s 106 -> 86, 10/s 368 -> 260, inserters 50 -> 40. (`--cells N` / `--tune` still available to trade width for height)
+  - [x] allow building on both sides of the bus: `--one-sided`
   
-  - [ ] power reach into nested composites (gap pole cannot reach a sub-composite's poles)
   - [ ] better use of both sides of a lane
   - [ ] flip components horizontally to match
-  - [ ] liquids & oil
+  - [x] liquids & oil: fluid cells generated from prototype fluid boxes (`fluidcells.py`: chemical plant, refinery), pipe lanes on the bus (tees, pipe-to-ground crossings), oil planner (advanced processing + full cracking). `compose.py advanced-circuit 1` -> red circuits from ore, crude oil and water (105x75)
