@@ -12,7 +12,7 @@ that stitches objects into larger objects. All commands from this directory with
 | `make.py` | CLI: `make.py <item> <rate>` -> `out/<item>.module.json|txt|png` |
 | `fluidcells.py` | generated columns for fluid machines (chemical plant, oil refinery, assembling machine on `crafting-with-fluid`) from prototype fluid boxes; pipe ports, item belts in the same cell |
 | `bus.py` | `Bus`, `Lane`, `compose()`: belt and pipe lanes, pull, push, merge, lane crossing, export drops |
-| `compose.py` | CLI: `compose.py <name> <spec>...` -> `out/<name>.module.json|txt|png` |
+| `compose.py` | CLI: `compose.py <name> <spec>...` -> `out/<name>.module.json|txt|png`; `factory()` flat, `factory_tree()` nested |
 | `samples/` | hand-made cells `1_to_1.md` .. `4_to_1.md`, `bus_merge.md` (merge in / merge out reference) |
 | `out/` | generated objects |
 
@@ -68,10 +68,10 @@ A cell sets `Module.no_mirror` unless every fluid box it uses sits on the machin
 
 ## 4.0 Bus and composition (`bus.py`, `compose.py`)
 
-Console report: one `[n/m] LABEL` line per stage (RECIPE or SPECS, MODULES, BUS, CHECK, WRITE, RENDER) with its numbers indented under it, then the composite size, a port summary (one row per item: port count, total rate, column span) and the warnings grouped by kind. Everything goes to stdout in order; nothing is interleaved from stderr. `-v` adds the per-plan table, the lane table, the module roll-call, every port, and the full text of every warning and every failed `(spacing, gap)` retry. Warnings are also written into the blueprint description, so the artifact keeps them.
+Console report: one `[n/m] LABEL` line per stage (RECIPE or SPECS, MODULES or TREE, BUS, CHECK, WRITE, RENDER) with its numbers indented under it, then the composite size, a port summary (one row per item: port count, total rate, column span) and the warnings grouped by kind. Everything goes to stdout in order; nothing is interleaved from stderr. `-v` adds the per-plan table, the lane table, the module roll-call, every port, and the full text of every warning and every failed `(spacing, gap)` retry. Warnings are also written into the blueprint description, so the artifact keeps them.
 
     compose.py <name> <spec>... [--belt NAME] [--export ITEM]... [--roboports [SPACING]] [-o DIR] [--no-render] [-v]
-    compose.py <item> <rate>  [--raw ITEM]... [--from-plates] [--no-smelting] [--belt NAME] [--roboports [SPACING]] [-o DIR] [--no-render] [-v]
+    compose.py <item> <rate>  [--raw ITEM]... [--from-plates] [--no-smelting] [--belt NAME] [--roboports [SPACING]] [--nested [--nest-min N]] [-o DIR] [--no-render] [-v]
 
 `--from-plates` = `--raw iron-plate --raw copper-plate`; `--no-smelting` makes every smelting-category product (plates, steel, bricks) an external input.
 
@@ -133,6 +133,70 @@ Ports of one module are grouped by proximity (column gap <= 2); port k of a grou
 
 Other tile conflicts raise `ValueError`. A consumer placed west of its lane's start is rejected.
 
+## 4.5 Nested factories (`compose.py --nested`)
+
+    compose.py <item> <rate> --nested [--nest-min N] ...
+
+One bus per sub-factory instead of one bus for everything. `factory_tree()` walks the recipe tree and
+splits the intermediates two ways:
+
+| Intermediate | Where it is produced |
+|---|---|
+| consumed by exactly one recipe | inside that recipe's own box: its own bus, its own bounding box. It never reaches the parent bus |
+| consumed by several recipes | on the parent bus, as its own box or inlined beside its consumers |
+| oil products (`oil_plans`) | one unit: inside the single consumer's box, else on the top bus |
+| `RAW` / `--raw` | external input of whichever box needs it, passed down from the parent's lanes |
+
+A group of fewer than `--nest-min N` modules (default 6) is inlined into its parent's bus rather than
+paying for a routing band of its own; `--nest-min 99` degenerates to the flat layout.
+
+A composite meant to be nested is composed with `bus.compose(..., nested=True)`, which does two things
+a top-level composite does not need: external input risers `RISER_GAP = 3` columns apart, so the parent
+can bring a pull chain up to each of them (adjacent ports leave no room for a chain, and a pipe chain
+has no alternative column at all), and a medium pole at each end of the bottom edge, wired into the
+box's network, so the parent's pole chain can reach it.
+
+The TREE step prints what went where — `compose.py advanced-circuit 1 --from-plates --nested --nest-min 1`:
+
+    [2/5] TREE    3 modules on the top bus, 2 nested boxes
+            BOX                                 RATE  MODULES  SIZE
+            copper-cable                        10/s       2  inline
+            advanced-circuit                     1/s       3  105x80
+              electronic-circuit                 2/s       1  inline
+              plastic-bar                        2/s       4  63x27
+                oil                             20/s       3  inline  (advanced+heavy+light)
+
+`copper-cable` has two consumers, so it stays on the top bus; `plastic-bar` has one, so it becomes a box
+inside `advanced-circuit`, and the oil it needs is inside that box in turn. The top bus carries plates,
+coal, water, crude oil and copper cable — nothing else.
+
+Measured against the flat layout (area = w x h, lanes = top bus):
+
+| Factory | flat | nested (default `--nest-min 6`) | lanes flat -> nested |
+|---|---|---|---|
+| `advanced-circuit 1 --from-plates` | 93x70 = 6,510 | 114x96 = 10,944 | 12 -> 7 |
+| `low-density-structure 1 --from-plates` | 103x119 = 12,257 | 127x133 = 16,891 | 12 -> 7 |
+| `processing-unit 1 --from-plates --belt fast-transport-belt` | 198x140 = 27,720 | 207x117 = 24,219 | 18 -> 18 |
+| `flying-robot-frame 1 --from-plates` | 183x210 = 38,430 | 217x231 = 50,127 | 21 -> 13 |
+| `utility-science-pack 1 --raw ... --belt turbo-transport-belt` | 240x208 = 49,920 | 268x202 = 54,136 | 25 -> 19 |
+| `military-science-pack 10 --raw iron-plate --raw copper-plate` | 206x308 = 63,448 | 302x328 = 99,056 | 27 -> 18 |
+| `production-science-pack 1 --from-plates` | 291x221 = 64,311 | 332x252 = 83,664 | 27 -> 18 |
+| `express-transport-belt 2 --from-plates` | 135x93 = 12,555 | does not pack | |
+| `advanced-circuit 10 --raw iron-plate --raw copper-plate` | 419x154 = 64,526 | box `advanced-circuit 10/s` does not pack (packs at `--nest-min 8`: 464x188) | 26 -> 19 |
+| `processing-unit 10 --raw ... --belt fast-transport-belt` | 1,095x320 = 350,400 | box `advanced-circuit 20/s` does not pack at any threshold | |
+
+VERDICT: the decomposition does what it is meant to do — the top bus loses 30-45% of its lanes, and an
+intermediate with one consumer never travels to the bus and back. It still costs area in every case but
+one, because each box pays for a full routing band (`2R = 10` rows plus its own lane rows and spare row)
+plus riser and drop columns, and because boxes are bottom-aligned so their bands stack. It is also more
+fragile: three of the ten factories above do not pack, and `--roboports` rejects nested boxes outright
+(a box is wider than `SPACING-7`). Flat stays the default.
+
+The cheaper way to get the same effect, not implemented: keep one bus and give a lane whose only
+producer and only consumer are adjacent modules on the same side a direct belt run along the module
+row, instead of a lane of its own. That removes both the lane and the down-and-up trip without adding
+a band.
+
 Spec mode, verified (only `advanced-circuit-factory.*` is kept in `out/`):
 
 | Name | Specs | Result |
@@ -152,8 +216,9 @@ LIMITS
 - Scale: hundreds of modules on one bus (e.g. red circuits at 100/s) produce kilometre-wide layouts and eventually a lane that cannot surface before its own splitter; no retry strategy covers that yet. Split such factories into several composites (plates, oil + plastic, circuits) and compose those, or use per-minute rates.
 - The `(spacing, gap)` search is small; spacings above 3 cannot route 3- and 4-port templates (the third bus column would pass the module's own push column), so in practice a pack must succeed at spacing 3. If it does not, the error names the lane and columns.
 - A pull splitter diverts up to half the lane into the branch; the branch backs up when the module is full, which is the intended behaviour.
-- The gap pole cannot reach a nested composite's poles (they sit above its internal bus); WARNING printed, connect in game.
+- A composite composed without `nested=True` has no pole on its bottom edge, so a parent bus's pole chain may not reach its network (its poles sit above its internal bus); WARNING printed, connect in game. Boxes built by `--nested` do have those poles.
 - Roboport power paths are greedy (vertical, then horizontal, with a waypoint past the riser wall for the west column); a roboport boxed in by south modules can stay unpowered — `WARNING roboport at (x, y) has no pole path` names it (1 of 42 in the 10/s roboport build). Connect it in game.
 - Fluids: chemical plant, refinery, and assembling machine only (no pumps, storage tanks, pumpjacks, offshore pumps, and none of the space-age machines — `metallurgy`, `organic`, `electromagnetics`, `cryogenics` — so 28 of the 60 mixed item+fluid recipes stay external). Pipe throughput is not modelled. Oil planning assumes advanced processing with full cracking (no basic processing, coal liquefaction, or heavy-oil consumers beyond direct demand).
 - A fluid cell holds at most 2 item belts per side (inserter reach 1, long-handed reach 2), so at most 4 item ports; `foundry`, `foundation`, and the overgrowth soils need 5 and stay external.
+- `--nested` costs area (4.5) and does not survive `--roboports` (a box is wider than `SPACING-7`); the two largest factories do not pack with it.
 - Chemical plant and refinery cells cannot be mirrored (`no_mirror`), so they all land on the north side; a long factory with many of them packs less evenly than one with only assembler cells. Fixing this needs the 2.0 per-entity mirror flag, which is not written here.

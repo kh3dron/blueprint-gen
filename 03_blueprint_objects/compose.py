@@ -94,13 +94,16 @@ def is_rate(s):
         return False
 
 
-def factory(item, rate, rt, by_product, by_name, raw, belt, no_smelting=False):
-    """Plans for every craftable intermediate of `item`, each at its summed rate. Returns (plans, externals)."""
-    totals = {}
-    order = []          # first-visit order, leaves last
-    blocked = {}        # item -> reason it is treated as raw
-
-    oil_demand = {}
+def analyse(item, rate, rt, by_product, raw, belt, no_smelting=False):
+    """Walk the recipe tree of `item` at `rate`. Returns
+    totals     item -> items/s summed over every use
+    order      first-visit order (root first, leaves last)
+    blocked    item -> why no cell can build it
+    consumers  item -> {recipes that consume it}     (drives nesting in factory_tree)
+    oil        consumer -> {oil product: items/s}    (oil is planned as one unit, see oil_plans)
+    buildable  the predicate itself, so callers can re-ask
+    """
+    totals, order, blocked, consumers, oil = {}, [], {}, {}, {}
 
     def buildable(it):
         if it in raw or it in rt.RAW or it not in by_product:
@@ -128,54 +131,149 @@ def factory(item, rate, rt, by_product, by_name, raw, belt, no_smelting=False):
             return False
         return True
 
-    def walk(it, r):
+    def walk(it, r, parent):
         totals[it] = totals.get(it, 0.0) + r
         if it not in order:
             order.append(it)
+        if parent is not None:
+            consumers.setdefault(it, set()).add(parent)
         if not buildable(it):
             return
         if it in OIL:
-            oil_demand[it] = oil_demand.get(it, 0.0) + r
+            oil.setdefault(parent, {})
+            oil[parent][it] = oil[parent].get(it, 0.0) + r
             return
         recipe = by_product[it][0]
         crafts = r / rt.net_output(recipe, it)
         for ing in recipe["ingredients"]:
             if ing["name"] != it:
-                walk(ing["name"], crafts * ing["amount"])
+                walk(ing["name"], crafts * ing["amount"], it)
 
-    walk(item, rate)
-    plans, externals = [], []
+    walk(item, rate, None)
+    return {"totals": totals, "order": order, "blocked": blocked, "consumers": consumers,
+            "oil": oil, "buildable": buildable}
 
-    def external(name, rate, why):
-        """One line per item: walk() already counted every ingredient, oil demand is added on top."""
-        for i, (n, r, w) in enumerate(externals):
+
+def plan_for(it, total, rt, by_product, belt):
+    """Sizing plan for one intermediate at its summed rate (fluid cell or template)."""
+    recipe = by_product[it][0]
+    if has_fluid(recipe):
+        return fluidcells.plan(recipe, total / rt.net_output(recipe, it), rt, belt=belt)
+    cats = recipe.get("categories") or ["crafting"]
+    machine = next(make.CATEGORY_MACHINE[c] for c in cats if c in make.CATEGORY_MACHINE)
+    return templates.plan(it, total, recipe, rt, machine=machine, belt=belt)
+
+
+def externals_of(a, rt, raw):
+    """[(item, rate, why)] for everything the walk could not build. One line per item."""
+    out = []
+
+    def add(name, rate, why):
+        for i, (n, r, w) in enumerate(out):
             if n == name:
-                externals[i] = (n, r + rate, w)
+                out[i] = (n, r + rate, w)
                 return
-        externals.append((name, rate, why))
+        out.append((name, rate, why))
 
-    for it in order:
-        if not buildable(it):
-            external(it, totals[it], blocked.get(it) or ("--raw" if it in raw else
-                                                         "mined/pumped" if it in rt.RAW else "no recipe"))
-        elif it in OIL:
-            continue
-        else:
-            recipe = by_product[it][0]
-            if has_fluid(recipe):
-                plans.append(fluidcells.plan(recipe, totals[it] / rt.net_output(recipe, it), rt, belt=belt))
-                continue
-            cats = recipe.get("categories") or ["crafting"]
-            machine = next(make.CATEGORY_MACHINE[c] for c in cats if c in make.CATEGORY_MACHINE)
-            plans.append(templates.plan(it, totals[it], recipe, rt, machine=machine, belt=belt))
-    if oil_demand:
-        oil = oil_plans(oil_demand, rt, by_name, belt)
+    for it in a["order"]:
+        if not a["buildable"](it):
+            add(it, a["totals"][it], a["blocked"].get(it) or ("--raw" if it in raw else
+                                                             "mined/pumped" if it in rt.RAW else "no recipe"))
+    return out, add
+
+
+def oil_externals(oil_pls, add):
+    water = sum(pl["crafts"] * next(i["amount"] for i in pl["recipe"]["ingredients"] if i["name"] == "water")
+                for pl in oil_pls)
+    crude = sum(pl["crafts"] * 100 for pl in oil_pls if pl["recipe"]["name"] == "advanced-oil-processing")
+    add("crude-oil", crude, "mined/pumped")
+    add("water", water, "mined/pumped")
+
+
+def factory(item, rate, rt, by_product, by_name, raw, belt, no_smelting=False):
+    """Plans for every craftable intermediate of `item`, each at its summed rate, all on one bus.
+    Returns (plans, externals)."""
+    a = analyse(item, rate, rt, by_product, raw, belt, no_smelting)
+    externals, add = externals_of(a, rt, raw)
+    plans = [plan_for(it, a["totals"][it], rt, by_product, belt)
+             for it in a["order"] if a["buildable"](it) and it not in OIL]
+    demand = {}
+    for per_parent in a["oil"].values():
+        for k, v in per_parent.items():
+            demand[k] = demand.get(k, 0.0) + v
+    if demand:
+        oil = oil_plans(demand, rt, by_name, belt)
         plans.extend(oil)
-        water = sum(pl["crafts"] * next(i["amount"] for i in pl["recipe"]["ingredients"] if i["name"] == "water") for pl in oil)
-        crude = sum(pl["crafts"] * 100 for pl in oil if pl["recipe"]["name"] == "advanced-oil-processing")
-        external("crude-oil", crude, "mined/pumped")
-        external("water", water, "mined/pumped")
+        oil_externals(oil, add)
     return plans, externals
+
+
+def factory_tree(root, rate, rt, by_product, by_name, raw, belt, build, join, no_smelting=False,
+                 nest_min=1):
+    """Recursive factory. An intermediate consumed by exactly one recipe is produced inside that
+    recipe's own box (its own bus, its own bounding box), so it never reaches the parent bus; one
+    consumed by several recipes stays on the parent bus. A group of fewer than `nest_min` modules is
+    inlined into the parent's bus instead of getting a bus of its own, which never pays for its
+    routing band. `build(plan)` makes a plan's column modules, `join(name, modules)` composes a box.
+    Returns (modules for the top bus, externals, tree)."""
+    a = analyse(root, rate, rt, by_product, raw, belt, no_smelting)
+    totals, order, consumers, buildable = a["totals"], a["order"], a["consumers"], a["buildable"]
+    externals, add = externals_of(a, rt, raw)
+    oil_users = [p for p in a["oil"] if p is not None]
+    oil_owner = oil_users[0] if len(set(oil_users)) == 1 else None      # else: shared, top level
+    exclusive = {it: next(iter(consumers[it])) for it in order
+                 if buildable(it) and it not in OIL and it != root and len(consumers.get(it, ())) == 1}
+
+    def oil_box(demand):
+        pls = oil_plans(demand, rt, by_name, belt)
+        oil_externals(pls, add)
+        return [m for pl in pls for m in build(pl)], pls
+
+    def box(it, depth):
+        """(modules, node). A box with children is composed into one nested module; one without is
+        inlined into whatever bus its parent uses."""
+        kids, nodes = [], []
+        for ing in by_product[it][0]["ingredients"]:
+            if exclusive.get(ing["name"]) == it:
+                mods, node = box(ing["name"], depth + 1)
+                kids += mods
+                nodes.append(node)
+        if oil_owner == it:
+            mods, pls = oil_box(a["oil"][it])
+            kids += mods
+            nodes.append({"item": "oil", "rate": sum(a["oil"][it].values()), "depth": depth + 1,
+                          "modules": len(mods), "size": None, "kids": [],
+                          "detail": "+".join(pl["recipe"]["name"].split("-")[0] for pl in pls)})
+        own = build(plan_for(it, totals[it], rt, by_product, belt))
+        node = {"item": it, "rate": totals[it], "depth": depth, "kids": nodes, "detail": ""}
+        if len(kids) + len(own) < max(nest_min, 2) or not kids:
+            node["modules"], node["size"] = len(kids) + len(own), None
+            return kids + own, node               # too small to pay for a bus of its own: inline it
+        mods = topo_sort(kids + own)
+        m = join(f"{it} {totals[it]:g}/s", mods)
+        node["modules"], node["size"] = len(mods), (m.width, m.height)
+        return [m], node
+
+    tops, tree = [], []
+    for it in order:                       # shared intermediates: their own box on the top bus
+        if it == root or it in OIL or it in exclusive or not buildable(it):
+            continue
+        mods, node = box(it, 0)
+        tops += mods
+        tree.append(node)
+    if oil_owner is None and a["oil"]:
+        demand = {}
+        for per_parent in a["oil"].values():
+            for k, v in per_parent.items():
+                demand[k] = demand.get(k, 0.0) + v
+        mods, pls = oil_box(demand)
+        tops += mods
+        tree.append({"item": "oil", "rate": sum(demand.values()), "depth": 0, "modules": len(mods),
+                     "size": None, "kids": [], "detail": "+".join(pl["recipe"]["name"].split("-")[0] for pl in pls)})
+    mods, node = box(root, 0)
+    tops += mods
+    tree.append(node)
+    return tops, externals, tree
 
 
 def topo_sort(modules):
@@ -223,6 +321,17 @@ def table(header, rows):
         cont(r)
 
 
+def tree_rows(nodes, out=None):
+    """Pre-order table of the box tree: item, rate, modules inside, and its size when it is a box."""
+    out = [] if out is None else out
+    for n in nodes:
+        size = f"{n['size'][0]}x{n['size'][1]}" if n["size"] else "inline"
+        out.append(f"{'  ' * n['depth'] + n['item']:<28}{n['rate']:>10.4g}/s{n['modules']:>8}  {size}"
+                   + (f"  ({n['detail']})" if n.get("detail") else ""))
+        tree_rows(n["kids"], out)
+    return out
+
+
 def warning_summary(warnings):
     """One line per kind, with the items or places involved. -v prints the warnings themselves."""
     short, rest = {}, {}
@@ -260,6 +369,12 @@ def main():
     ap.add_argument("--one-sided", action="store_true", help="modules on the north side of the bus only")
     ap.add_argument("--roboports", nargs="?", const=48, type=int, metavar="SPACING",
                     help="reserve a roboport grid: first at the bottom-left, then every SPACING tiles (default 48; 50 is the connection limit)")
+    ap.add_argument("--nested", action="store_true",
+                    help="factory mode: give every single-consumer intermediate its own bus inside its "
+                         "consumer's bounding box, instead of one bus for the whole factory")
+    ap.add_argument("--nest-min", type=int, default=6, metavar="N",
+                    help="--nested: a group smaller than N modules is inlined into its parent's bus "
+                         "instead of getting one of its own (default 6)")
     ap.add_argument("--from-plates", action="store_true", help="factory mode: iron-plate and copper-plate are external inputs")
     ap.add_argument("--no-smelting", action="store_true", help="factory mode: every smelting recipe's product is an external input")
     ap.add_argument("-o", "--out-dir", default=os.path.join(HERE, "out"))
@@ -279,8 +394,8 @@ def main():
         if args.name not in by_product:
             sys.exit(f"no recipe produces {args.name!r}")
         rate = rt.parse_rate(args.specs[0])
+        raw = set(args.raw) | ({"iron-plate", "copper-plate"} if args.from_plates else set())
         try:
-            raw = set(args.raw) | ({"iron-plate", "copper-plate"} if args.from_plates else set())
             plans, externals = factory(args.name, rate, rt, by_product, by_name, raw, args.belt,
                                        no_smelting=args.no_smelting)
             fixed = []
@@ -306,20 +421,46 @@ def main():
     max_n = max([pl["n"] for pl in plans] + [1])
     candidates = [cells] if (args.cells or not args.tune or not plans) else sorted({max(1, min(max_n, cells + d)) for d in range(-3, 4)})
 
-    built = {}
+    built, box_warnings, box_name = {}, [], [""]
+
+    def join(nm, mods):
+        """Compose one nested box. Its warnings are re-reported at the top level, tagged with the box."""
+        box_name[0] = nm
+        m = bus.compose(nm, mods, belt=args.belt, two_sided=not args.one_sided, nested=True)
+        box_warnings.extend(f"WARNING [{nm}] {w[len('WARNING '):]}" for w in m.notes if w.startswith("WARNING"))
+        return m
 
     def build(T):
-        built[T] = fixed + [m for pl in plans for m in build_plan(pl, columns=-(-pl["n"] // T))]
+        if args.nested:
+            del box_warnings[:]
+            try:
+                tops, _, tree = factory_tree(args.name, rate, rt, by_product, by_name, raw, args.belt,
+                                             lambda pl: build_plan(pl, columns=-(-pl["n"] // T)), join,
+                                             no_smelting=args.no_smelting, nest_min=args.nest_min)
+            except ValueError as ex:
+                cont(f"FAILED box {box_name[0]}: {ex}")
+                sys.exit(1)
+            built[T] = fixed + tops
+            trees[T] = tree
+        else:
+            built[T] = fixed + [m for pl in plans for m in build_plan(pl, columns=-(-pl["n"] // T))]
         return built[T]
 
-    if len(candidates) == 1:
+    trees = {}
+    if args.nested:
+        n_top = len(build(cells))
+        nodes = [n for n in trees[cells]]
+        boxes = sum(1 for r in tree_rows(nodes) if "x" in r.split()[-1])
+        step("TREE", f"{n_top} modules on the top bus, {boxes} nested box{'es' * (boxes != 1)}")
+        table(f"{'BOX':<28}{'RATE':>12}{'MODULES':>9}  SIZE", tree_rows(nodes))
+    elif len(candidates) == 1:
         n_mod = len(build(cells))
         step("MODULES", f"{len(plans)} plans, {sum(pl['n'] for pl in plans)} machines -> {n_mod} column modules"
                         + (f" (<= {cells} machines each)" if args.cells else " (split by belt capacity)"))
     else:
         step("MODULES", f"{len(plans)} plans, {sum(pl['n'] for pl in plans)} machines, "
                         f"tuning {candidates[0]}-{candidates[-1]} machines per column")
-    if args.verbose and plans:
+    if args.verbose and plans and not args.nested:
         table(f"{'ITEM':<26}{'RATE':>12}  {'MACHINE':<21}{'N':>4}{'COLS':>5}  CELL",
               [f"{pl.get('item', pl['recipe']['name']):<26}{pl.get('rate', 0.0):>10.4g}/s  {pl['machine']:<21}"
                f"{pl['n']:>4}{max(pl['c_min'], -(-pl['n'] // cells)):>5}  {pl['width'] or '?'}x{pl['base_height']}"
@@ -354,6 +495,7 @@ def main():
         table("LANES:", [n for n in mod.notes if n.startswith("lane ")])
         table("MODULES:", [mod.notes[1][9:]])
 
+    mod.notes += box_warnings
     problems = mod.check()
     step("CHECK", f"{len(problems)} problems, {len(mod.entities):,} entities, {len(mod.wires):,} wires")
     if problems:

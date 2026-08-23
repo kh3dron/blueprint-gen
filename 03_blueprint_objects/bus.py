@@ -55,6 +55,7 @@ POLE_REACH = {"small-electric-pole": 7.5, "medium-electric-pole": 9.0, "big-elec
 MAX_GAP = {"transport-belt": 4, "fast-transport-belt": 6, "express-transport-belt": 8, "turbo-transport-belt": 10}
 TIERS = ["transport-belt", "fast-transport-belt", "express-transport-belt", "turbo-transport-belt"]
 SEARCH = ((3, 2), (3, 3), (4, 3), (4, 4), (5, 4), (6, 5))   # (chain spacing, module gap) candidates
+RISER_GAP = 3           # columns between the external input risers of a nested composite
 PIPE_GAP = 9            # pipe-to-ground: max distance 10 -> 9 tiles between
 PIPE_CAP = 1e9          # pipe throughput is not modelled
 LANE_CAPACITY = {"transport-belt": 15.0, "fast-transport-belt": 30.0, "express-transport-belt": 45.0,
@@ -254,21 +255,25 @@ def allocate(modules, sides, belt):
     return lanes, pull_lane, push_lane, warnings
 
 
-def compose(name, modules, belt="transport-belt", exports=None, roboport=None, two_sided=True):
+def compose(name, modules, belt="transport-belt", exports=None, roboport=None, two_sided=True, nested=False):
     """Stitch modules (producers before consumers) over a bus; retries (spacing, gap) candidates until
-    every lane can duck under its crossings. Returns a Module."""
+    every lane can duck under its crossings. `nested` = this composite will itself be a module on
+    another bus: its external input risers are spread RISER_GAP apart so the parent can bring a chain
+    up to each of them, and it gets a pole on each end of its bottom edge so the parent's pole chain
+    can reach its network. Returns a Module."""
     last = None
     for spacing, gap in SEARCH:
         WARNINGS.clear()                       # a failed candidate leaves nothing behind
         try:
-            return _layout(name, modules, belt, set(exports or []), spacing, gap, roboport, two_sided)
+            return _layout(name, modules, belt, set(exports or []), spacing, gap, roboport, two_sided,
+                           nested)
         except PackError as ex:
             last = ex
             progress(f"spacing {spacing} gap {gap}", ex)
     raise ValueError(f"bus does not pack with (spacing, gap) in {SEARCH}: {last}")
 
 
-def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True):
+def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True, nested=False):
     def forbidden(x):
         return rp is not None and (x + 1) % rp <= 5      # roboport bands: columns rp*i-1 .. rp*i+4
 
@@ -297,8 +302,8 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True)
                 col += 1                          # keep out of roboport bands
             cols[ln.index] = col
             prev_pipe = ln.kind == "pipe"
-            col += 1
-        return cols, col - x_start
+            col += RISER_GAP if nested else 1     # nested: input ports far enough apart that a parent
+        return cols, col - x_start                # bus can bring a chain up to each of them
     _, Espan = riser_columns(lanes0)
     Ecount = Espan
     cursor = {"N": x_start + Espan + gap, "S": x_start + Espan + gap}
@@ -578,31 +583,35 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True)
 
     def jog(bc, px, r, into):
         """Horizontal run of a pull chain from bus column `bc` to port column `px` on jog row `r`,
-        ending with a belt into the module (`into` = N or S). A push chain of the same module can sit
-        between the two: the jog ducks under it with an underground pair (vertical chains never tunnel,
-        so it is the horizontal run that goes under)."""
+        ending with a belt into the module (`into` = N or S). Anything already on the row is ducked
+        under with an underground pair: the module's own push chain, or a pipe chain of a neighbouring
+        port (vertical chains never tunnel, so it is the horizontal run that goes under). The tile the
+        chain turns on and the tile it enters the module on must be free."""
         step = 1 if px > bc else -1
         d = E if step > 0 else W
         tiers_ = TIERS[TIERS.index(belt):]
-        xx = bc
-        while xx != px:
-            end = xx + step                              # first tile of a run of foreign tiles, if any
+        x = bc
+        while x != px:
+            if (x, r) in grid.occ:
+                raise ValueError(f"jog row {r} blocked at column {x} by {grid.occ[(x, r)]}")
+            nxt = x + step
+            if nxt == px or (nxt, r) not in grid.occ:
+                grid.belt_tile(x, r, d)
+                x = nxt
+                continue
+            end = nxt                                    # run of foreign tiles: duck from x to `end`
             while end != px and (end, r) in grid.occ:
                 end += step
-            gap_ = abs(end - xx) - 1                     # tiles to duck under
-            if gap_ == 0:
-                grid.belt_tile(xx, r, d)
-                xx += step
-                continue
+            if end == px:
+                raise ValueError(f"jog row {r}: {grid.occ[(nxt, r)]} at column {nxt} reaches the port column")
+            gap_ = abs(end - x) - 1
             tier = next((t for t in tiers_ if MAX_GAP[t] >= gap_), None)
             if tier is None:
-                raise ValueError(f"jog row {r} must duck under {gap_} tiles at column {xx + step}, "
+                raise ValueError(f"jog row {r} must duck under {gap_} tiles from column {x}, "
                                  f"more than any underground spans ({MAX_GAP[tiers_[-1]]})")
-            if (end, r) in grid.occ:
-                raise ValueError(f"jog row {r} blocked at column {end} by {grid.occ[(end, r)]}, no tile to surface")
-            grid.place(UNDERGROUND[tier], xx, r, d, type="input")
+            grid.place(UNDERGROUND[tier], x, r, d, type="input")
             grid.place(UNDERGROUND[tier], end, r, d, type="output")
-            xx = end + step
+            x = end + step
         grid.belt_tile(px, r, into)
 
     def place_pull(ln, bc, px, k, whole, side):
@@ -668,6 +677,8 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True)
             for yy in range(r + 1, bys):
                 grid.belt_tile(px, yy, S)
 
+    pulls.sort(key=lambda t: t[5].kind != "pipe")   # a pipe chain is a straight pipe at the port
+                                                   # column with no alternative, so it goes down first
     for m, ln, bc0, px, k, p, side in pulls:
         if bc0 - 1 <= ln.start:
             raise ValueError(f"{m.name}: input {p.item} at column {px} is west of lane {ln.index} start {ln.start}; "
@@ -821,6 +832,27 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True)
         for xx in range(ln.start, ln.end + 1):
             if (xx, y) not in grid.occ:
                 grid.place("pipe", xx, y) if ln.kind == "pipe" else grid.belt_tile(xx, y, E)
+
+    if nested:
+        # bottom-edge poles, so a parent bus can reach this composite's network from its pole chain
+        net = [i for i, e in enumerate(grid.ents) if e["name"].endswith("electric-pole")]
+        W_now = max(tx for tx, _ in grid.occ) + 1
+        free = [x for x in range(W_now) if (x, H - 1) not in grid.occ]
+        for cands in (free[:12], free[-12:][::-1]):        # one pole near each end of the bottom edge
+            for xx in cands:
+                pid, w0 = len(grid.ents), len(wires)
+                grid.begin()
+                grid.place("medium-electric-pole", xx, H - 1)
+                via = (xx, B0 - 2) if xx < x_start + Ecount else None    # west of the riser wall
+                if power_path(pid, xx, H - 1, net, via=via):
+                    grid.commit()
+                    net.append(pid)
+                    break
+                grid.rollback()
+                del wires[w0:]                                           # drop the failed path's wires
+            else:
+                warn(f"WARNING no bottom-edge pole could reach the network from columns "
+                     f"{cands[0]}-{cands[-1]}: {last_path[0]}")
 
     Wc = max(tx for tx, _ in grid.occ) + 1
     duck_txt = ", ".join(f"{n} {t.replace('-transport-belt', '') or 'yellow'}" for t, n in ug_tiers.items())

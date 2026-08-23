@@ -167,6 +167,9 @@ class Module:
             if key in occupied and occupied[key] != e["name"]:
                 problems.append(f"two entities at {key}: {occupied[key]}, {e['name']}")
             occupied[key] = e["name"]
+        for w in self.wires:
+            if not (1 <= w[0] <= len(self.entities) and 1 <= w[2] <= len(self.entities)):
+                problems.append(f"wire {w} outside 1..{len(self.entities)}")
         for p in self.inputs + self.outputs:
             if not (0 <= p.x < self.width and 0 <= p.y < self.height):
                 problems.append(f"port outside module: {p.line()}")
