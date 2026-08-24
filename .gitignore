@@ -2,3 +2,5 @@ data/
 02_blueprint_visualizer/sprites/
 __pycache__/
 03_blueprint_objects/out/bench/
+04_game_planner/out/
+04_game_planner/.next.json

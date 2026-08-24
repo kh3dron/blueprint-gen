@@ -66,10 +66,15 @@ def boxes(machine):
     return [ext(b) for b in ins], [ext(b) for b in outs]
 
 
+# machines that can actually craft a category, so a --machine override for something else is ignored
+FAMILY = {"chemistry": {"chemical-plant"}, "oil-processing": {"oil-refinery"},
+          "crafting-with-fluid": {"assembling-machine-2", "assembling-machine-3"}}
+
+
 def machine_for(recipe, machine=None):
-    if machine:
-        return machine
     cats = recipe.get("categories") or []
+    if machine and any(machine in FAMILY.get(c, ()) for c in cats):
+        return machine
     m = next((CATEGORY_MACHINE[c] for c in cats if c in CATEGORY_MACHINE), None)
     if m is None:
         raise ValueError(f"{recipe['name']}: categories {cats} have no fluid machine")

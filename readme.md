@@ -28,18 +28,44 @@ Factorio recipe tools
 - [ ] space-age fluid machines (foundry, biochamber, electromagnetic plant, cryogenic plant)
 - [ ] mirror chemical plants / refineries onto the south side (2.0 per-entity mirror flag)
 
-- [ ] get game state:
-  - what is the best tier of assembler / inserter available
-- [ ] maintain a list of what submodules are currently in use on the map (including recursively)
-- [ ] when new techs are unlocked, track what upgrades can be made to past items
+- [x] 05: game planner (`04_game_planner/plan.py`, notebook + ladder; spec in `04_game_planner/README.md`)
+  - [x] told what to build in what order: `plan.py next` -> one move, with the blueprint
+  - [x] tracks total consumption and production, from a hand-kept notebook of moves
+  - [x] tracks research: what is researched, what is available, what it unlocks
+  - [x] tracks tier upgrades (belts, assemblers, furnaces) and what rebuilding would buy
+  - [x] scale out (`scale`), build new (`build`), supply (`have`), research, upgrade
+  - [ ] power, mining throughput, roboport coverage, malls
+  - [ ] rocket goal above 100/min of the six packs
 
 ## GAME LOOP
 
-- [ ] unlock more science packs
-  - 10SPM red, green, black, blue
-  - 100SPM red, green, black, blue, purple, yellow
-- [ ] expand factory: scale out OR scale up
-- [ ] instrumental production (malls)
-- [ ] power: when within 20% util, double capacity
+- States to track:
+  - best tier available of: assemblers, belts
+  - Power construction style
+  - raw resource input rates
+  - current SPM rates
 
-- [ ] maintain total roboport coverage
+- Control loop: what to solve
+  - unlock more science packs
+    - 10SPM red, green, black, blue
+    - 100SPM red, green, black, blue, purple, yellow
+
+- Available options
+  - Construct a new module
+  - Improve an existing module
+    - Replace: deconstruction & reconstruction
+    - Upgrade: construct an upgrade planner (building levels, quality, modules)
+  - construct new power infra
+    - when within 110% of max load, construct to 150%
+
+- Candidate search for: power pole and roboport coverage
+  - global var for best power poles available
+
+- Instrumental production: bots, malls
+
+rs = module.red_science(10)
+gs = module.green)science(10)
+
+rs.throughput() ##prints 10
+rs.upgrade(fast-transport-belts)
+rs.throughput() # prints 15

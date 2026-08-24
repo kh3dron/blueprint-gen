@@ -1,11 +1,16 @@
 -- Loads Factorio recipe prototype files with a stub `data:extend` and prints JSON to stdout.
 -- Usage: luajit extract.lua data/base/prototypes/recipe.lua [...more files] > data/recipes.json
+-- WANT=technology extracts technologies instead of recipes (04_game_planner/tech.py uses it).
+local want = os.getenv("WANT") or "recipe"
 local recipes = {}
 data = { extend = function(_, protos)
   for _, p in ipairs(protos) do
-    if p.type == "recipe" then recipes[#recipes + 1] = p end
+    if p.type == want then recipes[#recipes + 1] = p end
   end
 end }
+
+-- technology.lua decorates icons through util helpers; stub them out, nothing here reads icons
+util = setmetatable({}, {__index = function() return function() return {} end end})
 
 local function is_array(t)
   local n = 0
