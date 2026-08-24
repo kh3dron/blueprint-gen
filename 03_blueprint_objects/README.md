@@ -14,7 +14,9 @@ that stitches objects into larger objects. All commands from this directory with
 | `bus.py` | `Bus`, `Lane`, `compose()`: belt and pipe lanes, pull, push, merge, lane crossing, export drops |
 | `compose.py` | CLI: `compose.py <name> <spec>...` -> `out/<name>.module.json|txt|png`; `factory()` flat, `factory_tree()` nested |
 | `samples/` | hand-made cells `1_to_1.md` .. `4_to_1.md`, `bus_merge.md` (merge in / merge out reference) |
-| `out/` | generated objects |
+| `bench.py` | CLI: runs every case in `CASES` through `compose.py`, prints the result table against `bench.json` |
+| `bench.json` | recorded baseline for `bench.py` (28 cases) |
+| `out/` | generated objects (`out/bench/` is the benchmark's scratch, git-ignored) |
 
 ## 2.0 Model (`module.py`)
 
@@ -31,6 +33,8 @@ that stitches objects into larger objects. All commands from this directory with
 Template anatomy: inputs enter the bottom row northbound (ingredient order); bends under the machine merge them onto lanes (N=2: in1 left lane, in2 right lane; N=3,4: a second belt column reached by a long-handed inserter); output exits bottom-right southbound on the far lane. The machine's 3 rows + the pole row form a 4-row cell; cells stack upward with straight belts in every column the template's top row carries a belt, poles wired.
 
 Machine count `n = ceil(crafts/s * time / speed)`; machine = category default (`assembling-machine-2`, `electric-furnace`) or `--machine`.
+
+Ingredients are not tied to their recipe position: every input belt has its own inserter into the same machine, so any ingredient can sit on any input port. `plan(prefer=ITEM)` puts one on the leftmost port — the only one a direct link from the module next door can always reach (4.4) — and drops the swap if the resulting port capacities would cost a column. `compose.py` passes the ingredient that exactly one module produces and exactly one module consumes.
 
 Scaling out: a module is one column of stacked cells unless a port would exceed what its belt can carry. Port capacities (yellow, scaled by belt tier): inputs per template N=1 [15], N=2 [7.5, 7.5], N=3 [15, 7.5, 7.5], N=4 [7.5 x4]; output 7.5 (one belt-lane). Machines per column = `min over ports of floor(cap_port * n / rate_port)`; columns = `ceil(n / per_col)`, machines distributed evenly, columns side by side (stride = template width + 1, bottom-aligned, bottom poles wired). Each column has its own ports, so a module's `inputs`/`outputs` may list the same item several times (rate split by machine share). A recipe whose single machine already exceeds a port's capacity adds a WARNING note. There is no height limit.
 
@@ -66,6 +70,33 @@ Fluid ports are not capacity-limited; item belts split columns exactly as templa
 
 A cell sets `Module.no_mirror` unless every fluid box it uses sits on the machine's centre row. A recipe binds fluid ingredient k to box k, so mirroring a chemical plant or refinery vertically would feed each fluid into its neighbour's box; `bus.compose()` keeps those modules on the north side. Assembling machine cells have both boxes on the centre row and mirror freely, so `crafting-with-fluid` modules still use both sides of the bus. The flag rides in the blueprint description as a `NO-MIRROR` line and survives a round trip.
 
+## 3.9 Benchmark (`bench.py`)
+
+    bench.py [--only PAT]... [--save] [--full] [--jobs N] [--list] [--no-cells] [--arg=X] [-v]
+
+28 compose.py command lines — spec mode, factory mode, fluid cells, 4-ingredient recipes, roboports,
+`--nested`, `--one-sided`, `--no-links`, `--tune`, `--cells`, and the scaled-out builds — each run with
+`--stats`, which writes a one-line JSON summary (size, entities, wires, lanes, links, warnings, modules,
+ducks, roboports, spacing, gap, seconds). Every number is printed against `bench.json`; a case that grew
+by more than `TOL` (2%) is marked REGRESSED and the exit code is 1, so it works as a check as well as a
+report. The whole suite takes ~1 s (~2 s with `--full`, which adds the 10/s processing units).
+
+    $ ../.venv/bin/python bench.py
+    CASE                         SIZE         AREA     ENTITIES  LANES  LINKS  WARN   TIME
+    --------------------------------------------------------------------------------------
+    circuits                    21x16          336           97      3      1     0   0.1s
+    military-1                  62x87        5,394        1,044     10      3     0   0.1s
+    utility-turbo             219x203       44,457        5,335     20      5     0   0.2s
+    ...
+    28 cases: 28 built, 0 failed, 0 regressed
+    CELLS 42 fluid recipes build clean, 0 broken, 4 rejected as too big for a cell
+
+`--only` takes a regex against the case name or its arguments (`--only 'science|circuit'`), `--arg=X`
+adds an argument to every run (`--arg=--no-links` to see what the links are worth), `--save` records the
+current numbers as the new baseline. CELLS is a structural check of every fluid recipe's generated cell
+rather than a layout: entity overlaps, tiles outside the module, ports sitting on the right entity,
+every inserter's pickup and drop in both orientations, and a blueprint-string round trip.
+
 ## 4.0 Bus and composition (`bus.py`, `compose.py`)
 
 Console report: one `[n/m] LABEL` line per stage (RECIPE or SPECS, MODULES or TREE, BUS, CHECK, WRITE, RENDER) with its numbers indented under it, then the composite size, a port summary (one row per item: port count, total rate, column span) and the warnings grouped by kind. Everything goes to stdout in order; nothing is interleaved from stderr. `-v` adds the per-plan table, the lane table, the module roll-call, every port, and the full text of every warning and every failed `(spacing, gap)` retry. Warnings are also written into the blueprint description, so the artifact keeps them.
@@ -81,19 +112,19 @@ Factory mode (second form): the recipe tree of `<item>` is walked with `01_recip
 
 | Command | Result |
 |---|---|
-| `compose.py military-science-pack 1` | 9 intermediates, 4 north / 5 south, 10 lanes, 3 direct links, 76x92, 1,154 entities (`--no-links`: 13 lanes, 86x89, 1,280); IN iron-ore 5.75/s, copper-ore 0.5/s, coal 5/s, stone 10/s; OUT 1/s |
-| `compose.py military-science-pack 10` | 33 column modules, 17 north / 16 south, 31 lanes, 260x312, 11,767 entities; 4 ports short (packing fragmentation, see LIMITS) |
-| `compose.py military-science-pack 10 --raw iron-plate --raw copper-plate --roboports` | 267x308, 10,063 entities, 42 roboports, one pole network |
-| `compose.py military-science-pack 1 --roboports` | 112x89, 1,403 entities, 6 roboports (bottom-left first), all wired |
-| `compose.py electronic-circuit 2 --raw iron-plate --raw copper-plate` | 24x19, 111 entities; plates fed from outside instead of smelted, cable linked straight into the circuits (`--no-links`: 24x32, 170) |
-| `compose.py advanced-circuit 1 --from-plates` | 93x70, 1,303 entities; 12 lanes (5 pipe: crude, water, heavy, light, petgas); refinery + heavy/light cracking + plastic + cable + circuits; IN copper-plate 5/s, iron-plate 2/s, crude-oil 20.5/s, water 27.2/s, coal 1/s; OUT advanced-circuit 1/s |
-| `compose.py advanced-circuit 1` | same from ore: 106x77, 1,587 entities |
+| `compose.py military-science-pack 1` | 9 intermediates, 10 lanes, 3 direct links, 62x87, 1,044 entities (`--no-links`: 13 lanes, 86x89, 1,280); IN iron-ore 5.75/s, copper-ore 0.5/s, coal 5/s, stone 10/s; OUT 1/s |
+| `compose.py military-science-pack 10` | 33 column modules, 31 lanes, 280x310, 11,824 entities; 4 ports short (packing fragmentation, see LIMITS) |
+| `compose.py military-science-pack 10 --raw iron-plate --raw copper-plate --roboports` | 267x306, 9,945 entities, 42 roboports, one pole network |
+| `compose.py military-science-pack 1 --roboports` | 74x89, 1,174 entities, 4 roboports (bottom-left first), all wired |
+| `compose.py electronic-circuit 2 --raw iron-plate --raw copper-plate` | 21x16, 97 entities; plates fed from outside instead of smelted, cable linked straight into the circuits (`--no-links`: 24x32, 170) |
+| `compose.py advanced-circuit 1 --from-plates` | 77x65, 1,122 entities; 11 lanes (5 pipe: crude, water, heavy, light, petgas); refinery + heavy/light cracking + plastic + cable + circuits; IN copper-plate 5/s, iron-plate 2/s, crude-oil 20.5/s, water 27.2/s, coal 1/s; OUT advanced-circuit 1/s |
+| `compose.py advanced-circuit 1` | same from ore: 107x73, 1,533 entities |
 | `compose.py advanced-circuit N --raw iron-plate --raw copper-plate --roboports --one-sided` | N=2: 183x55, 2,027 entities, 8 roboports; N=10: 582x92, 11,249 entities, 26 roboports (`out/advanced-circuit-factory.*`). N=100 (392 modules, ~3,600 columns, 103 refineries in one column) does not pack: lane packing dead-ends late in the build |
 | `compose.py processing-unit 10 --raw iron-plate --raw copper-plate --roboports --belt fast-transport-belt` | 1,410x320, 68,169 entities, 129 modules (67 north / 62 south), 71 lanes (6 pipe), 210 roboports, 16 s including the render; 721 assemblers, 52 chemical plants, 25 refineries; IN crude-oil 487/s, water 821/s (both pipe), iron-plate 241/s, copper-plate 400/s, coal 20/s; OUT 10/s. 14 ports short, 1 roboport with no pole path (see LIMITS) |
-| `compose.py utility-science-pack 1 --raw iron-plate --raw copper-plate --belt turbo-transport-belt` | 240x205, 5,492 entities, 22 modules, 20 lanes (6 pipe), 5 direct links, no warnings; 20 intermediates incl. flying robot frames, electric engine units, batteries, oil |
-| `compose.py utility-science-pack 1 --from-plates` | same from plates on yellow belt: 419x182, 10,504 entities, 43 modules |
-| `compose.py production-science-pack 1 --from-plates` | 291x221, 7,328 entities, 30 modules |
-| `compose.py processing-unit 1 --from-plates --belt fast-transport-belt` | 198x140, 3,843 entities; refinery + cracking, sulfur, sulfuric acid, plastic, cable, green and red circuits, processing units |
+| `compose.py utility-science-pack 1 --raw iron-plate --raw copper-plate --belt turbo-transport-belt` | 219x203, 5,335 entities, 22 modules, 20 lanes (6 pipe), 5 direct links, no warnings; 20 intermediates incl. flying robot frames, electric engine units, batteries, oil |
+| `compose.py utility-science-pack 1 --from-plates` | same from plates on yellow belt: 413x177, 9,932 entities, 43 modules |
+| `compose.py production-science-pack 1 --from-plates` | 284x219, 6,796 entities, 30 modules |
+| `compose.py processing-unit 1 --from-plates --belt fast-transport-belt` | 198x112, 3,484 entities, 2 direct links; refinery + cracking, sulfur, sulfuric acid, plastic, cable, green and red circuits, processing units |
 | `compose.py sulfuric-acid 20 --from-plates` | 70x28, 553 entities; IN water 111/s (pipe), crude-oil 30.8/s (pipe), iron-plate 0.4/s |
 | `compose.py battery 2 --from-plates` | 83x44, 965 entities; chemical plant with 2 item inputs and 1 item output |
 | `compose.py concrete 5 --from-plates` | 28x54, 401 entities; assembler with water + stone-brick + iron-ore |
@@ -106,8 +137,8 @@ Geometry (composite-local tiles, y down; `E` external inputs, `L` lanes, `R = 4`
 |---|---|---|
 | Link row (only where links exist) | between the two ports | `by+1` north, `bys-1` south |
 | External input risers | from `x_start` (5 with roboports), one column per external lane, skipping roboport bands and never putting two pipe risers side by side, northbound | bottom row up to `row(j)`, N->E curve |
-| North modules | x cursor, `gap` apart, bottom-aligned on `by = max(north height)-1` | `0..by` |
-| North routing band (`R = 5`) | belt port k jogs on row `B0-2-k` (south: `spare+2+k`); row `B0-1` holds the branch curves of lane-0 pulls | `by+1 .. by+R` |
+| North modules | x cursor, `gap` apart, bottom-aligned on `by = max(north height)-1`. North modules may sit over the riser wall — risers only occupy rows below the bus — as long as none of their chains runs down a column where a lane *above* them rises, or beside one (a lane ducking under the chain needs a free tile on each side). South modules share rows with the risers, so they start east of the wall; sides are dealt on progress from their own start, not on absolute column | `0..by` |
+| North routing band (`R = k_max + 2`) | belt port k jogs on row `B0-2-k` (south: `spare+2+k`); row `B0-1` holds the branch curves of lane-0 pulls. `band_rows()` sizes it from the widest port group actually on that side, so a side of 2-port modules gets 3 rows, not the 5 a 4-port template needs | `by+1 .. by+R` |
 | Bus | | one row per lane: `row(j) = B0+j`, `B0 = by+R+1`; spare row `B0+L` |
 | South routing band | | `B0+L+1 .. B0+L+R` |
 | South modules (mirrored) | x cursor, top-aligned on `bys = B0+L+R+1` | `bys ..` |
@@ -140,7 +171,8 @@ Other tile conflicts raise `ValueError`. A consumer placed west of its lane's st
 An item carried by exactly one output port and one input port never needs a lane: it can run straight
 from the producer to the consumer along the row under the modules. `solo_items()` finds those pairs —
 one producer port, one consumer port, same kind, producer rate covering the consumer's, and an input
-port a run from the west can actually reach past that module's other port chains. `topo_sort()` then
+port a run from the west can actually reach past that module's other port chains (which is why the cell
+generator puts a single-use ingredient on the leftmost port, 3.0). `topo_sort()` then
 schedules each pair as one unit (they chain, so a whole production line comes out contiguous), and
 `_layout()` puts the consumer on its producer's side when the producer is still the last module there.
 
@@ -148,19 +180,22 @@ schedules each pair as one unit (they chain, so a whole production line comes ou
 |---|---|
 | link row | one extra routing row directly under the modules: `by+1` north, `bys-1` south, clear of every jog row (`B0 = by + R + 1 + link_n`). Only added on a side that has links |
 | the run | producer's output port column -> east along the link row -> north into the consumer's input port column. Ducks under everything that crosses it (the other ports' chains come down at their own columns) with an underground pair, slowest tier that spans the run; a pipe link ducks with pipe-to-ground |
-| lanes | a linked port is skipped by `allocate()`, so the item gets no lane, no push, no pull, and no trip down to the bus and back |
+| lanes | a linked port is skipped by `allocate()`, so the item gets no lane, no push, no pull, and no trip down to the bus and back. A solo item's ports also claim no bus column while modules are being placed, and a consumer only has to sit one column east of its producer instead of three |
 | fallback | the reordering can cost more elsewhere than the lane it saves, so when any link fires `compose.py` lays the same modules out both ways and keeps the smaller (reported in the BUS step) |
 
-| Factory | no links | direct links | lanes | links |
+| Factory | before this pass | now | lanes | links |
 |---|---|---|---|---|
-| `circuits copper-cable=6 electronic-circuit=2` | 24x32 = 768, 170 entities | 24x19 = 456, 111 entities | 4 -> 3 | 1 |
-| `electronic-circuit 2 --raw iron-plate --raw copper-plate` | 24x32 = 768, 170 entities | 24x19 = 456, 111 entities | 4 -> 3 | 1 |
-| `military-science-pack 1` | 86x89 = 7,654, 1,280 entities | 76x92 = 6,992, 1,154 entities | 13 -> 10 | 3 |
-| `utility-science-pack 1 --raw ... --belt turbo-transport-belt` | 240x208 = 49,920, 5,842 | 240x205 = 49,200, 5,492 | 25 -> 20 | 5 |
-| `advanced-circuit 1 --from-plates` | 93x70, 1,303 entities | 93x70, 1,253 entities | 12 -> 11 | 1 |
-| `production-science-pack 1 --from-plates` | 291x221, 7,328 entities | 291x221, 7,282 entities | 27 -> 26 | 1 |
-| `processing-unit 1 --from-plates --belt fast-transport-belt` | 198x140, 3,843 entities | 1 link, but larger -> falls back | 18 | 0 |
-| `military-science-pack 10`, `advanced-circuit 10`, `processing-unit 10` | unchanged | no pair qualifies (see below) | | |
+| `circuits copper-cable=6 electronic-circuit=2` | 24x32 = 768, 170 entities | 21x16 = 336, 97 entities | 4 -> 3 | 1 |
+| `electronic-circuit 2 --raw iron-plate --raw copper-plate` | 24x32 = 768, 170 entities | 21x16 = 336, 97 entities | 4 -> 3 | 1 |
+| `plastics plastic-bar=2` | 15x13 = 195, 61 entities | 14x10 = 140, 45 entities | 3 | 0 |
+| `military-science-pack 1` | 86x89 = 7,654, 1,280 entities | 62x87 = 5,394, 1,044 entities | 13 -> 10 | 3 |
+| `advanced-circuit 1 --from-plates` | 92x68 = 6,256, 1,309 entities | 77x65 = 5,005, 1,122 entities | 12 -> 11 | 1 |
+| `processing-unit 1 --from-plates --belt fast-transport-belt` | 198x140 = 27,720, 3,843 | 198x112 = 22,176, 3,484 | 18 -> 16 | 2 |
+| `utility-science-pack 1 --raw ... --belt turbo-transport-belt` | 240x208 = 49,920, 5,842 | 219x203 = 44,457, 5,335 | 25 -> 20 | 5 |
+| `utility-science-pack 1 --from-plates` | 419x182 = 76,258, 10,504 | 413x177 = 73,101, 9,932 | 35 -> 30 | 5 |
+| `production-science-pack 1 --from-plates` | 291x221 = 64,311, 7,328 | 284x219 = 62,196, 6,796 | 27 -> 26 | 1 |
+| `military-science-pack 10 --raw ... --roboports` | 267x308, 10,063 | 267x306, 9,945 | 27 | 0 |
+| `processing-unit 10 --raw ... --belt fast-transport-belt` | 1,095x320, 57,791 | 1,097x318, 56,845 | 71 | 0 |
 
 LIMIT: a module scaled out into columns has N producer ports and M consumer ports for the same item, so
 nothing qualifies and the biggest factories are untouched. Pairing column i of the producer with column
@@ -233,11 +268,11 @@ Spec mode, verified (only `advanced-circuit-factory.*` is kept in `out/`):
 
 | Name | Specs | Result |
 |---|---|---|
-| `circuits` | `copper-cable=6 electronic-circuit=2` | 3 lanes + 1 direct link, 24x19, IN copper-plate 3/s + iron-plate 2/s, OUT electronic-circuit 2/s |
-| `inserters` | `inserter=1 electronic-circuit=1 iron-gear-wheel=1 copper-cable=3` | 6 lanes, 40x26, 3-input module pulling from 3 lanes |
-| `nested` | `circuits.module.json iron-gear-wheel=1 inserter=1` | composite inside composite, 42x53 |
-| `plastics` | `plastic-bar=2` | 16x13, IN petroleum-gas (pipe) 20/s + coal 1/s, OUT plastic-bar 2/s |
-| `chips` | `sulfuric-acid=10 processing-unit=0.2` | 32x32, a chemical plant feeding an assembler by pipe: IN water 20/s (pipe), iron-plate 0.2/s, sulfur 1/s, electronic-circuit 4/s, advanced-circuit 0.4/s; OUT processing-unit 0.2/s |
+| `circuits` | `copper-cable=6 electronic-circuit=2` | 3 lanes + 1 direct link, 21x16, IN copper-plate 3/s + iron-plate 2/s, OUT electronic-circuit 2/s |
+| `inserters` | `inserter=1 electronic-circuit=1 iron-gear-wheel=1 copper-cable=3` | 4 lanes, 33x20, 3-input module pulling from 3 lanes |
+| `nested` | `circuits.module.json iron-gear-wheel=1 inserter=1` | composite inside composite, 39x49 |
+| `plastics` | `plastic-bar=2` | 14x10, IN petroleum-gas (pipe) 20/s + coal 1/s, OUT plastic-bar 2/s |
+| `chips` | `sulfuric-acid=10 processing-unit=0.2` | 27x21, a chemical plant feeding an assembler by pipe: IN water 20/s (pipe), iron-plate 0.2/s, sulfur 1/s, electronic-circuit 4/s, advanced-circuit 0.4/s; OUT processing-unit 0.2/s |
 
 All round-trip through the blueprint string with ports, wires, recipes, and the `NO-MIRROR` flag intact.
 

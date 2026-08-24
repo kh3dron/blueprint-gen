@@ -1,3 +1,4 @@
 data/
 02_blueprint_visualizer/sprites/
 __pycache__/
+03_blueprint_objects/out/bench/

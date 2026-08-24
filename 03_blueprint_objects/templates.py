@@ -119,10 +119,15 @@ def _column(tmpl, info, n, machine, recipe, belt_name):
     return ents, pole_ids, info["height"] + shift
 
 
-def plan(item, rate, recipe, rt, machine=None, belt="transport-belt"):
+def plan(item, rate, recipe, rt, machine=None, belt="transport-belt", prefer=None):
     """Sizing for `item` at `rate` without building: machine count n, minimum columns c_min (belt
-    capacity), template info. Column count is finalised by build_columns(columns=...)."""
-    ings = recipe["ingredients"]
+    capacity), template info. Column count is finalised by build_columns(columns=...).
+
+    `prefer` names an ingredient to put on the leftmost input port instead of its recipe position: the
+    only port a direct link from the module next door can always reach. Ingredients are free to sit on
+    any input belt (each has its own inserter into the same machine), so this only trades port
+    capacities (N=3 is [15, 7.5, 7.5]); it is dropped if it would cost a column."""
+    ings = list(recipe["ingredients"])
     if any(i["type"] == "fluid" for i in ings) or any(r["type"] == "fluid" for r in recipe["results"]):
         raise ValueError(f"{recipe['name']}: fluid ingredients/results not supported")
     if not 1 <= len(ings) <= 4:
@@ -137,15 +142,24 @@ def plan(item, rate, recipe, rt, machine=None, belt="transport-belt"):
     n = max(1, -(-int(crafts * time / speed * 1e9) // 10**9))  # ceil with float guard
     capacity = n * speed / time * per_craft
     scale = BELT_SCALE[belt]
-    ing_rates = [crafts * i["amount"] for i in ings]
     caps = [c * scale for c in INPUT_CAPACITY[len(ings)]] + [OUTPUT_CAPACITY * scale]
-    per_col = n
-    for r, cap in zip(ing_rates + [rate], caps):
-        if r > 0:
-            per_col = min(per_col, int(cap * n / r + 1e-9))
-    per_col = max(1, per_col)
-    return {"item": item, "rate": rate, "recipe": recipe, "machine": machine, "belt": belt, "tmpl": tmpl,
-            "info": info, "n": n, "capacity": capacity, "ing_rates": ing_rates, "caps": caps,
+
+    def columns(order):
+        rates = [crafts * i["amount"] for i in order]
+        per_col = n
+        for r, cap in zip(rates + [rate], caps):
+            if r > 0:
+                per_col = min(per_col, int(cap * n / r + 1e-9))
+        return max(1, per_col), rates
+
+    per_col, ing_rates = columns(ings)
+    if prefer and any(i["name"] == prefer for i in ings) and ings[0]["name"] != prefer:
+        moved = sorted(ings, key=lambda i: i["name"] != prefer)      # prefer first, rest in recipe order
+        pc, rates = columns(moved)
+        if pc >= per_col:                                            # never trade a column for it
+            ings, per_col, ing_rates = moved, pc, rates
+    return {"item": item, "rate": rate, "recipe": recipe, "ings": ings, "machine": machine, "belt": belt,
+            "tmpl": tmpl, "info": info, "n": n, "capacity": capacity, "ing_rates": ing_rates, "caps": caps,
             "c_min": -(-n // per_col), "width": info["width"], "base_height": info["height"]}
 
 
@@ -159,7 +173,7 @@ def build_columns(item, rate, recipe, rt, machine=None, belt="transport-belt", c
 
 
 def build_from_plan(pl, columns=None):
-    n, ings = pl["n"], pl["recipe"]["ingredients"]
+    n, ings = pl["n"], pl.get("ings") or pl["recipe"]["ingredients"]
     c = max(pl["c_min"], min(columns or 1, n))
     q, rem = divmod(n, c)
     counts = [q + 1 if i < rem else q for i in range(c)]

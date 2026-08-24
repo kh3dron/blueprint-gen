@@ -27,6 +27,7 @@ import re
 import signal
 import subprocess
 import sys
+import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -154,14 +155,22 @@ def analyse(item, rate, rt, by_product, raw, belt, no_smelting=False):
             "oil": oil, "buildable": buildable}
 
 
-def plan_for(it, total, rt, by_product, belt):
-    """Sizing plan for one intermediate at its summed rate (fluid cell or template)."""
+def plan_for(it, total, rt, by_product, belt, single=()):
+    """Sizing plan for one intermediate at its summed rate (fluid cell or template). An ingredient in
+    `single` (one producer, one consumer in this factory) is put on the cell's leftmost input port,
+    where a direct link from the module next door can reach it."""
     recipe = by_product[it][0]
     if has_fluid(recipe):
         return fluidcells.plan(recipe, total / rt.net_output(recipe, it), rt, belt=belt)
     cats = recipe.get("categories") or ["crafting"]
     machine = next(make.CATEGORY_MACHINE[c] for c in cats if c in make.CATEGORY_MACHINE)
-    return templates.plan(it, total, recipe, rt, machine=machine, belt=belt)
+    prefer = next((i["name"] for i in recipe["ingredients"] if i["name"] in single), None)
+    return templates.plan(it, total, recipe, rt, machine=machine, belt=belt, prefer=prefer)
+
+
+def single_use(a):
+    """Items this factory produces in one place and consumes in one place."""
+    return {it for it in a["order"] if a["buildable"](it) and len(a["consumers"].get(it, ())) == 1}
 
 
 def externals_of(a, rt, raw):
@@ -195,7 +204,8 @@ def factory(item, rate, rt, by_product, by_name, raw, belt, no_smelting=False):
     Returns (plans, externals)."""
     a = analyse(item, rate, rt, by_product, raw, belt, no_smelting)
     externals, add = externals_of(a, rt, raw)
-    plans = [plan_for(it, a["totals"][it], rt, by_product, belt)
+    single = single_use(a)
+    plans = [plan_for(it, a["totals"][it], rt, by_product, belt, single)
              for it in a["order"] if a["buildable"](it) and it not in OIL]
     demand = {}
     for per_parent in a["oil"].values():
@@ -219,6 +229,7 @@ def factory_tree(root, rate, rt, by_product, by_name, raw, belt, build, join, no
     a = analyse(root, rate, rt, by_product, raw, belt, no_smelting)
     totals, order, consumers, buildable = a["totals"], a["order"], a["consumers"], a["buildable"]
     externals, add = externals_of(a, rt, raw)
+    single = single_use(a)
     oil_users = [p for p in a["oil"] if p is not None]
     oil_owner = oil_users[0] if len(set(oil_users)) == 1 else None      # else: shared, top level
     exclusive = {it: next(iter(consumers[it])) for it in order
@@ -244,7 +255,7 @@ def factory_tree(root, rate, rt, by_product, by_name, raw, belt, build, join, no
             nodes.append({"item": "oil", "rate": sum(a["oil"][it].values()), "depth": depth + 1,
                           "modules": len(mods), "size": None, "kids": [],
                           "detail": "+".join(pl["recipe"]["name"].split("-")[0] for pl in pls)})
-        own = build(plan_for(it, totals[it], rt, by_product, belt))
+        own = build(plan_for(it, totals[it], rt, by_product, belt, single))
         node = {"item": it, "rate": totals[it], "depth": depth, "kids": nodes, "detail": ""}
         if len(kids) + len(own) < max(nest_min, 2) or not kids:
             node["modules"], node["size"] = len(kids) + len(own), None
@@ -399,6 +410,7 @@ def warning_summary(warnings):
 
 
 def main():
+    T0 = time.time()
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("name")
     ap.add_argument("specs", nargs="+")
@@ -422,6 +434,7 @@ def main():
     ap.add_argument("--no-smelting", action="store_true", help="factory mode: every smelting recipe's product is an external input")
     ap.add_argument("-o", "--out-dir", default=os.path.join(HERE, "out"))
     ap.add_argument("--no-render", action="store_true")
+    ap.add_argument("--stats", metavar="FILE", help="write a one-line JSON summary of the result (bench.py reads it)")
     ap.add_argument("-v", "--verbose", action="store_true",
                     help="per-module and per-lane tables, every port, full retry reasons")
     args = ap.parse_args()
@@ -456,6 +469,17 @@ def main():
         plans = [x for kind, x in loaded if kind == "plan"]
         fixed = [x for kind, x in loaded if kind == "module"]
         externals = []
+        made = {r["name"] for pl in plans for r in pl["recipe"]["results"]}
+        used = {}
+        for pl in plans:
+            for i in pl["recipe"]["ingredients"]:
+                used[i["name"]] = used.get(i["name"], 0) + 1
+        single = {it for it in made if used.get(it) == 1}
+        plans = [pl if pl.get("kind") == "fluid" else
+                 templates.plan(pl["item"], pl["rate"], pl["recipe"], rt, machine=pl["machine"],
+                                belt=args.belt, prefer=next((i["name"] for i in pl["recipe"]["ingredients"]
+                                                             if i["name"] in single), None))
+                 for pl in plans]
         step("SPECS", f"{len(plans)} recipe{'s' * (len(plans) != 1)}, {len(fixed)} module "
                       f"file{'s' * (len(fixed) != 1)}, belt {args.belt}")
         for m in fixed:
@@ -518,7 +542,13 @@ def main():
         """With direct links the module order changes, which can cost more elsewhere than the lane it
         saves. When any link fires, lay the same modules out both ways and keep the smaller."""
         mods = built.get(T) or build(T)
-        m = one(mods, not args.no_links)
+        try:
+            m = one(mods, not args.no_links)
+        except ValueError as ex:                     # links reserve fewer columns, so they can also
+            if args.no_links:                        # fail to pack: fall back to the plain layout
+                raise
+            cont(f"direct links: {str(ex).split(':')[0]} -> laying out without them")
+            return one(mods, False)
         if not getattr(m, "links", 0):
             return m
         alt = one(mods, False)
@@ -574,6 +604,12 @@ def main():
     print(f"\n{mod.name}: {mod.width}x{mod.height} tiles, {len(mod.entities):,} entities, {len(mod.wires):,} wires")
     print(port_table(mod) if args.verbose else port_summary(mod))
     warnings = [n[len("WARNING "):] for n in mod.notes if n.startswith("WARNING")]
+    if args.stats:
+        with open(args.stats, "w") as f:
+            json.dump(dict({"name": name, "width": mod.width, "height": mod.height,
+                            "area": mod.width * mod.height, "entities": len(mod.entities),
+                            "wires": len(mod.wires), "warnings": len(warnings),
+                            "seconds": round(time.time() - T0, 2)}, **getattr(mod, "stats", {})), f)
     if warnings:
         print(f"\nWARNINGS {len(warnings)}" + ("" if args.verbose else " (kept in full in the description; -v to print them)"))
         for line in (warnings if args.verbose else warning_summary(warnings)):

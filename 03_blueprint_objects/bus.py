@@ -42,7 +42,8 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from module import Module, Port, mirror  # noqa: E402
 
-R = 5            # routing band rows per side (jog rows B0-2-k; row B0-1 holds lane-0 branch curves)
+R_MAX = 5        # routing band rows per side, worst case (jog rows B0-2-k, k = 0..3, plus row B0-1
+                 # for lane-0 branch curves). band_rows() takes the ports actually there instead
 EPS = 1e-6
 N, E, S, W = 0, 4, 8, 12
 MACHINE_SIZE = {"assembling-machine-1": 3, "assembling-machine-2": 3, "assembling-machine-3": 3,
@@ -374,9 +375,23 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True,
             prev_pipe = ln.kind == "pipe"
             col += RISER_GAP if nested else 1     # nested: input ports far enough apart that a parent
         return cols, col - x_start                # bus can bring a chain up to each of them
-    _, Espan = riser_columns(lanes0)
+    riser0, Espan = riser_columns(lanes0)
     Ecount = Espan
-    cursor = {"N": x_start + Espan + gap, "S": x_start + Espan + gap}
+    # item -> the riser column a pull for it has to stay east of. North modules may start over the
+    # riser wall (risers only run below the bus); south modules share those rows, so they may not.
+    riser_x, riser_lane, lane_idx = {}, {}, {}
+    for ln in lanes0:
+        lane_idx[ln.item] = max(lane_idx.get(ln.item, -1), ln.index)   # deepest lane the item may use
+        if ln.external:
+            riser_x[ln.item] = max(riser_x.get(ln.item, -1), riser0[ln.index])
+            riser_lane[riser0[ln.index]] = ln.index                    # column -> the lane rising there
+    deep = max(lane_idx.values(), default=0) + 1                       # deeper than every lane
+    # north modules may sit over the riser wall (risers only run below the bus); south modules share
+    # those rows, so they start east of it. Sides are dealt on progress, not on absolute column.
+    # a nested composite spreads its risers RISER_GAP apart, which leaves the lane rows under the wall
+    # too crowded for a lane to duck through, so there its modules start east of the wall as well
+    start = {"N": x_start + (Espan + gap if nested else 0), "S": x_start + Espan + gap}
+    cursor = dict(start)
     reserved = set()                   # bus columns claimed by placed modules (both sides)
     solo = solo_items(modules, belt) if direct else {}
     feeder = {}                        # consumer module -> producers it could be fed directly by,
@@ -384,35 +399,60 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True,
         feeder.setdefault(cm, []).append(pm)      # westmost port first: the one a link can reach
     last_on = {"N": None, "S": None}   # last module placed on each side
     for mi, m in enumerate(modules):
-        side = "N" if (not two_sided or m.no_mirror or cursor["N"] <= cursor["S"]) else "S"
+        side = "N" if (not two_sided or m.no_mirror
+                       or cursor["N"] - start["N"] <= cursor["S"] - start["S"]) else "S"
         for pm in feeder.get(mi, []):  # follow a producer that is still the last module on its side,
             if last_on[sides[pm]] == pm and not m.no_mirror:   # so the two end up next to each other
                 side = sides[pm]
                 break
         x = cursor[side]
         for p in m.inputs:
-            if p.item in produced_at:
-                x = max(x, produced_at[p.item] + 3)
+            if p.item in produced_at:                      # a linked item needs no push column, just
+                x = max(x, produced_at[p.item] + (1 if p.item in solo else 3))
+            elif p.item in riser_x:
+                x = max(x, riser_x[p.item] + 2 - p.x)      # its pull must sit east of the riser
         ext = extent_of(m)
         if rp and ext + 1 > rp - 6:
             raise ValueError(f"{m.name} is {ext} columns wide; only {rp - 7} fit between roboport bands {rp} apart")
 
         def bus_cols(x):
-            cols = set()
-            for p in m.outputs:
+            cols = set()                       # ports of a solo item are left out: they are likely to
+            for p in m.outputs:                # be linked, and then they claim no bus column at all
+                if p.item in solo:
+                    continue
                 if p.kind == "pipe":
                     cols.update(range(x + p.x - 1, x + p.x + 2))                   # pipe chain and both neighbours
                 else:
                     cols.update(range(x + p.x, x + p.x + 3))                       # push, merge splitter, sideload
-            belt_ports = [p for p in m.inputs if p.kind == "belt"]
+            belt_ports = [p for p in m.inputs if p.kind == "belt" and p.item not in solo]
             for p, (first, k) in zip(belt_ports, port_groups(belt_ports)):
                 cols.update((x + first + spacing * k - 1, x + first + spacing * k))   # splitter + nominal chain
             for p in m.inputs:
-                if p.kind == "pipe":
+                if p.kind == "pipe" and p.item not in solo:
                     cols.update(range(x + p.x - 1, x + p.x + 2))
             return cols
-        while any(forbidden(c) for c in range(x, x + ext + 1)) or bus_cols(x) & reserved:
-            x += 1                      # roboport band, or a bus column already used by the other side
+        def over_riser(x):
+            """True if a chain of this module would run down a column where a lane above it rises."""
+            for p in m.inputs + m.outputs:
+                if p.item in solo:
+                    continue            # likely linked: no chain at all
+                idx = lane_idx.get(p.item, deep) if p in m.inputs else deep
+                cols = ([x + p.x] if p.kind == "pipe" else
+                        list(range(x + p.x, x + p.x + 3)) if p in m.outputs else [x + p.x])
+                if p.kind == "belt" and p in m.inputs:
+                    first, k = dict(zip([id(q) for q in belt_in], port_groups(belt_in)))[id(p)]
+                    cols += [x + first + spacing * k - 1, x + first + spacing * k]
+                # the column itself and its neighbours: a lane ducking under this chain needs a free
+                # tile on each side of it, and a riser column is not free
+                if any(riser_lane.get(c + d, deep) < idx for c in cols for d in (-1, 0, 1)):
+                    return True
+            return False
+
+        belt_in = [p for p in m.inputs if p.kind == "belt" and p.item not in solo]
+        while (any(forbidden(c) for c in range(x, x + ext + 1)) or bus_cols(x) & reserved
+               or over_riser(x)):
+            x += 1                      # roboport band, a bus column already used by the other side,
+                                        # or a column a lane above this module rises in
         reserved.update(bus_cols(x))
         sides[mi], xs[mi] = side, x
         last_on[side] = mi
@@ -456,8 +496,23 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True,
     # ---- rows ---------------------------------------------------------------------------
     link_n = any(lk[5] == "N" for lk in links)
     link_s = any(lk[5] == "S" for lk in links)
+
+    def band_rows(side):
+        """Rows the routing band needs on `side`: one jog row per belt input port of the widest port
+        group there, plus the branch-curve row. A side of 2-port modules does not need the 5 rows a
+        4-port template would."""
+        k = 0
+        for mi, m in enumerate(modules):
+            if sides[mi] != side:
+                continue
+            ports = [p for pi, p in enumerate(m.inputs) if p.kind == "belt" and ("in", mi, pi) not in linked]
+            for _, kk in port_groups(ports):
+                k = max(k, kk)
+        return k + 2
+
+    RN, RS = band_rows("N"), band_rows("S")
     by = max([m.height for m, s in zip(modules, sides) if s == "N"] + [1]) - 1
-    B0 = by + R + 1 + link_n                   # row by+1 is the link row, clear of every jog row
+    B0 = by + RN + 1 + link_n                  # row by+1 is the link row, clear of every jog row
     lane_rows, yy_ = [], B0
     for i, ln in enumerate(lanes):
         if ln.kind == "pipe" and i > 0 and lanes[i - 1].kind == "pipe":
@@ -467,7 +522,7 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True,
     row = lambda j: lane_rows[j]        # noqa: E731
     spare = yy_
     if has_south:
-        bys = spare + R + 1 + link_s
+        bys = spare + RS + 1 + link_s
         H = bys + max(m.height for m, s in zip(modules, sides) if s == "S")
     else:
         bys = None
@@ -670,7 +725,8 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True,
             grid.belt_tile(col + 1, far_row, E)
             grid.belt_tile(col + 2, far_row, N if side == "N" else S)        # sideload from the far side
       except ValueError as ex:
-        raise ValueError(f"push {m.name} {p.item} col {col} side {side} lane {ln.index} ({bl}, start {ln.start}): {ex}")
+        raise PackError(f"push {m.name} {p.item} col {col} side {side} lane {ln.index} "
+                        f"({bl}, start {ln.start}): {ex}")
 
     # ---- pulls: candidate bus columns with rollback --------------------------------------
     last_bc = {}
@@ -993,5 +1049,9 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True,
     notes += WARNINGS
     out = Module(name=name, width=Wc, height=H, entities=grid.ents, inputs=inputs, outputs=outputs,
                  notes=notes, wires=wires, no_mirror=any(m.no_mirror for m in modules))
-    out.links = len(links)          # not part of the model: the CLI compares layouts with and without
+    # not part of the model: what the CLI compares layouts by and what bench.py records
+    out.links = len(links)
+    out.stats = {"lanes": L, "pipe_lanes": pipes, "links": len(links), "modules": n_mod,
+                 "north": n_mod - n_s, "south": n_s, "ducks": ug_count, "roboports": n_rp,
+                 "spacing": spacing, "gap": gap}
     return out
