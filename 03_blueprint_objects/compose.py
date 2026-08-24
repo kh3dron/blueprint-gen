@@ -249,7 +249,7 @@ def factory_tree(root, rate, rt, by_product, by_name, raw, belt, build, join, no
         if len(kids) + len(own) < max(nest_min, 2) or not kids:
             node["modules"], node["size"] = len(kids) + len(own), None
             return kids + own, node               # too small to pay for a bus of its own: inline it
-        mods = topo_sort(kids + own)
+        mods = topo_sort(kids + own, belt=belt)
         m = join(f"{it} {totals[it]:g}/s", mods)
         node["modules"], node["size"] = len(mods), (m.width, m.height)
         return [m], node
@@ -276,13 +276,20 @@ def factory_tree(root, rate, rt, by_product, by_name, raw, belt, build, join, no
     return tops, externals, tree
 
 
-def topo_sort(modules):
-    """Producers before consumers. Stable for independent modules."""
+def topo_sort(modules, chain=True, belt="transport-belt"):
+    """Producers before consumers. Where an item has a single producer port and a single consumer port,
+    the pair is scheduled as one unit so the two land side by side on the same side of the bus and
+    `bus.py` can link them directly instead of giving the item a lane; those pairs chain, so a whole
+    production line comes out contiguous. With no such pair the order is exactly the depth-first one."""
+    n = len(modules)
     produced_by = {}
     for i, m in enumerate(modules):
         for p in m.outputs:
-            produced_by.setdefault(p.item, []).append(i)   # every column of the producer
-    order, seen, visiting = [], set(), set()
+            produced_by.setdefault(p.item, []).append(i)
+    deps = {i: {j for p in modules[i].inputs for j in produced_by.get(p.item, []) if j != i}
+            for i in range(n)}
+
+    base, seen, visiting = [], set(), set()      # depth-first order: the baseline this keeps to
 
     def visit(i):
         if i in seen:
@@ -290,17 +297,51 @@ def topo_sort(modules):
         if i in visiting:
             sys.exit(f"cycle through {modules[i].name}")
         visiting.add(i)
-        for p in modules[i].inputs:
+        for p in modules[i].inputs:              # exactly the old traversal: producers in port order
             for j in produced_by.get(p.item, []):
                 if j != i:
                     visit(j)
         visiting.discard(i)
         seen.add(i)
-        order.append(modules[i])
+        base.append(i)
 
-    for i in range(len(modules)):
+    for i in range(n):
         visit(i)
-    return order
+    pos = {i: k for k, i in enumerate(base)}
+
+    best = {}                          # consumer -> (producer, port x): a link can only reach the
+    for pm, _, cm, pi in (bus.solo_items(modules, belt).values() if chain else ()):   # consumer's westmost port, so prefer the
+        x = modules[cm].inputs[pi].x                         # producer that feeds it
+        if cm not in best or x < best[cm][1]:
+            best[cm] = (pm, x)
+    prv = {cm: pm for cm, (pm, _) in best.items()}
+    nxt = {pm: cm for cm, pm in prv.items()}
+    chains, taken = [], set()
+    for i in sorted(range(n), key=lambda i: pos[i]):         # prv/nxt are one-to-one: disjoint paths
+        if i in prv or i in taken:
+            continue
+        ch = [i]
+        while ch[-1] in nxt and nxt[ch[-1]] not in taken:
+            ch.append(nxt[ch[-1]])
+        taken.update(ch)
+        chains.append(ch)
+    chains += [[i] for i in sorted(range(n), key=lambda i: pos[i]) if i not in taken]
+    chains.sort(key=lambda c: pos[c[0]])
+
+    order, done = [], set()
+    while any(chains):
+        ch = next((c for c in chains if c and all(deps[i] - set(c) <= done for i in c)), None)
+        if ch is None:                 # a chain is waiting on something inside another chain: split it
+            ch = next((c for c in chains if c and deps[c[0]] <= done), None)
+            if ch is None:
+                sys.exit(f"cycle through {modules[next(i for c in chains for i in c)].name}")
+            order.append(ch.pop(0))
+            done.add(order[-1])
+            continue
+        order += ch
+        done.update(ch)
+        ch.clear()
+    return [modules[i] for i in order]
 
 
 STEP = [0, 0]           # [done, total] for the "[n/m] LABEL" report
@@ -372,6 +413,8 @@ def main():
     ap.add_argument("--nested", action="store_true",
                     help="factory mode: give every single-consumer intermediate its own bus inside its "
                          "consumer's bounding box, instead of one bus for the whole factory")
+    ap.add_argument("--no-links", action="store_true",
+                    help="do not link a producer straight to the consumer next door; give every item a bus lane")
     ap.add_argument("--nest-min", type=int, default=6, metavar="N",
                     help="--nested: a group smaller than N modules is inlined into its parent's bus "
                          "instead of getting one of its own (default 6)")
@@ -426,7 +469,8 @@ def main():
     def join(nm, mods):
         """Compose one nested box. Its warnings are re-reported at the top level, tagged with the box."""
         box_name[0] = nm
-        m = bus.compose(nm, mods, belt=args.belt, two_sided=not args.one_sided, nested=True)
+        m = bus.compose(nm, mods, belt=args.belt, two_sided=not args.one_sided, nested=True,
+                        direct=not args.no_links)
         box_warnings.extend(f"WARNING [{nm}] {w[len('WARNING '):]}" for w in m.notes if w.startswith("WARNING"))
         return m
 
@@ -466,10 +510,23 @@ def main():
                f"{pl['n']:>4}{max(pl['c_min'], -(-pl['n'] // cells)):>5}  {pl['width'] or '?'}x{pl['base_height']}"
                for pl in plans])
 
+    def one(mods, direct):
+        return bus.compose(name, topo_sort(mods, direct, args.belt), belt=args.belt, exports=args.export,
+                           roboport=args.roboports, two_sided=not args.one_sided, direct=direct)
+
     def layout(T):
+        """With direct links the module order changes, which can cost more elsewhere than the lane it
+        saves. When any link fires, lay the same modules out both ways and keep the smaller."""
         mods = built.get(T) or build(T)
-        return bus.compose(name, topo_sort(mods), belt=args.belt, exports=args.export, roboport=args.roboports,
-                           two_sided=not args.one_sided)
+        m = one(mods, not args.no_links)
+        if not getattr(m, "links", 0):
+            return m
+        alt = one(mods, False)
+        area, alt_area = m.width * m.height, alt.width * alt.height
+        keep = (area, len(m.entities)) <= (alt_area, len(alt.entities))
+        cont(f"{m.links} direct links: {m.width}x{m.height} = {area:,} vs {alt.width}x{alt.height} "
+             f"= {alt_area:,} without -> {'links' if keep else 'no links'}")
+        return m if keep else alt
 
     step("BUS", f"{args.belt}, {'one-sided' if args.one_sided else 'both sides'}"
                 + (f", roboports every {args.roboports}" if args.roboports else ""))

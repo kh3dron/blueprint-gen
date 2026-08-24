@@ -180,7 +180,72 @@ def port_groups(ports):
     return out
 
 
-def allocate(modules, sides, belt):
+def run_plan(x0, x1, busy, kind, belt):
+    """Tiles for a straight run along one row from column x0 towards x1 (the turn at x1 is the caller's),
+    ducking under every `busy` column on the way. [(name, column, direction, kw)] or None if it cannot
+    be routed: a run must start on a free tile and have a free tile to surface on past each obstacle."""
+    step = 1 if x1 > x0 else -1
+    d = E if step > 0 else W
+    back = (d + 8) % 16
+    tiers = TIERS[TIERS.index(belt):]
+    out, x = [], x0
+    while x != x1:
+        if x in busy:
+            return None
+        nxt = x + step
+        if nxt == x1 or nxt not in busy:
+            out.append((belt if kind == "belt" else "pipe", x, d, {}))
+            x = nxt
+            continue
+        end = nxt                                        # run of busy columns: duck from x to end
+        while end != x1 and end in busy:
+            end += step
+        if end == x1:
+            return None
+        span = abs(end - x) - 1
+        if kind == "pipe":
+            if span > PIPE_GAP:
+                return None
+            out.append(("pipe-to-ground", x, back, {}))          # opening back along the run
+            out.append(("pipe-to-ground", end, d, {}))
+        else:
+            tier = next((t for t in tiers if MAX_GAP[t] >= span), None)
+            if tier is None:
+                return None
+            out.append((UNDERGROUND[tier], x, d, {"type": "input"}))
+            out.append((UNDERGROUND[tier], end, d, {"type": "output"}))
+        x = end + step
+    return out
+
+
+def solo_items(modules, belt="transport-belt"):
+    """item -> (producer module, output index, consumer module, input index) for every item carried by
+    exactly one output port and one input port, the producer covering the consumer's rate, where a run
+    coming from the west can actually reach that input port past the module's other port chains. Those
+    can go straight from one module to the next along the row under them, with no bus lane at all."""
+    prod, cons = {}, {}
+    for mi, m in enumerate(modules):
+        for oi, p in enumerate(m.outputs):
+            prod.setdefault(p.item, []).append((mi, oi, p))
+        for pi, p in enumerate(m.inputs):
+            cons.setdefault(p.item, []).append((mi, pi, p))
+    out = {}
+    for item, ps in prod.items():
+        cs = cons.get(item, [])
+        if len(ps) != 1 or len(cs) != 1:
+            continue
+        (pm, oi, pp), (cm, pi, cp) = ps[0], cs[0]
+        if pp.kind != cp.kind or pm == cm or pp.rate + EPS < cp.rate:
+            continue
+        m = modules[cm]
+        busy = {p.x for q, p in enumerate(m.inputs) if q != pi} | {p.x for p in m.outputs}
+        if run_plan(-1, cp.x, busy, cp.kind, belt) is None:      # blocked by its own neighbours
+            continue
+        out[item] = (pm, oi, cm, pi)
+    return out
+
+
+def allocate(modules, sides, belt, linked=()):
     """Assign every port to a lane. Returns (lanes, pull_lane, push_lane, warnings).
     pull_lane: (mi, pi) -> Lane.  push_lane: (mi, oi) -> (Lane, belt_lane) with belt_lane in {left, right}."""
     cap = LANE_CAPACITY[belt]
@@ -195,6 +260,8 @@ def allocate(modules, sides, belt):
 
     for mi, m in enumerate(modules):
         for pi, p in enumerate(m.inputs):
+            if ("in", mi, pi) in linked:
+                continue                                  # fed straight from the module next door
             if p.kind == "pipe":
                 cands = [ln for ln in lanes if ln.item == p.item and ln.kind == "pipe"]
                 if not cands:
@@ -226,6 +293,8 @@ def allocate(modules, sides, belt):
             pull_lane[(mi, pi)] = ln
         natural = "left" if sides[mi] == "N" else "right"
         for oi, p in enumerate(m.outputs):
+            if ("out", mi, oi) in linked:
+                continue                                  # goes straight to the module next door
             if p.kind == "pipe":
                 cands = [ln for ln in lanes if ln.item == p.item and ln.kind == "pipe" and not ln.external]
                 ln = cands[0] if cands else new_lane(p.item, False, "pipe")
@@ -255,7 +324,8 @@ def allocate(modules, sides, belt):
     return lanes, pull_lane, push_lane, warnings
 
 
-def compose(name, modules, belt="transport-belt", exports=None, roboport=None, two_sided=True, nested=False):
+def compose(name, modules, belt="transport-belt", exports=None, roboport=None, two_sided=True, nested=False,
+            direct=True):
     """Stitch modules (producers before consumers) over a bus; retries (spacing, gap) candidates until
     every lane can duck under its crossings. `nested` = this composite will itself be a module on
     another bus: its external input risers are spread RISER_GAP apart so the parent can bring a chain
@@ -266,14 +336,14 @@ def compose(name, modules, belt="transport-belt", exports=None, roboport=None, t
         WARNINGS.clear()                       # a failed candidate leaves nothing behind
         try:
             return _layout(name, modules, belt, set(exports or []), spacing, gap, roboport, two_sided,
-                           nested)
+                           nested, direct)
         except PackError as ex:
             last = ex
             progress(f"spacing {spacing} gap {gap}", ex)
     raise ValueError(f"bus does not pack with (spacing, gap) in {SEARCH}: {last}")
 
 
-def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True, nested=False):
+def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True, nested=False, direct=True):
     def forbidden(x):
         return rp is not None and (x + 1) % rp <= 5      # roboport bands: columns rp*i-1 .. rp*i+4
 
@@ -308,8 +378,17 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True,
     Ecount = Espan
     cursor = {"N": x_start + Espan + gap, "S": x_start + Espan + gap}
     reserved = set()                   # bus columns claimed by placed modules (both sides)
+    solo = solo_items(modules, belt) if direct else {}
+    feeder = {}                        # consumer module -> producers it could be fed directly by,
+    for pm, _, cm, pi in sorted(solo.values(), key=lambda v: modules[v[2]].inputs[v[3]].x):
+        feeder.setdefault(cm, []).append(pm)      # westmost port first: the one a link can reach
+    last_on = {"N": None, "S": None}   # last module placed on each side
     for mi, m in enumerate(modules):
         side = "N" if (not two_sided or m.no_mirror or cursor["N"] <= cursor["S"]) else "S"
+        for pm in feeder.get(mi, []):  # follow a producer that is still the last module on its side,
+            if last_on[sides[pm]] == pm and not m.no_mirror:   # so the two end up next to each other
+                side = sides[pm]
+                break
         x = cursor[side]
         for p in m.inputs:
             if p.item in produced_at:
@@ -336,10 +415,35 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True,
             x += 1                      # roboport band, or a bus column already used by the other side
         reserved.update(bus_cols(x))
         sides[mi], xs[mi] = side, x
+        last_on[side] = mi
         for p in m.outputs:
             produced_at[p.item] = max(produced_at.get(p.item, -1), x + p.x)
         cursor[side] = x + ext + gap
-    lanes, pull_lane, push_lane, warnings = allocate(modules, sides, belt)
+
+    # ---- direct links: producer and consumer next to each other on the same side ----------
+    links, linked, taken_link = [], set(), {"N": set(), "S": set()}
+    for item, (pm, oi, cm, pi) in sorted(solo.items(), key=lambda kv: xs[kv[1][0]]):
+        side = sides[pm]
+        if sides[cm] != side or xs[pm] >= xs[cm]:
+            continue
+        if any(sides[i] == side and xs[pm] < xs[i] < xs[cm] for i in range(n_mod)):
+            continue                                     # not next door
+        x0 = xs[pm] + modules[pm].outputs[oi].x
+        x1 = xs[cm] + modules[cm].inputs[pi].x
+        busy = set(taken_link[side])
+        for mj, port, io in ((pm, "outputs", "out"), (pm, "inputs", "in"), (cm, "outputs", "out"), (cm, "inputs", "in")):
+            for q, p in enumerate(getattr(modules[mj], port)):
+                if (io, mj, q) not in linked and (mj, q, io) != (pm, oi, "out") and (mj, q, io) != (cm, pi, "in"):
+                    busy.add(xs[mj] + p.x)               # another port's chain comes down this column
+        busy |= {c for c in range(x0 + 1, x1) if forbidden(c)}
+        kind = modules[pm].outputs[oi].kind
+        run = run_plan(x0, x1, busy, kind, belt)
+        if run is None:
+            continue
+        links.append((item, pm, oi, cm, pi, side, x0, x1, run, kind))
+        linked |= {("out", pm, oi), ("in", cm, pi)}
+        taken_link[side] |= set(range(x0, x1 + 1))
+    lanes, pull_lane, push_lane, warnings = allocate(modules, sides, belt, linked)
     for w in warnings:
         warn(w)
     L = len(lanes)
@@ -350,8 +454,10 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True,
     has_south = any(s == "S" for s in sides)
 
     # ---- rows ---------------------------------------------------------------------------
+    link_n = any(lk[5] == "N" for lk in links)
+    link_s = any(lk[5] == "S" for lk in links)
     by = max([m.height for m, s in zip(modules, sides) if s == "N"] + [1]) - 1
-    B0 = by + R + 1
+    B0 = by + R + 1 + link_n                   # row by+1 is the link row, clear of every jog row
     lane_rows, yy_ = [], B0
     for i, ln in enumerate(lanes):
         if ln.kind == "pipe" and i > 0 and lanes[i - 1].kind == "pipe":
@@ -361,7 +467,7 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True,
     row = lambda j: lane_rows[j]        # noqa: E731
     spare = yy_
     if has_south:
-        bys = spare + R + 1
+        bys = spare + R + 1 + link_s
         H = bys + max(m.height for m, s in zip(modules, sides) if s == "S")
     else:
         bys = None
@@ -500,15 +606,19 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True,
     # ---- bus columns for every port ----------------------------------------------------
     pulls, pushes = [], []
     for mi, (m, x0, y0, side) in enumerate(placements):
-        belt_ports = [p for p in m.inputs if p.kind == "belt"]
+        belt_ports = [p for pi, p in enumerate(m.inputs) if p.kind == "belt" and ("in", mi, pi) not in linked]
         groups = dict(zip([id(p) for p in belt_ports], port_groups(belt_ports)))
         for pi, p in enumerate(m.inputs):
+            if ("in", mi, pi) in linked:
+                continue                                   # fed by a direct link, no bus column
             if p.kind == "pipe":
                 pulls.append((m, pull_lane[(mi, pi)], x0 + p.x, x0 + p.x, 0, p, side))
             else:
                 first, k = groups[id(p)]
                 pulls.append((m, pull_lane[(mi, pi)], x0 + first + spacing * k, x0 + p.x, k, p, side))
         for oi, p in enumerate(m.outputs):
+            if ("out", mi, oi) in linked:
+                continue
             ln, bl = push_lane[(mi, oi)]
             ln.pushes.append(x0 + p.x)
             pushes.append((m, p, ln, x0 + p.x, bl, side))
@@ -720,6 +830,16 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True,
             raise PackError(f"{m.name}: no bus column for {p.item} in {min(cands)}..{max(cands)} "
                             f"({'; '.join(reasons)})")
 
+    # ---- direct links: one row under the modules, ducking under the chains that cross it ----
+    for item, pm, oi, cm, pi, side, x0, x1, run, kind in links:
+        y = by + 1 if side == "N" else bys - 1
+        try:
+            for nm, xx, dirn, kw in run:
+                grid.place(nm, xx, y, dirn, **kw)
+            grid.place(belt if kind == "belt" else "pipe", x1, y, N if side == "N" else S)
+        except ValueError as ex:
+            raise PackError(f"direct link {item} {x0}->{x1} on row {y}: {ex}")
+
     # ---- power bridge south -> north (after the chains, so it routes around them) ----------
     if has_south:
         north_ids = [i for i, e in enumerate(grid.ents) if e["name"].endswith("electric-pole") and e["position"]["y"] < B0]
@@ -859,7 +979,8 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True,
     pipes = sum(1 for ln in lanes if ln.kind == "pipe")
     n_s = sum(1 for s in sides if s == "S")
     notes = [f"bus: {L} lanes ({pipes} pipe), {belt}, rows {B0}-{spare - 1}, chain spacing {spacing}, gap {gap}, "
-             f"{ug_count} lane ducks ({duck_txt}), {n_mod - n_s} modules north / {n_s} south"
+             f"{ug_count} lane ducks ({duck_txt}), {len(links)} direct links, "
+             f"{n_mod - n_s} modules north / {n_s} south"
              + (f", {n_rp} roboports every {rp} tiles ({unpowered_rp} with no pole in reach, "
                 f"{skipped_rp} spots skipped)" if rp else ""),
              "modules: " + ", ".join(f"{m.name}({s})" for m, s in zip(modules, sides))]
@@ -870,5 +991,7 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True,
         cap = "pipe" if ln.kind == "pipe" else f"{ln.cap:g}/s"
         notes.append(f"lane {ln.index} {ln.item} {ln.kind} {kind} {flow:.3g}/{cap} cols {ln.start}-{ln.end}{bal}")
     notes += WARNINGS
-    return Module(name=name, width=Wc, height=H, entities=grid.ents, inputs=inputs, outputs=outputs,
-                  notes=notes, wires=wires, no_mirror=any(m.no_mirror for m in modules))
+    out = Module(name=name, width=Wc, height=H, entities=grid.ents, inputs=inputs, outputs=outputs,
+                 notes=notes, wires=wires, no_mirror=any(m.no_mirror for m in modules))
+    out.links = len(links)          # not part of the model: the CLI compares layouts with and without
+    return out

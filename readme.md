@@ -20,10 +20,30 @@ Factorio recipe tools
   - [x] liquids, liquid + solid recipes (processing units)
   - [x] 4-ingredient recipes (science packs, robot frames)
   - [x] readable run report, `-v` for the full tables
-  - [x] recursive layout: `--nested`, one bus per sub-factory (`03_blueprint_objects/README.md` 4.5). 30-45% fewer top-bus lanes, 10-40% bigger box; flat stays the default
+  - [x] recursive layout: `--nested`, one bus per sub-factory (`03/README.md` 4.5). 30-45% fewer top-bus lanes, 10-40% bigger box; flat stays the default
+  - [x] direct producer -> consumer links, no lane and no trip to the bus (`03/README.md` 4.4). Default on, `--no-links` off; -41% area on small factories, nothing yet on scaled-out ones
 
-  - [ ] direct producer -> consumer link for single-consumer items: what nesting was after, without the extra bus
-  - [ ] better use of both sides of a lane
-  - [ ] flip components horizontally to match
-  - [ ] space-age fluid machines (foundry, biochamber, electromagnetic plant, cryogenic plant)
-  - [ ] mirror chemical plants / refineries onto the south side (2.0 per-entity mirror flag)
+p compose.py circuits copper-cable=6 electronic-circuit=2
+
+- [ ] pair column i of a producer with column i of its consumer, so direct links also fire on scaled-out factories
+- [ ] better use of both sides of a lane
+- [ ] flip components horizontally to match
+- [ ] space-age fluid machines (foundry, biochamber, electromagnetic plant, cryogenic plant)
+- [ ] mirror chemical plants / refineries onto the south side (2.0 per-entity mirror flag)
+
+- [ ] get game state:
+  - what is the best tier of assembler / inserter available
+- [ ] maintain a list of what submodules are currently in use on the map (including recursively)
+- [ ] when new techs are unlocked, track what upgrades can be made to past items
+
+## GAME LOOP
+
+- [ ] unlock more science packs
+  - 10SPM red, green, black, blue
+  - 100SPM red, green, black, blue, purple, yellow
+  -
+- [ ] expand factory: scale out OR scale up
+- [ ] instrumental production (malls)
+- [ ] power: when within 20% util, double capacity
+
+- [ ] maintain total roboport coverage
