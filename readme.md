@@ -20,15 +20,9 @@ Factorio recipe tools
   - [x] liquids, liquid + solid recipes (processing units)
   - [x] 4-ingredient recipes (science packs, robot frames)
   - [x] readable run report, `-v` for the full tables
-  - [x] recursive layout: `--nested`, one bus per sub-factory (`03/README.md` 4.5). 30-45% fewer top-bus lanes, 10-40% bigger box; flat stays the default
-  - [x] direct producer -> consumer links, no lane and no trip to the bus (`03/README.md` 4.4). Default on, `--no-links` off
-  - [x] tighter west end and routing band: modules may sit over the riser wall, the band is sized from the ports actually on each side, and a single-use ingredient takes the leftmost input port (`03/README.md` 3.0, 4.0). Together with links: -20% to -56% area on small factories, -8% entities on the 10/s processing units
+  - [x] recursive layout: `--nested` for more internal busses  
+- [x] test suite: `03_blueprint_objects/bench.py`
 
-  - [x] test suite: `03_blueprint_objects/bench.py`, 28 compose cases + every fluid cell, ~1 s, table against a recorded baseline (`bench.json`), exit 1 on a regression
-
-p compose.py circuits copper-cable=6 electronic-circuit=2
-
-- [ ] pair column i of a producer with column i of its consumer, so direct links also fire on scaled-out factories
 - [ ] better use of both sides of a lane
 - [ ] flip components horizontally to match
 - [ ] space-age fluid machines (foundry, biochamber, electromagnetic plant, cryogenic plant)
@@ -44,7 +38,6 @@ p compose.py circuits copper-cable=6 electronic-circuit=2
 - [ ] unlock more science packs
   - 10SPM red, green, black, blue
   - 100SPM red, green, black, blue, purple, yellow
-  -
 - [ ] expand factory: scale out OR scale up
 - [ ] instrumental production (malls)
 - [ ] power: when within 20% util, double capacity

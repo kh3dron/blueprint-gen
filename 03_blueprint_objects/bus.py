@@ -4,13 +4,14 @@ Geometry (composite-local tiles, y grows south):
 
   columns x_start..x_start+E-1 : external-input risers (lane j enters at its own column, northbound)
   north modules                : bottom-aligned on row `by`, rows 0..by
-  north routing band           : rows by+1 .. by+R
+  north routing band           : rows by+1 .. by+R, R sized from the ports actually there (0 when
+                                 every pull comes straight up its own column)
   bus                          : one row per lane, row(j) = B0+j, B0 = by+R+1; spare row B0+L below
   south routing band           : rows B0+L+1 .. B0+L+R          (only if south modules exist)
   south modules (mirrored)     : top-aligned on row `bys` = B0+L+R+1
   export drops                 : columns east of everything, southbound to the bottom row
 
-Sides: modules are dealt to the side whose x cursor is further west, in producer-before-consumer
+Sides: modules are dealt to the side whose east edge is further west, in producer-before-consumer
 order; a consumer is never placed west of its lanes' starts. South modules are mirrored vertically
 (module.mirror): their ports sit on the top edge, inputs flowing south, outputs flowing north.
 
@@ -333,18 +334,20 @@ def compose(name, modules, belt="transport-belt", exports=None, roboport=None, t
     up to each of them, and it gets a pole on each end of its bottom edge so the parent's pole chain
     can reach its network. Returns a Module."""
     last = None
-    for spacing, gap in SEARCH:
-        WARNINGS.clear()                       # a failed candidate leaves nothing behind
-        try:
-            return _layout(name, modules, belt, set(exports or []), spacing, gap, roboport, two_sided,
-                           nested, direct)
-        except PackError as ex:
-            last = ex
-            progress(f"spacing {spacing} gap {gap}", ex)
+    for slack in (0, 1):                       # a band row in hand, for a pull the search had to move
+        for spacing, gap in SEARCH:
+            WARNINGS.clear()                   # a failed candidate leaves nothing behind
+            try:
+                return _layout(name, modules, belt, set(exports or []), spacing, gap, roboport, two_sided,
+                               nested, direct, slack)
+            except PackError as ex:
+                last = ex
+                progress(f"spacing {spacing} gap {gap}" + (f" slack {slack}" if slack else ""), ex)
     raise ValueError(f"bus does not pack with (spacing, gap) in {SEARCH}: {last}")
 
 
-def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True, nested=False, direct=True):
+def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True, nested=False, direct=True,
+            slack=0):
     def forbidden(x):
         return rp is not None and (x + 1) % rp <= 5      # roboport bands: columns rp*i-1 .. rp*i+4
 
@@ -391,7 +394,13 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True,
     # a nested composite spreads its risers RISER_GAP apart, which leaves the lane rows under the wall
     # too crowded for a lane to duck through, so there its modules start east of the wall as well
     start = {"N": x_start + (Espan + gap if nested else 0), "S": x_start + Espan + gap}
-    cursor = dict(start)
+    edge = {k: v - gap for k, v in start.items()}      # east edge of the last module on each side
+    # an item pulled by exactly one port is taken by turning the lane itself, with no splitter, so the
+    # module only has to sit one column east of where the lane starts
+    n_cons = {}
+    for mm in modules:
+        for p in mm.inputs:
+            n_cons[p.item] = n_cons.get(p.item, 0) + 1
     reserved = set()                   # bus columns claimed by placed modules (both sides)
     solo = solo_items(modules, belt) if direct else {}
     feeder = {}                        # consumer module -> producers it could be fed directly by,
@@ -400,17 +409,20 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True,
     last_on = {"N": None, "S": None}   # last module placed on each side
     for mi, m in enumerate(modules):
         side = "N" if (not two_sided or m.no_mirror
-                       or cursor["N"] - start["N"] <= cursor["S"] - start["S"]) else "S"
+                       or edge["N"] - start["N"] <= edge["S"] - start["S"]) else "S"
         for pm in feeder.get(mi, []):  # follow a producer that is still the last module on its side,
             if last_on[sides[pm]] == pm and not m.no_mirror:   # so the two end up next to each other
                 side = sides[pm]
                 break
-        x = cursor[side]
+        # a module fed directly by the one next door needs no room between them for a bus chain
+        fed_by_last = any(solo.get(p.item, (None,))[0] == last_on[side] for p in m.inputs) \
+            if last_on[side] is not None else False
+        x = max(start[side], edge[side] + (1 if fed_by_last else gap))
         for p in m.inputs:
             if p.item in produced_at:                      # a linked item needs no push column, just
                 x = max(x, produced_at[p.item] + (1 if p.item in solo else 3))
-            elif p.item in riser_x:
-                x = max(x, riser_x[p.item] + 2 - p.x)      # its pull must sit east of the riser
+            elif p.item in riser_x:                        # its pull must sit east of the riser: one
+                x = max(x, riser_x[p.item] + (1 if n_cons.get(p.item) == 1 else 2) - p.x)
         ext = extent_of(m)
         if rp and ext + 1 > rp - 6:
             raise ValueError(f"{m.name} is {ext} columns wide; only {rp - 7} fit between roboport bands {rp} apart")
@@ -455,10 +467,11 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True,
                                         # or a column a lane above this module rises in
         reserved.update(bus_cols(x))
         sides[mi], xs[mi] = side, x
+        edge[side] = x + ext
         last_on[side] = mi
         for p in m.outputs:
             produced_at[p.item] = max(produced_at.get(p.item, -1), x + p.x)
-        cursor[side] = x + ext + gap
+
 
     # ---- direct links: producer and consumer next to each other on the same side ----------
     links, linked, taken_link = [], set(), {"N": set(), "S": set()}
@@ -497,20 +510,31 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True,
     link_n = any(lk[5] == "N" for lk in links)
     link_s = any(lk[5] == "S" for lk in links)
 
+    # A pull on lane 0 that takes a splitter needs its branch curve on row B0-1, so the north band
+    # holds one row more than its jog rows; the south's equivalent row is the spare row below the bus,
+    # which is always there. A pull is the whole lane (no splitter) when it is the lane's only one.
+    pulls_on = {}
+    for (mi, pi), ln in pull_lane.items():
+        pulls_on[ln.index] = pulls_on.get(ln.index, 0) + 1
+    curve0 = int(bool(lanes) and (pulls_on.get(lanes[0].index, 0) != 1 or lanes[0] in exported))
+
     def band_rows(side):
         """Rows the routing band needs on `side`: one jog row per belt input port of the widest port
-        group there, plus the branch-curve row. A side of 2-port modules does not need the 5 rows a
-        4-port template would."""
-        k = 0
+        group there, and none at all when every pull comes straight up its own port column. A side of
+        2-port modules does not need the 5 rows a 4-port template would."""
+        k, jog = 0, False
         for mi, m in enumerate(modules):
             if sides[mi] != side:
                 continue
             ports = [p for pi, p in enumerate(m.inputs) if p.kind == "belt" and ("in", mi, pi) not in linked]
-            for _, kk in port_groups(ports):
+            for p, (first, kk) in zip(ports, port_groups(ports)):
                 k = max(k, kk)
-        return k + 2
+                jog = jog or kk > 0 or first != p.x
+        return (k + 1 if jog else 0) + slack
 
-    RN, RS = band_rows("N"), band_rows("S")
+    # the modules always need one row between them and the first lane: the link row counts as it
+    RN = max(band_rows("N") + curve0, 1 - link_n)
+    RS = max(band_rows("S"), 1 - link_s)
     by = max([m.height for m, s in zip(modules, sides) if s == "N"] + [1]) - 1
     B0 = by + RN + 1 + link_n                  # row by+1 is the link row, clear of every jog row
     lane_rows, yy_ = [], B0
@@ -801,7 +825,7 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True,
             if o.start < bc < o.end and (structural(bc - 1, y) or structural(bc + 1, y)):
                 raise ValueError("chain would block a neighbouring lane structure")
         if side == "N":
-            r = B0 - 2 - k
+            r = B0 - 1 - curve0 - k
             if whole:
                 lane_tile(ln, bc, N)
                 top = row(j) - 1
@@ -822,7 +846,7 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True,
             for yy in range(r - 1, by, -1):
                 grid.belt_tile(px, yy, N)
         else:
-            r = spare + 2 + k
+            r = spare + 1 + k
             if whole:
                 lane_tile(ln, bc, S)
                 top = row(j) + 1
@@ -846,10 +870,11 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True,
     pulls.sort(key=lambda t: t[5].kind != "pipe")   # a pipe chain is a straight pipe at the port
                                                    # column with no alternative, so it goes down first
     for m, ln, bc0, px, k, p, side in pulls:
-        if bc0 - 1 <= ln.start:
+        whole = ln.index not in drops and bc0 == last_bc[ln.index] and ln.end == bc0
+        room = 0 if (whole or p.kind == "pipe") else 1     # a splitter needs the column before it;
+        if bc0 - room <= ln.start:                         # a whole-lane turn or a pipe tee does not
             raise ValueError(f"{m.name}: input {p.item} at column {px} is west of lane {ln.index} start {ln.start}; "
                              f"order producers before consumers")
-        whole = ln.index not in drops and bc0 == last_bc[ln.index] and ln.end == bc0
         placed = False
         reasons = []
         cands = [bc0] if p.kind == "pipe" else list(range(bc0, bc0 + spacing))
@@ -864,7 +889,7 @@ def _layout(name, modules, belt, exports, spacing, gap, rp=None, two_sided=True,
             if forbidden(bc) or (p.kind != "pipe" and forbidden(bc - 1)):
                 reasons.append(f"{bc}: roboport band")
                 continue
-            if bc - 1 <= ln.start:
+            if bc - room <= ln.start:
                 reasons.append(f"{bc}: west of lane {ln.index} start {ln.start}")
                 continue
             grid.begin()
