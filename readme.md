@@ -28,14 +28,16 @@ Factorio recipe tools
 - [ ] space-age fluid machines (foundry, biochamber, electromagnetic plant, cryogenic plant)
 - [ ] mirror chemical plants / refineries onto the south side (2.0 per-entity mirror flag)
 
-- [x] 05: game planner (`04_game_planner/plan.py`, notebook + ladder; spec in `04_game_planner/README.md`)
-  - [x] told what to build in what order: `plan.py next` -> one move, with the blueprint
-  - [x] tracks total consumption and production, from a hand-kept notebook of moves
+- [x] 05: game planner (`04_game_planner/game.ipynb`; spec in `04_game_planner/README.md`)
+  - [x] state as python objects in a notebook: `module.red_science(10)`, `f.add(...)`, re-run a cell
+  - [x] told what to build in what order: `f.next()` -> one move, `f.apply(move)` takes it
+  - [x] tracks total consumption and production across the factory
   - [x] tracks research: what is researched, what is available, what it unlocks
-  - [x] tracks tier upgrades (belts, assemblers, furnaces) and what rebuilding would buy
-  - [x] scale out (`scale`), build new (`build`), supply (`have`), research, upgrade
+  - [x] `throughput()` = machines vs belts, `upgrade()` a tier in place, `rebuild()` to shrink
+  - [x] tier upgrades (belts, assemblers, furnaces) and what upgrading in place would buy
   - [ ] power, mining throughput, roboport coverage, malls
   - [ ] rocket goal above 100/min of the six packs
+  - [ ] flow solve: nothing throttles a module when something upstream is short
 
 ## GAME LOOP
 
