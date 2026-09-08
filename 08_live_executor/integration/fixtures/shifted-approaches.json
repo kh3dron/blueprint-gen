@@ -1,0 +1,1134 @@
+[
+  {
+    "request": {
+      "id": "action-006",
+      "op": "approach",
+      "args": {
+        "address": "smelter/entity/1,1"
+      },
+      "tick": 6763,
+      "revision": 11,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "steam-power",
+      "label": "Walk within reach of the existing furnace"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "id": "13",
+        "position": {
+          "y": -15.1875,
+          "x": -9.25
+        },
+        "path": [
+          {
+            "position": {
+              "y": -15.1875,
+              "x": -9.25
+            }
+          }
+        ]
+      },
+      "started_tick": 6763,
+      "finished_tick": 6763,
+      "revision": 13
+    },
+    "wall_seconds": 0.026138541288673878
+  },
+  {
+    "request": {
+      "id": "action-013",
+      "op": "approach",
+      "args": {
+        "address": "smelter/entity/1,1"
+      },
+      "tick": 18169,
+      "revision": 25,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "electronics",
+      "label": "Walk within reach of the existing furnace"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "id": "13",
+        "position": {
+          "y": -5.19921875,
+          "x": -9.20703125
+        },
+        "path": [
+          {
+            "position": {
+              "y": 8.76953125,
+              "x": 22.72265625
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 22.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 21.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 21.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 20.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 20.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 19.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 19.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 18.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 18.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 17.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 17.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 16.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 16.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 15.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 15.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 14.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 13.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 13.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 12.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 12.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 11.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 11.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 10.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 10.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 9.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 9.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 8.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 8.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 7.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 7.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 6.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 6.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 5.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 5.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 4.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 4.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 3.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 3.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 2.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 2.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 1.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 1.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 0.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 0.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.25,
+              "x": -0.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 7.75,
+              "x": -0.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 7.25,
+              "x": -1.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 6.75,
+              "x": -1.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 6.25,
+              "x": -2.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 5.75,
+              "x": -2.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 5.25,
+              "x": -3.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 4.75,
+              "x": -3.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 4.25,
+              "x": -4.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.75,
+              "x": -4.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -5.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 2.75,
+              "x": -5.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 2.25,
+              "x": -6.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 1.75,
+              "x": -6.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 1.25,
+              "x": -7.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 0.75,
+              "x": -7.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 0.25,
+              "x": -8.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -0.25,
+              "x": -8.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -0.75,
+              "x": -9.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -1.25,
+              "x": -9.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -1.75,
+              "x": -9.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -2.25,
+              "x": -9.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -2.75,
+              "x": -9.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -3.25,
+              "x": -9.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -3.75,
+              "x": -9.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -4.25,
+              "x": -9.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -4.75,
+              "x": -9.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -5.25,
+              "x": -9.25
+            },
+            "needs_destroy_to_reach": false
+          }
+        ]
+      },
+      "started_tick": 18169,
+      "finished_tick": 18517,
+      "revision": 27
+    },
+    "wall_seconds": 0.16723350016400218
+  },
+  {
+    "request": {
+      "id": "action-020",
+      "op": "approach",
+      "args": {
+        "address": "smelter/entity/1,1"
+      },
+      "tick": 21716,
+      "revision": 39,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Walk within reach of the existing furnace"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "id": "13",
+        "position": {
+          "y": -5.19921875,
+          "x": -9.20703125
+        },
+        "path": [
+          {
+            "position": {
+              "y": 8.76953125,
+              "x": 22.72265625
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 22.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 21.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 21.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 20.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 20.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 19.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 19.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 18.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 18.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 17.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 17.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 16.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 16.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 15.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 15.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 14.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 13.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 13.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 12.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 12.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 11.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 11.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 10.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 10.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 9.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 9.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 8.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 8.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 7.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 7.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 6.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 6.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 5.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 5.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 4.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 4.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 3.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 3.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 2.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 2.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 1.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 1.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 0.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.75,
+              "x": 0.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 8.25,
+              "x": -0.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 7.75,
+              "x": -0.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 7.25,
+              "x": -1.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 6.75,
+              "x": -1.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 6.25,
+              "x": -2.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 5.75,
+              "x": -2.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 5.25,
+              "x": -3.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 4.75,
+              "x": -3.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 4.25,
+              "x": -4.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.75,
+              "x": -4.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -5.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 2.75,
+              "x": -5.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 2.25,
+              "x": -6.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 1.75,
+              "x": -6.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 1.25,
+              "x": -7.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 0.75,
+              "x": -7.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 0.25,
+              "x": -8.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -0.25,
+              "x": -8.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -0.75,
+              "x": -9.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -1.25,
+              "x": -9.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -1.75,
+              "x": -9.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -2.25,
+              "x": -9.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -2.75,
+              "x": -9.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -3.25,
+              "x": -9.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -3.75,
+              "x": -9.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -4.25,
+              "x": -9.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -4.75,
+              "x": -9.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -5.25,
+              "x": -9.25
+            },
+            "needs_destroy_to_reach": false
+          }
+        ]
+      },
+      "started_tick": 21716,
+      "finished_tick": 22064,
+      "revision": 41
+    },
+    "wall_seconds": 0.163527375087142
+  }
+]

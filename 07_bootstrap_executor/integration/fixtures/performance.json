@@ -1,0 +1,71 @@
+{
+  "stages": [
+    {
+      "stage": "00-observe",
+      "updates": 125,
+      "simulated_seconds": 2.0833333333333335,
+      "update_seconds": 0.039379,
+      "update_speed_vs_realtime": 52.90467846652616,
+      "mode": "unthrottled --benchmark; no game.speed override",
+      "create_process_seconds": 1.4281445420347154,
+      "benchmark_process_seconds": 0.3935354156419635,
+      "benchmark_non_update_seconds": 0.3541564156419635,
+      "total_runner_seconds": 1.8357878336682916,
+      "total_speed_vs_realtime": 1.1348442859926757
+    },
+    {
+      "stage": "01-route",
+      "updates": 8000,
+      "simulated_seconds": 133.33333333333334,
+      "update_seconds": 2.44255,
+      "update_speed_vs_realtime": 54.58776005950066,
+      "mode": "unthrottled --benchmark; no game.speed override",
+      "create_process_seconds": 1.2179831247776747,
+      "benchmark_process_seconds": 2.82890099985525,
+      "benchmark_non_update_seconds": 0.3863509998552499,
+      "total_runner_seconds": 4.057626459281892,
+      "total_speed_vs_realtime": 32.85993293649074
+    },
+    {
+      "stage": "02-route",
+      "updates": 8000,
+      "simulated_seconds": 133.33333333333334,
+      "update_seconds": 2.069583,
+      "update_speed_vs_realtime": 64.42521673850884,
+      "mode": "unthrottled --benchmark; no game.speed override",
+      "create_process_seconds": 1.2446051249280572,
+      "benchmark_process_seconds": 2.429306124802679,
+      "benchmark_non_update_seconds": 0.35972312480267865,
+      "total_runner_seconds": 3.6867390000261366,
+      "total_speed_vs_realtime": 36.16565570071223
+    },
+    {
+      "stage": "03-gather",
+      "updates": 8000,
+      "simulated_seconds": 133.33333333333334,
+      "update_seconds": 2.049516,
+      "update_speed_vs_realtime": 65.05600997178522,
+      "mode": "unthrottled --benchmark; no game.speed override",
+      "create_process_seconds": 1.2156098750419915,
+      "benchmark_process_seconds": 2.396900249645114,
+      "benchmark_non_update_seconds": 0.34738424964511383,
+      "total_runner_seconds": 3.624236207921058,
+      "total_speed_vs_realtime": 36.78936076018519
+    },
+    {
+      "stage": "04-smelt",
+      "updates": 16693,
+      "simulated_seconds": 278.21666666666664,
+      "update_seconds": 4.233877000000001,
+      "update_speed_vs_realtime": 65.71203336012515,
+      "mode": "unthrottled --benchmark; no game.speed override",
+      "create_process_seconds": 1.240967916790396,
+      "benchmark_process_seconds": 4.603287999983877,
+      "benchmark_non_update_seconds": 0.3694109999838764,
+      "total_runner_seconds": 5.8565483330748975,
+      "total_speed_vs_realtime": 47.50522847996252
+    }
+  ],
+  "total_experiment_seconds": 19.095626207999885,
+  "note": "Stages replay earlier actions; sum of simulated seconds is not unique gameplay progress."
+}

@@ -1,0 +1,12 @@
+{
+  "kind": "observe",
+  "title": "Resolve the missing observations before planning a change",
+  "why": "The game export does not yet establish all inputs needed for a reliable recommendation.",
+  "completion_check": "Confirm the listed facts for this capture and import it with the completed review.",
+  "snapshot_revision": "import-5efe81e49eb317f56cd23f2a",
+  "snapshot_tick": 23954,
+  "changes_snapshot": false,
+  "observation_gaps": [
+    "The standalone character crafted a lab, but its research trigger was not credited. Check player-attributed crafting before producing another lab."
+  ]
+}

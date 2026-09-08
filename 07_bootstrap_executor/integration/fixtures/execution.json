@@ -1,0 +1,94 @@
+{
+  "final": {
+    "tick": 16514,
+    "active_mods": {
+      "base": "2.1.16",
+      "blueprint-gen-observer": "0.3.0"
+    },
+    "character_id": "12",
+    "surface_index": 1,
+    "force_index": 1,
+    "map_seed": 42,
+    "position": {
+      "y": -15.1875,
+      "x": -2.2734375
+    },
+    "inventory": {
+      "burner-mining-drill": 1,
+      "wood": 1,
+      "iron-plate": 58
+    },
+    "researched": [
+      "steam-power"
+    ],
+    "build_distance": 10,
+    "reach_distance": 10,
+    "produced_iron": 50
+  },
+  "mining": [
+    {
+      "item": "coal",
+      "gained": 4,
+      "depleted": 4,
+      "receipt_sha256": "6e1132d2963d40a3a9425fa78931beb54155dbdd75ef477e9dff825073f1aa54",
+      "started_tick": 122,
+      "finished_tick": 751
+    },
+    {
+      "item": "iron-ore",
+      "gained": 50,
+      "depleted": 50,
+      "receipt_sha256": "7396fba2f60b5a5007e2322c5de75ce295cb54a064af697199f82a1ab5a0cfa3",
+      "started_tick": 753,
+      "finished_tick": 6892
+    }
+  ],
+  "transfers": [
+    {
+      "item": "iron-ore",
+      "count": 50,
+      "removed": 50,
+      "inserted": 50,
+      "tick": 6893
+    },
+    {
+      "item": "coal",
+      "count": 4,
+      "removed": 4,
+      "inserted": 4,
+      "tick": 6893
+    },
+    {
+      "item": "iron-plate",
+      "count": 50,
+      "removed": 50,
+      "inserted": 50,
+      "tick": 16495
+    }
+  ],
+  "furnace": {
+    "address": "smelter/entity/1,1",
+    "unit_number": 13,
+    "position": {
+      "y": -14,
+      "x": -2
+    },
+    "products_finished": 50,
+    "input": {},
+    "output": {},
+    "fuel": {},
+    "remaining_burning_fuel_j": 1598400
+  },
+  "paid_furnaces": 1,
+  "retained_on_repeat": true,
+  "refusals": {
+    "out_of_reach": true,
+    "collision": true,
+    "missing_item": true,
+    "short_transfer": true
+  },
+  "walking_distance": 34.39243097854141,
+  "smelting_ticks": 9602,
+  "trigger_wait_ticks": 19,
+  "method": "native walking_state/mining_state; costed test placement and reach-checked transfers; ordinary furnace ticks"
+}

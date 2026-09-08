@@ -1,0 +1,963 @@
+{
+  "schema_version": 1,
+  "id": "nauvis-opening-2.1.14-v1",
+  "factorio_version": "2.1.14",
+  "mods": {
+    "base": "2.1.14"
+  },
+  "provenance": {
+    "kind": "reviewed-prototype-subset",
+    "note": "Recipes/technology from selected base prototypes; machine constants manually checked. Not an engine-exported or in-game-certified dataset.",
+    "source_sha256": {
+      "base/prototypes/recipe.lua": "8ac181d33e985664d766f741e3501a695fd27f21575b08f1c8fd49d2cac72f62",
+      "base/prototypes/technology.lua": "0fe834c532069856f9ed227dc1cb952ac3227592fd5c98a78210daa0e5137d2c",
+      "base/prototypes/entity/entities.lua": "3ead70edf0476a3c9524b2cd8c5b4f957be79d154f318e44ad5f2a5911203c54"
+    },
+    "quality": "normal",
+    "modifications": "No expansion data; no modules, beacons or productivity."
+  },
+  "items": {
+    "assembling-machine-1": "item",
+    "assembling-machine-2": "item",
+    "assembling-machine-3": "item",
+    "automation-science-pack": "item",
+    "boiler": "item",
+    "burner-mining-drill": "item",
+    "chemical-plant": "item",
+    "chemical-science-pack": "item",
+    "coal": "item",
+    "copper-cable": "item",
+    "copper-ore": "item",
+    "copper-plate": "item",
+    "crude-oil": "fluid",
+    "electronic-circuit": "item",
+    "heavy-oil": "fluid",
+    "inserter": "item",
+    "iron-gear-wheel": "item",
+    "iron-ore": "item",
+    "iron-plate": "item",
+    "lab": "item",
+    "light-oil": "fluid",
+    "logistic-science-pack": "item",
+    "offshore-pump": "item",
+    "oil-refinery": "item",
+    "petroleum-gas": "fluid",
+    "pipe": "item",
+    "plastic-bar": "item",
+    "production-science-pack": "item",
+    "small-electric-pole": "item",
+    "speed-module": "item",
+    "steam-engine": "item",
+    "steel-plate": "item",
+    "stone": "item",
+    "stone-brick": "item",
+    "stone-furnace": "item",
+    "sulfur": "item",
+    "transport-belt": "item",
+    "water": "fluid",
+    "wood": "item",
+    "wooden-chest": "item"
+  },
+  "raw_items": [
+    "iron-ore",
+    "copper-ore",
+    "coal",
+    "stone",
+    "wood",
+    "water",
+    "crude-oil"
+  ],
+  "hand_collectable": [
+    "iron-ore",
+    "copper-ore",
+    "coal",
+    "stone",
+    "wood"
+  ],
+  "fuel_kj": {
+    "coal": 4000
+  },
+  "recipes": {
+    "iron-plate": {
+      "category": "smelting",
+      "seconds": 3.2,
+      "enabled": true,
+      "unlocked_by": [],
+      "inputs": {
+        "iron-ore": 1
+      },
+      "outputs": {
+        "iron-plate": 1
+      }
+    },
+    "copper-plate": {
+      "category": "smelting",
+      "seconds": 3.2,
+      "enabled": true,
+      "unlocked_by": [],
+      "inputs": {
+        "copper-ore": 1
+      },
+      "outputs": {
+        "copper-plate": 1
+      }
+    },
+    "iron-gear-wheel": {
+      "category": "crafting",
+      "seconds": 0.5,
+      "enabled": true,
+      "unlocked_by": [],
+      "inputs": {
+        "iron-plate": 2
+      },
+      "outputs": {
+        "iron-gear-wheel": 1
+      }
+    },
+    "copper-cable": {
+      "category": "crafting",
+      "seconds": 0.5,
+      "enabled": false,
+      "unlocked_by": [
+        "electronics"
+      ],
+      "inputs": {
+        "copper-plate": 1
+      },
+      "outputs": {
+        "copper-cable": 2
+      }
+    },
+    "electronic-circuit": {
+      "category": "crafting",
+      "seconds": 0.5,
+      "enabled": false,
+      "unlocked_by": [
+        "electronics"
+      ],
+      "inputs": {
+        "iron-plate": 1,
+        "copper-cable": 3
+      },
+      "outputs": {
+        "electronic-circuit": 1
+      }
+    },
+    "stone-furnace": {
+      "category": "crafting",
+      "seconds": 0.5,
+      "enabled": true,
+      "unlocked_by": [],
+      "inputs": {
+        "stone": 5
+      },
+      "outputs": {
+        "stone-furnace": 1
+      }
+    },
+    "burner-mining-drill": {
+      "category": "crafting",
+      "seconds": 2,
+      "enabled": true,
+      "unlocked_by": [],
+      "inputs": {
+        "iron-gear-wheel": 3,
+        "stone-furnace": 1,
+        "iron-plate": 3
+      },
+      "outputs": {
+        "burner-mining-drill": 1
+      }
+    },
+    "assembling-machine-1": {
+      "category": "crafting",
+      "seconds": 0.5,
+      "enabled": false,
+      "unlocked_by": [
+        "automation"
+      ],
+      "inputs": {
+        "electronic-circuit": 3,
+        "iron-gear-wheel": 5,
+        "iron-plate": 9
+      },
+      "outputs": {
+        "assembling-machine-1": 1
+      }
+    },
+    "assembling-machine-2": {
+      "category": "crafting",
+      "seconds": 0.5,
+      "enabled": false,
+      "unlocked_by": [
+        "automation-2"
+      ],
+      "inputs": {
+        "steel-plate": 2,
+        "electronic-circuit": 3,
+        "iron-gear-wheel": 5,
+        "assembling-machine-1": 1
+      },
+      "outputs": {
+        "assembling-machine-2": 1
+      }
+    },
+    "assembling-machine-3": {
+      "category": "crafting",
+      "seconds": 0.5,
+      "enabled": false,
+      "unlocked_by": [
+        "automation-3"
+      ],
+      "inputs": {
+        "speed-module": 4,
+        "assembling-machine-2": 2
+      },
+      "outputs": {
+        "assembling-machine-3": 1
+      }
+    },
+    "lab": {
+      "category": "crafting",
+      "seconds": 2,
+      "enabled": false,
+      "unlocked_by": [
+        "electronics"
+      ],
+      "inputs": {
+        "electronic-circuit": 10,
+        "iron-gear-wheel": 10,
+        "transport-belt": 4
+      },
+      "outputs": {
+        "lab": 1
+      }
+    },
+    "offshore-pump": {
+      "category": "crafting",
+      "seconds": 0.5,
+      "enabled": false,
+      "unlocked_by": [
+        "steam-power"
+      ],
+      "inputs": {
+        "pipe": 3,
+        "iron-gear-wheel": 2
+      },
+      "outputs": {
+        "offshore-pump": 1
+      }
+    },
+    "boiler": {
+      "category": "crafting",
+      "seconds": 0.5,
+      "enabled": false,
+      "unlocked_by": [
+        "steam-power"
+      ],
+      "inputs": {
+        "stone-furnace": 1,
+        "pipe": 4
+      },
+      "outputs": {
+        "boiler": 1
+      }
+    },
+    "steam-engine": {
+      "category": "crafting",
+      "seconds": 0.5,
+      "enabled": false,
+      "unlocked_by": [
+        "steam-power"
+      ],
+      "inputs": {
+        "iron-gear-wheel": 8,
+        "pipe": 5,
+        "iron-plate": 10
+      },
+      "outputs": {
+        "steam-engine": 1
+      }
+    },
+    "small-electric-pole": {
+      "category": "crafting",
+      "seconds": 0.5,
+      "enabled": false,
+      "unlocked_by": [
+        "electronics"
+      ],
+      "inputs": {
+        "wood": 1,
+        "copper-cable": 2
+      },
+      "outputs": {
+        "small-electric-pole": 2
+      }
+    },
+    "pipe": {
+      "category": "crafting",
+      "seconds": 0.5,
+      "enabled": false,
+      "unlocked_by": [
+        "steam-power"
+      ],
+      "inputs": {
+        "iron-plate": 1
+      },
+      "outputs": {
+        "pipe": 1
+      }
+    },
+    "transport-belt": {
+      "category": "crafting",
+      "seconds": 0.5,
+      "enabled": true,
+      "unlocked_by": [],
+      "inputs": {
+        "iron-plate": 1,
+        "iron-gear-wheel": 1
+      },
+      "outputs": {
+        "transport-belt": 2
+      }
+    },
+    "inserter": {
+      "category": "crafting",
+      "seconds": 0.5,
+      "enabled": false,
+      "unlocked_by": [
+        "electronics"
+      ],
+      "inputs": {
+        "electronic-circuit": 1,
+        "iron-gear-wheel": 1,
+        "iron-plate": 1
+      },
+      "outputs": {
+        "inserter": 1
+      }
+    },
+    "wooden-chest": {
+      "category": "crafting",
+      "seconds": 0.5,
+      "enabled": true,
+      "unlocked_by": [],
+      "inputs": {
+        "wood": 2
+      },
+      "outputs": {
+        "wooden-chest": 1
+      }
+    },
+    "automation-science-pack": {
+      "category": "crafting",
+      "seconds": 5,
+      "enabled": false,
+      "unlocked_by": [
+        "automation-science-pack"
+      ],
+      "inputs": {
+        "copper-plate": 1,
+        "iron-gear-wheel": 1
+      },
+      "outputs": {
+        "automation-science-pack": 1
+      }
+    },
+    "oil-refinery": {
+      "category": "crafting",
+      "seconds": 8,
+      "enabled": false,
+      "unlocked_by": [
+        "oil-processing"
+      ],
+      "inputs": {
+        "steel-plate": 15,
+        "iron-gear-wheel": 10,
+        "stone-brick": 10,
+        "electronic-circuit": 10,
+        "pipe": 10
+      },
+      "outputs": {
+        "oil-refinery": 1
+      }
+    },
+    "chemical-plant": {
+      "category": "crafting",
+      "seconds": 5,
+      "enabled": false,
+      "unlocked_by": [
+        "oil-processing"
+      ],
+      "inputs": {
+        "steel-plate": 5,
+        "iron-gear-wheel": 5,
+        "electronic-circuit": 5,
+        "pipe": 5
+      },
+      "outputs": {
+        "chemical-plant": 1
+      }
+    },
+    "basic-oil-processing": {
+      "category": "oil-processing",
+      "seconds": 5,
+      "enabled": false,
+      "unlocked_by": [
+        "oil-processing"
+      ],
+      "inputs": {
+        "crude-oil": 100
+      },
+      "outputs": {
+        "petroleum-gas": 45
+      }
+    },
+    "advanced-oil-processing": {
+      "category": "oil-processing",
+      "seconds": 5,
+      "enabled": false,
+      "unlocked_by": [
+        "advanced-oil-processing"
+      ],
+      "inputs": {
+        "water": 50,
+        "crude-oil": 100
+      },
+      "outputs": {
+        "heavy-oil": 25,
+        "light-oil": 45,
+        "petroleum-gas": 55
+      }
+    },
+    "heavy-oil-cracking": {
+      "category": "chemistry",
+      "seconds": 2,
+      "enabled": false,
+      "unlocked_by": [
+        "advanced-oil-processing"
+      ],
+      "inputs": {
+        "water": 30,
+        "heavy-oil": 40
+      },
+      "outputs": {
+        "light-oil": 30
+      }
+    },
+    "light-oil-cracking": {
+      "category": "chemistry",
+      "seconds": 2,
+      "enabled": false,
+      "unlocked_by": [
+        "advanced-oil-processing"
+      ],
+      "inputs": {
+        "water": 30,
+        "light-oil": 30
+      },
+      "outputs": {
+        "petroleum-gas": 20
+      }
+    },
+    "plastic-bar": {
+      "category": "chemistry",
+      "seconds": 1,
+      "enabled": false,
+      "unlocked_by": [
+        "plastics"
+      ],
+      "inputs": {
+        "petroleum-gas": 20,
+        "coal": 1
+      },
+      "outputs": {
+        "plastic-bar": 2
+      }
+    },
+    "sulfur": {
+      "category": "chemistry",
+      "seconds": 1,
+      "enabled": false,
+      "unlocked_by": [
+        "sulfur-processing"
+      ],
+      "inputs": {
+        "water": 30,
+        "petroleum-gas": 30
+      },
+      "outputs": {
+        "sulfur": 2
+      }
+    }
+  },
+  "machines": {
+    "stone-furnace": {
+      "speed": 1,
+      "categories": [
+        "smelting"
+      ],
+      "electric_kw": 0,
+      "fuel": "coal",
+      "fuel_kw": 90,
+      "size": [
+        2,
+        2
+      ]
+    },
+    "assembling-machine-1": {
+      "speed": 0.5,
+      "categories": [
+        "crafting"
+      ],
+      "electric_kw": 75,
+      "size": [
+        3,
+        3
+      ]
+    },
+    "assembling-machine-2": {
+      "speed": 0.75,
+      "categories": [
+        "crafting"
+      ],
+      "electric_kw": 150,
+      "size": [
+        3,
+        3
+      ]
+    },
+    "assembling-machine-3": {
+      "speed": 1.25,
+      "categories": [
+        "crafting"
+      ],
+      "electric_kw": 375,
+      "size": [
+        3,
+        3
+      ]
+    },
+    "oil-refinery": {
+      "speed": 1,
+      "categories": [
+        "oil-processing"
+      ],
+      "electric_kw": 420,
+      "size": [
+        5,
+        5
+      ]
+    },
+    "chemical-plant": {
+      "speed": 1,
+      "categories": [
+        "chemistry"
+      ],
+      "electric_kw": 210,
+      "size": [
+        3,
+        3
+      ]
+    },
+    "lab": {
+      "speed": 1,
+      "categories": [],
+      "electric_kw": 60,
+      "size": [
+        3,
+        3
+      ]
+    }
+  },
+  "default_recipes": {
+    "iron-plate": "iron-plate",
+    "copper-plate": "copper-plate",
+    "iron-gear-wheel": "iron-gear-wheel",
+    "copper-cable": "copper-cable",
+    "electronic-circuit": "electronic-circuit",
+    "stone-furnace": "stone-furnace",
+    "burner-mining-drill": "burner-mining-drill",
+    "assembling-machine-1": "assembling-machine-1",
+    "assembling-machine-2": "assembling-machine-2",
+    "assembling-machine-3": "assembling-machine-3",
+    "lab": "lab",
+    "offshore-pump": "offshore-pump",
+    "boiler": "boiler",
+    "steam-engine": "steam-engine",
+    "small-electric-pole": "small-electric-pole",
+    "pipe": "pipe",
+    "transport-belt": "transport-belt",
+    "inserter": "inserter",
+    "wooden-chest": "wooden-chest",
+    "automation-science-pack": "automation-science-pack",
+    "oil-refinery": "oil-refinery",
+    "chemical-plant": "chemical-plant",
+    "plastic-bar": "plastic-bar",
+    "sulfur": "sulfur",
+    "petroleum-gas": "basic-oil-processing",
+    "heavy-oil": "advanced-oil-processing",
+    "light-oil": "advanced-oil-processing"
+  },
+  "default_machines": {
+    "crafting": "assembling-machine-1",
+    "smelting": "stone-furnace",
+    "chemistry": "chemical-plant",
+    "oil-processing": "oil-refinery"
+  },
+  "technologies": {
+    "advanced-circuit": {
+      "prerequisites": [
+        "plastics"
+      ],
+      "trigger": null,
+      "count": 200,
+      "seconds": 15,
+      "packs": {
+        "automation-science-pack": 1,
+        "logistic-science-pack": 1
+      }
+    },
+    "advanced-material-processing": {
+      "prerequisites": [
+        "steel-processing",
+        "logistic-science-pack"
+      ],
+      "trigger": null,
+      "count": 75,
+      "seconds": 30,
+      "packs": {
+        "automation-science-pack": 1,
+        "logistic-science-pack": 1
+      }
+    },
+    "advanced-material-processing-2": {
+      "prerequisites": [
+        "advanced-material-processing",
+        "chemical-science-pack"
+      ],
+      "trigger": null,
+      "count": 250,
+      "seconds": 30,
+      "packs": {
+        "automation-science-pack": 1,
+        "logistic-science-pack": 1,
+        "chemical-science-pack": 1
+      }
+    },
+    "advanced-oil-processing": {
+      "prerequisites": [
+        "chemical-science-pack"
+      ],
+      "trigger": null,
+      "count": 75,
+      "seconds": 30,
+      "packs": {
+        "automation-science-pack": 1,
+        "logistic-science-pack": 1,
+        "chemical-science-pack": 1
+      }
+    },
+    "automation": {
+      "prerequisites": [
+        "automation-science-pack"
+      ],
+      "trigger": null,
+      "count": 10,
+      "seconds": 10,
+      "packs": {
+        "automation-science-pack": 1
+      }
+    },
+    "automation-2": {
+      "prerequisites": [
+        "automation",
+        "steel-processing",
+        "logistic-science-pack"
+      ],
+      "trigger": null,
+      "count": 40,
+      "seconds": 15,
+      "packs": {
+        "automation-science-pack": 1,
+        "logistic-science-pack": 1
+      }
+    },
+    "automation-3": {
+      "prerequisites": [
+        "speed-module",
+        "production-science-pack",
+        "electric-engine"
+      ],
+      "trigger": null,
+      "count": 150,
+      "seconds": 60,
+      "packs": {
+        "automation-science-pack": 1,
+        "logistic-science-pack": 1,
+        "chemical-science-pack": 1,
+        "production-science-pack": 1
+      }
+    },
+    "automation-science-pack": {
+      "prerequisites": [
+        "steam-power",
+        "electronics"
+      ],
+      "trigger": {
+        "type": "craft-item",
+        "item": "lab"
+      },
+      "count": 0,
+      "seconds": 0,
+      "packs": {}
+    },
+    "chemical-science-pack": {
+      "prerequisites": [
+        "advanced-circuit",
+        "sulfur-processing"
+      ],
+      "trigger": null,
+      "count": 75,
+      "seconds": 10,
+      "packs": {
+        "automation-science-pack": 1,
+        "logistic-science-pack": 1
+      }
+    },
+    "electric-engine": {
+      "prerequisites": [
+        "lubricant"
+      ],
+      "trigger": null,
+      "count": 50,
+      "seconds": 30,
+      "packs": {
+        "automation-science-pack": 1,
+        "logistic-science-pack": 1,
+        "chemical-science-pack": 1
+      }
+    },
+    "electronics": {
+      "prerequisites": [],
+      "trigger": {
+        "type": "craft-item",
+        "count": 10,
+        "item": "copper-plate"
+      },
+      "count": 0,
+      "seconds": 0,
+      "packs": {}
+    },
+    "engine": {
+      "prerequisites": [
+        "steel-processing",
+        "logistic-science-pack"
+      ],
+      "trigger": null,
+      "count": 100,
+      "seconds": 15,
+      "packs": {
+        "automation-science-pack": 1,
+        "logistic-science-pack": 1
+      }
+    },
+    "fluid-handling": {
+      "prerequisites": [
+        "automation-2",
+        "engine"
+      ],
+      "trigger": null,
+      "count": 50,
+      "seconds": 15,
+      "packs": {
+        "automation-science-pack": 1,
+        "logistic-science-pack": 1
+      }
+    },
+    "logistic-science-pack": {
+      "prerequisites": [
+        "automation-science-pack"
+      ],
+      "trigger": null,
+      "count": 75,
+      "seconds": 5,
+      "packs": {
+        "automation-science-pack": 1
+      }
+    },
+    "logistics": {
+      "prerequisites": [
+        "automation-science-pack"
+      ],
+      "trigger": null,
+      "count": 20,
+      "seconds": 15,
+      "packs": {
+        "automation-science-pack": 1
+      }
+    },
+    "logistics-2": {
+      "prerequisites": [
+        "logistics",
+        "logistic-science-pack"
+      ],
+      "trigger": null,
+      "count": 200,
+      "seconds": 30,
+      "packs": {
+        "automation-science-pack": 1,
+        "logistic-science-pack": 1
+      }
+    },
+    "lubricant": {
+      "prerequisites": [
+        "advanced-oil-processing"
+      ],
+      "trigger": null,
+      "count": 50,
+      "seconds": 30,
+      "packs": {
+        "automation-science-pack": 1,
+        "logistic-science-pack": 1,
+        "chemical-science-pack": 1
+      }
+    },
+    "modules": {
+      "prerequisites": [
+        "advanced-circuit"
+      ],
+      "trigger": null,
+      "count": 100,
+      "seconds": 30,
+      "packs": {
+        "automation-science-pack": 1,
+        "logistic-science-pack": 1
+      }
+    },
+    "oil-gathering": {
+      "prerequisites": [
+        "fluid-handling"
+      ],
+      "trigger": null,
+      "count": 100,
+      "seconds": 30,
+      "packs": {
+        "automation-science-pack": 1,
+        "logistic-science-pack": 1
+      }
+    },
+    "oil-processing": {
+      "prerequisites": [
+        "oil-gathering"
+      ],
+      "trigger": {
+        "type": "mine-entity",
+        "entities": [
+          "crude-oil"
+        ]
+      },
+      "count": 0,
+      "seconds": 0,
+      "packs": {}
+    },
+    "plastics": {
+      "prerequisites": [
+        "oil-processing"
+      ],
+      "trigger": null,
+      "count": 200,
+      "seconds": 30,
+      "packs": {
+        "automation-science-pack": 1,
+        "logistic-science-pack": 1
+      }
+    },
+    "production-science-pack": {
+      "prerequisites": [
+        "productivity-module",
+        "advanced-material-processing-2",
+        "railway"
+      ],
+      "trigger": null,
+      "count": 100,
+      "seconds": 30,
+      "packs": {
+        "automation-science-pack": 1,
+        "logistic-science-pack": 1,
+        "chemical-science-pack": 1
+      }
+    },
+    "productivity-module": {
+      "prerequisites": [
+        "modules"
+      ],
+      "trigger": null,
+      "count": 50,
+      "seconds": 30,
+      "packs": {
+        "automation-science-pack": 1,
+        "logistic-science-pack": 1
+      }
+    },
+    "railway": {
+      "prerequisites": [
+        "logistics-2",
+        "engine"
+      ],
+      "trigger": null,
+      "count": 75,
+      "seconds": 30,
+      "packs": {
+        "automation-science-pack": 1,
+        "logistic-science-pack": 1
+      }
+    },
+    "speed-module": {
+      "prerequisites": [
+        "modules"
+      ],
+      "trigger": null,
+      "count": 50,
+      "seconds": 30,
+      "packs": {
+        "automation-science-pack": 1,
+        "logistic-science-pack": 1
+      }
+    },
+    "steam-power": {
+      "prerequisites": [],
+      "trigger": {
+        "type": "craft-item",
+        "count": 50,
+        "item": "iron-plate"
+      },
+      "count": 0,
+      "seconds": 0,
+      "packs": {}
+    },
+    "steel-processing": {
+      "prerequisites": [
+        "automation-science-pack"
+      ],
+      "trigger": null,
+      "count": 50,
+      "seconds": 5,
+      "packs": {
+        "automation-science-pack": 1
+      }
+    },
+    "sulfur-processing": {
+      "prerequisites": [
+        "oil-processing"
+      ],
+      "trigger": null,
+      "count": 150,
+      "seconds": 30,
+      "packs": {
+        "automation-science-pack": 1,
+        "logistic-science-pack": 1
+      }
+    }
+  }
+}

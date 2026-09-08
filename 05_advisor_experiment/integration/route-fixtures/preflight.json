@@ -1,0 +1,5 @@
+{
+  "covered_target_rejected": true,
+  "covering_entity": "transport-belt",
+  "reason": "Error when running interface function blueprint-gen-observer.route_character: __blueprint-gen-observer__/routing.lua:106: The mineral is covered by an obstacle; clear it and survey again.\nstack traceback:\n\t[C]: in function 'assert'\n\t__blueprint-gen-observer__/routing.lua:106: in function <__blueprint-gen-observer__/routing.lua:71>\n\t(...tail calls...)"
+}

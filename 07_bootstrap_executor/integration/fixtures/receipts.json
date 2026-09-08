@@ -1,0 +1,595 @@
+[
+  {
+    "route_schema_version": 1,
+    "source": "factorio-native-pathfinder",
+    "exporter": {
+      "name": "blueprint-gen-observer",
+      "version": "0.3.0"
+    },
+    "factorio_version": "2.1.16",
+    "active_mods": {
+      "base": "2.1.16",
+      "blueprint-gen-observer": "0.3.0"
+    },
+    "sequence": 1,
+    "requested_tick": 121,
+    "generation": 1,
+    "surface_index": 1,
+    "surface_name": "nauvis",
+    "map_seed": 42,
+    "force_index": 1,
+    "start": {
+      "y": 0,
+      "x": 0
+    },
+    "actor": {
+      "id": "12",
+      "prototype": "character",
+      "resource_reach_distance": 2.7,
+      "collision_box": {
+        "left_top": {
+          "y": -0.19921875,
+          "x": -0.19921875
+        },
+        "right_bottom": {
+          "y": 0.19921875,
+          "x": 0.19921875
+        }
+      },
+      "collision_mask": {
+        "consider_tile_transitions": true,
+        "layers": {
+          "is_object": true,
+          "player": true,
+          "train": true
+        }
+      },
+      "clearance_margin": 0.25
+    },
+    "target": {
+      "id": "coal:-16.5:-16.5",
+      "prototype": "coal",
+      "item": "coal",
+      "position": {
+        "y": -16.5,
+        "x": -16.5
+      },
+      "quantity": 4,
+      "amount": 1000
+    },
+    "goal_radius": 2.2,
+    "pathfinder_collision_mask": {
+      "layers": {
+        "is_object": true,
+        "player": true,
+        "train": true,
+        "water_tile": true
+      },
+      "consider_tile_transitions": false
+    },
+    "constraints": {
+      "can_open_gates": false,
+      "allow_destroy_friendly_entities": false,
+      "allow_paths_through_own_entities": false,
+      "cache": false,
+      "max_path_length": 256,
+      "max_waypoints": 2048
+    },
+    "note": "Native path under the captured configuration. No walking or mining was executed. Request again after changes.",
+    "request_id": 1,
+    "path_validation": {
+      "method": "swept-character-box",
+      "max_segment_length": 0.125,
+      "clear": true
+    },
+    "path": [
+      {
+        "position": {
+          "y": 0,
+          "x": 0
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -0.25,
+          "x": -0.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -0.75,
+          "x": -0.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -1.25,
+          "x": -1.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -1.75,
+          "x": -1.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -2.25,
+          "x": -2.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -2.75,
+          "x": -2.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -3.25,
+          "x": -3.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -3.75,
+          "x": -3.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -4.25,
+          "x": -4.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -4.75,
+          "x": -4.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -5.25,
+          "x": -5.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -5.75,
+          "x": -5.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -6.25,
+          "x": -6.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -6.75,
+          "x": -6.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -7.25,
+          "x": -7.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -7.75,
+          "x": -7.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -8.25,
+          "x": -8.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -8.75,
+          "x": -8.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -9.25,
+          "x": -9.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -9.75,
+          "x": -9.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -10.25,
+          "x": -10.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -10.75,
+          "x": -10.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -11.25,
+          "x": -11.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -11.75,
+          "x": -11.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -12.25,
+          "x": -12.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -12.75,
+          "x": -12.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -13.25,
+          "x": -13.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -13.75,
+          "x": -13.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -14.25,
+          "x": -14.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -14.75,
+          "x": -14.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -15.25
+        },
+        "needs_destroy_to_reach": false
+      }
+    ],
+    "reasons": {},
+    "status": "ready",
+    "generation_at_completion": 1,
+    "completed_tick": 121
+  },
+  {
+    "route_schema_version": 1,
+    "source": "factorio-native-pathfinder",
+    "exporter": {
+      "name": "blueprint-gen-observer",
+      "version": "0.3.0"
+    },
+    "factorio_version": "2.1.16",
+    "active_mods": {
+      "base": "2.1.16",
+      "blueprint-gen-observer": "0.3.0"
+    },
+    "sequence": 2,
+    "requested_tick": 752,
+    "generation": 1,
+    "surface_index": 1,
+    "surface_name": "nauvis",
+    "map_seed": 42,
+    "force_index": 1,
+    "start": {
+      "y": -15.1875,
+      "x": -15.1875
+    },
+    "actor": {
+      "id": "12",
+      "prototype": "character",
+      "resource_reach_distance": 2.7,
+      "collision_box": {
+        "left_top": {
+          "y": -0.19921875,
+          "x": -0.19921875
+        },
+        "right_bottom": {
+          "y": 0.19921875,
+          "x": 0.19921875
+        }
+      },
+      "collision_mask": {
+        "consider_tile_transitions": true,
+        "layers": {
+          "is_object": true,
+          "player": true,
+          "train": true
+        }
+      },
+      "clearance_margin": 0.25
+    },
+    "target": {
+      "id": "iron-ore:-0.5:-16.5",
+      "prototype": "iron-ore",
+      "item": "iron-ore",
+      "position": {
+        "y": -16.5,
+        "x": -0.5
+      },
+      "quantity": 50,
+      "amount": 1000
+    },
+    "goal_radius": 2.2,
+    "pathfinder_collision_mask": {
+      "layers": {
+        "is_object": true,
+        "player": true,
+        "train": true,
+        "water_tile": true
+      },
+      "consider_tile_transitions": false
+    },
+    "constraints": {
+      "can_open_gates": false,
+      "allow_destroy_friendly_entities": false,
+      "allow_paths_through_own_entities": false,
+      "cache": false,
+      "max_path_length": 256,
+      "max_waypoints": 2048
+    },
+    "note": "Native path under the captured configuration. No walking or mining was executed. Request again after changes.",
+    "request_id": 2,
+    "path_validation": {
+      "method": "swept-character-box",
+      "max_segment_length": 0.125,
+      "clear": true
+    },
+    "path": [
+      {
+        "position": {
+          "y": -15.1875,
+          "x": -15.1875
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -14.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -14.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -13.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -13.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -12.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -12.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -11.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -11.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -10.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -10.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -9.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -9.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -8.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -8.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -7.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -7.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -6.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -6.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -5.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -5.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -4.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -4.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -3.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -3.25
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -2.75
+        },
+        "needs_destroy_to_reach": false
+      },
+      {
+        "position": {
+          "y": -15.25,
+          "x": -2.25
+        },
+        "needs_destroy_to_reach": false
+      }
+    ],
+    "reasons": {},
+    "status": "ready",
+    "generation_at_completion": 1,
+    "completed_tick": 752
+  }
+]

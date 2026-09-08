@@ -1,0 +1,283 @@
+{
+  "requested": {
+    "offshore-pump": 1,
+    "pipe": 1,
+    "boiler": 1,
+    "steam-engine": 1,
+    "small-electric-pole": 1,
+    "lab": 1
+  },
+  "force_new_crafts": false,
+  "inventory_used": {
+    "iron-plate": 22,
+    "wood": 1,
+    "lab": 1
+  },
+  "gather": {
+    "stone": 5,
+    "iron-ore": 21,
+    "coal": 4,
+    "copper-ore": 1
+  },
+  "steps": [
+    {
+      "kind": "handcraft",
+      "recipe": "iron-gear-wheel",
+      "crafts": 2,
+      "crafting_seconds": 1.0,
+      "inputs": {
+        "iron-plate": 4
+      },
+      "outputs": {
+        "iron-gear-wheel": 2
+      }
+    },
+    {
+      "kind": "handcraft",
+      "recipe": "pipe",
+      "crafts": 3,
+      "crafting_seconds": 1.5,
+      "inputs": {
+        "iron-plate": 3
+      },
+      "outputs": {
+        "pipe": 3
+      }
+    },
+    {
+      "kind": "handcraft",
+      "recipe": "offshore-pump",
+      "crafts": 1,
+      "crafting_seconds": 0.5,
+      "inputs": {
+        "iron-gear-wheel": 2,
+        "pipe": 3
+      },
+      "outputs": {
+        "offshore-pump": 1
+      }
+    },
+    {
+      "kind": "handcraft",
+      "recipe": "pipe",
+      "crafts": 1,
+      "crafting_seconds": 0.5,
+      "inputs": {
+        "iron-plate": 1
+      },
+      "outputs": {
+        "pipe": 1
+      }
+    },
+    {
+      "kind": "handcraft",
+      "recipe": "pipe",
+      "crafts": 4,
+      "crafting_seconds": 2.0,
+      "inputs": {
+        "iron-plate": 4
+      },
+      "outputs": {
+        "pipe": 4
+      }
+    },
+    {
+      "kind": "gather",
+      "item": "stone",
+      "quantity": 5
+    },
+    {
+      "kind": "handcraft",
+      "recipe": "stone-furnace",
+      "crafts": 1,
+      "crafting_seconds": 0.5,
+      "inputs": {
+        "stone": 5
+      },
+      "outputs": {
+        "stone-furnace": 1
+      }
+    },
+    {
+      "kind": "handcraft",
+      "recipe": "boiler",
+      "crafts": 1,
+      "crafting_seconds": 0.5,
+      "inputs": {
+        "pipe": 4,
+        "stone-furnace": 1
+      },
+      "outputs": {
+        "boiler": 1
+      }
+    },
+    {
+      "kind": "gather",
+      "item": "iron-ore",
+      "quantity": 6
+    },
+    {
+      "kind": "gather",
+      "item": "coal",
+      "quantity": 1
+    },
+    {
+      "kind": "smelt",
+      "recipe": "iron-plate",
+      "crafts": 6,
+      "machine": "stone-furnace",
+      "coal": 1,
+      "processing_seconds": 19.200000000000003,
+      "inputs": {
+        "iron-ore": 6
+      },
+      "outputs": {
+        "iron-plate": 6
+      }
+    },
+    {
+      "kind": "handcraft",
+      "recipe": "iron-gear-wheel",
+      "crafts": 8,
+      "crafting_seconds": 4.0,
+      "inputs": {
+        "iron-plate": 16
+      },
+      "outputs": {
+        "iron-gear-wheel": 8
+      }
+    },
+    {
+      "kind": "gather",
+      "item": "iron-ore",
+      "quantity": 10
+    },
+    {
+      "kind": "gather",
+      "item": "coal",
+      "quantity": 1
+    },
+    {
+      "kind": "smelt",
+      "recipe": "iron-plate",
+      "crafts": 10,
+      "machine": "stone-furnace",
+      "coal": 1,
+      "processing_seconds": 32.0,
+      "inputs": {
+        "iron-ore": 10
+      },
+      "outputs": {
+        "iron-plate": 10
+      }
+    },
+    {
+      "kind": "gather",
+      "item": "iron-ore",
+      "quantity": 5
+    },
+    {
+      "kind": "gather",
+      "item": "coal",
+      "quantity": 1
+    },
+    {
+      "kind": "smelt",
+      "recipe": "iron-plate",
+      "crafts": 5,
+      "machine": "stone-furnace",
+      "coal": 1,
+      "processing_seconds": 16.0,
+      "inputs": {
+        "iron-ore": 5
+      },
+      "outputs": {
+        "iron-plate": 5
+      }
+    },
+    {
+      "kind": "handcraft",
+      "recipe": "pipe",
+      "crafts": 5,
+      "crafting_seconds": 2.5,
+      "inputs": {
+        "iron-plate": 5
+      },
+      "outputs": {
+        "pipe": 5
+      }
+    },
+    {
+      "kind": "handcraft",
+      "recipe": "steam-engine",
+      "crafts": 1,
+      "crafting_seconds": 0.5,
+      "inputs": {
+        "iron-gear-wheel": 8,
+        "iron-plate": 10,
+        "pipe": 5
+      },
+      "outputs": {
+        "steam-engine": 1
+      }
+    },
+    {
+      "kind": "gather",
+      "item": "copper-ore",
+      "quantity": 1
+    },
+    {
+      "kind": "gather",
+      "item": "coal",
+      "quantity": 1
+    },
+    {
+      "kind": "smelt",
+      "recipe": "copper-plate",
+      "crafts": 1,
+      "machine": "stone-furnace",
+      "coal": 1,
+      "processing_seconds": 3.2,
+      "inputs": {
+        "copper-ore": 1
+      },
+      "outputs": {
+        "copper-plate": 1
+      }
+    },
+    {
+      "kind": "handcraft",
+      "recipe": "copper-cable",
+      "crafts": 1,
+      "crafting_seconds": 0.5,
+      "inputs": {
+        "copper-plate": 1
+      },
+      "outputs": {
+        "copper-cable": 2
+      }
+    },
+    {
+      "kind": "handcraft",
+      "recipe": "small-electric-pole",
+      "crafts": 1,
+      "crafting_seconds": 0.5,
+      "inputs": {
+        "copper-cable": 2,
+        "wood": 1
+      },
+      "outputs": {
+        "small-electric-pole": 2
+      }
+    }
+  ],
+  "requires_research": [],
+  "unsupported": [],
+  "remaining_inventory": {
+    "burner-mining-drill": 1,
+    "small-electric-pole": 1
+  },
+  "handcraft_seconds": 14.5,
+  "smelting_machine_seconds": 70.4,
+  "note": "Times exclude gathering, movement, placement and transfers; furnace time may overlap handcrafting."
+}

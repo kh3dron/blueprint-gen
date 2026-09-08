@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "seed": 42,
+  "spawn": [0, 0],
+  "inventory": {"iron-plate": 8, "wood": 1, "stone-furnace": 1, "burner-mining-drill": 1},
+  "patches": [
+    {"item": "coal", "x": -24, "y": -24, "width": 8, "height": 8, "amount": 1000},
+    {"item": "iron-ore", "x": -8, "y": -24, "width": 8, "height": 8, "amount": 1000},
+    {"item": "copper-ore", "x": 8, "y": -24, "width": 8, "height": 8, "amount": 1000},
+    {"item": "stone", "x": 24, "y": -24, "width": 8, "height": 8, "amount": 1000}
+  ],
+  "water": [{"x": -48, "y": -24, "width": 8, "height": 8}],
+  "trees": [{"x": 40, "y": -24}, {"x": 43, "y": -24}, {"x": 46, "y": -24}, {"x": 49, "y": -24}]
+}

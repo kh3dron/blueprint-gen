@@ -1,0 +1,7 @@
+{
+  "requested_speed": 40,
+  "total_wall_seconds": 13.144007458351552,
+  "simulated_seconds": 399.23333333333335,
+  "overall_speed_vs_realtime": 30.373790839540725,
+  "includes": "map conversion, two server starts, real saved-state continuation, pauses for planning, verification"
+}

@@ -1,0 +1,42 @@
+{
+  "active_mods": {
+    "base": "2.1.17",
+    "blueprint-gen-observer": "0.3.0"
+  },
+  "mined": {
+    "coal": 16,
+    "iron-ore": 91,
+    "copper-ore": 26,
+    "stone": 5
+  },
+  "smelted": {
+    "iron-plate": 91,
+    "copper-plate": 26
+  },
+  "final_inventory": {
+    "small-electric-pole": 1,
+    "burner-mining-drill": 1
+  },
+  "native_cursor_builds": 7,
+  "native_player_craft_events": 89,
+  "furnace_crafts": 117,
+  "science_handcrafted": 10,
+  "science_consumed": 10,
+  "research_ticks": 6000,
+  "automation_researched": true,
+  "lab_load_kw_5s": 60,
+  "generation_kw_5s": 60,
+  "generated_j": 6001066.666625977,
+  "lab_consumed_j": 6001066.666625977,
+  "power_network_id": 1,
+  "repeat_lab_retained": true,
+  "refusals": [
+    "cursor_build_blocked",
+    "missing_item",
+    "out_of_reach"
+  ],
+  "command_count": 85,
+  "simulation_ticks": 53472,
+  "goal_complete": false,
+  "next_work": "continuous fuel, automated mining, material routing and science assembly"
+}

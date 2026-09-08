@@ -1,0 +1,102 @@
+{
+  "technology": "automation",
+  "science": {
+    "automation-science-pack": 10
+  },
+  "construction": {
+    "requested": {
+      "automation-science-pack": 10
+    },
+    "force_new_crafts": false,
+    "inventory_used": {},
+    "gather": {
+      "copper-ore": 10,
+      "coal": 3,
+      "iron-ore": 20
+    },
+    "steps": [
+      {
+        "kind": "gather",
+        "item": "copper-ore",
+        "quantity": 10
+      },
+      {
+        "kind": "gather",
+        "item": "coal",
+        "quantity": 1
+      },
+      {
+        "kind": "smelt",
+        "recipe": "copper-plate",
+        "crafts": 10,
+        "machine": "stone-furnace",
+        "coal": 1,
+        "processing_seconds": 32.0,
+        "inputs": {
+          "copper-ore": 10
+        },
+        "outputs": {
+          "copper-plate": 10
+        }
+      },
+      {
+        "kind": "gather",
+        "item": "iron-ore",
+        "quantity": 20
+      },
+      {
+        "kind": "gather",
+        "item": "coal",
+        "quantity": 2
+      },
+      {
+        "kind": "smelt",
+        "recipe": "iron-plate",
+        "crafts": 20,
+        "machine": "stone-furnace",
+        "coal": 2,
+        "processing_seconds": 64.0,
+        "inputs": {
+          "iron-ore": 20
+        },
+        "outputs": {
+          "iron-plate": 20
+        }
+      },
+      {
+        "kind": "handcraft",
+        "recipe": "iron-gear-wheel",
+        "crafts": 10,
+        "crafting_seconds": 5.0,
+        "inputs": {
+          "iron-plate": 20
+        },
+        "outputs": {
+          "iron-gear-wheel": 10
+        }
+      },
+      {
+        "kind": "handcraft",
+        "recipe": "automation-science-pack",
+        "crafts": 10,
+        "crafting_seconds": 50,
+        "inputs": {
+          "copper-plate": 10,
+          "iron-gear-wheel": 10
+        },
+        "outputs": {
+          "automation-science-pack": 10
+        }
+      }
+    ],
+    "requires_research": [],
+    "unsupported": [],
+    "remaining_inventory": {
+      "small-electric-pole": 1,
+      "burner-mining-drill": 1
+    },
+    "handcraft_seconds": 55.0,
+    "smelting_machine_seconds": 96.0,
+    "note": "Times exclude gathering, movement, placement and transfers; furnace time may overlap handcrafting."
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "blueprint-gen-observer",
+  "version": "0.3.0",
+  "title": "Blueprint Gen Observer",
+  "author": "blueprint-gen contributors",
+  "factorio_version": "2.1",
+  "dependencies": ["base >= 2.1.0"],
+  "description": "Exports a bounded area and monitored machine production to script-output for the separate advisor experiment. Does not build, research, or change factory settings."
+}

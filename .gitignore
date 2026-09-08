@@ -4,3 +4,9 @@ __pycache__/
 03_blueprint_objects/out/bench/
 04_game_planner/out/
 04_game_planner/*.json
+05_advisor_experiment/out/
+06_declarative_factory/out/
+07_bootstrap_executor/out/
+08_live_executor/out/
+09_player_capture/out/
+10_powered_lab/out/

@@ -1,0 +1,79 @@
+{
+  "receipt_sha256": "0f2aef029e9c81fdbecfc962317565e8c70c9607766c87bdfecc0f8d9eddd427",
+  "sequence": 1,
+  "character_id": "12",
+  "based_on_tick": 123,
+  "generation": 1,
+  "changes_game": false,
+  "target": {
+    "id": "iron-ore:8.5:0.5",
+    "prototype": "iron-ore",
+    "item": "iron-ore",
+    "position": {
+      "y": 0.5,
+      "x": 8.5
+    },
+    "quantity": 3,
+    "amount": 20
+  },
+  "waypoints": [
+    {
+      "y": 0.5,
+      "x": -8.5
+    },
+    {
+      "y": 0.25,
+      "x": -7.75
+    },
+    {
+      "y": 0.25,
+      "x": -5.25
+    },
+    {
+      "y": 4.75,
+      "x": -0.75
+    },
+    {
+      "y": 7.75,
+      "x": -0.75
+    },
+    {
+      "y": 8.25,
+      "x": -0.25
+    },
+    {
+      "y": 8.25,
+      "x": 1.25
+    },
+    {
+      "y": 2.25,
+      "x": 7.25
+    }
+  ],
+  "instructions": [
+    "Walk to (-7.75, 0.25).",
+    "Walk to (-5.25, 0.25).",
+    "Walk to (-0.75, 4.75).",
+    "Walk to (-0.75, 7.75).",
+    "Walk to (-0.25, 8.25).",
+    "Walk to (1.25, 8.25).",
+    "Walk to (7.25, 2.25).",
+    "Stand at (7.25, 2.25) and hand-mine 3 additional iron-ore at (8.5, 0.5)."
+  ],
+  "kind": "walk_then_mine",
+  "stand_position": {
+    "y": 2.25,
+    "x": 7.25
+  },
+  "planned_distance_tiles": 23.34691860114614,
+  "preconditions": [
+    "Use the same character, starting position, and unchanged world; request again after edits or movement.",
+    "Keep inventory room, follow the turns, and confirm the target is within mining reach before mining."
+  ],
+  "completion_check": "Observe 3 additional iron-ore in inventory and matching resource depletion; this receipt is not execution evidence.",
+  "limits": [
+    "Native walking paths use 0.25-tile extra clearance and independent swept-character-box collision checks. Conservative checks can reject narrow routes; moving entities and enemies can still interfere.",
+    "Mining reach uses the observed character radius minus 0.5 tile. The engine harness separately tests actual walking and mining.",
+    "This CLI cannot see the current game tick or edits unless new observations are supplied."
+  ]
+}

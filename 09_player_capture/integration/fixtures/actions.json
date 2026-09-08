@@ -1,0 +1,1077 @@
+[
+  {
+    "request": {
+      "id": "action-001",
+      "op": "route",
+      "args": {
+        "target": {
+          "kind": "hand_mine",
+          "item": "coal",
+          "quantity": 4,
+          "resource_id": "coal:-16.5:-16.5",
+          "position": {
+            "y": -16.5,
+            "x": -16.5
+          },
+          "observed_resource_units": 1000,
+          "straight_line_distance": 23.33452377915607,
+          "route_command": "/advisor-route -16.5 -16.5 4",
+          "instruction": "Approach -16.5, -16.5 and hand-mine 4 additional coal from this tile.",
+          "completion_check": "Confirm 4 newly collected coal; export again if the tile depleted or access changed."
+        }
+      },
+      "tick": 0,
+      "revision": 1,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "steam-power",
+      "label": "Find a walking route to 4 coal"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "sequence": 1,
+        "character_id": "12"
+      },
+      "started_tick": 0,
+      "finished_tick": 1,
+      "revision": 3
+    },
+    "wall_seconds": 0.041650999803096056
+  },
+  {
+    "request": {
+      "id": "action-002",
+      "op": "mine",
+      "args": {
+        "sequence": 1,
+        "receipt_sha256": "dc96424e2bfaf453f428595eb31761ce7a1552bc9b72fd0af03e26ac9dd545bb"
+      },
+      "tick": 1,
+      "revision": 3,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "steam-power",
+      "label": "Walk, then hand-mine 4 coal at (-16.5, -16.5)"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "item": "coal",
+        "gained": 4,
+        "depleted": 4,
+        "sequence": 1
+      },
+      "started_tick": 1,
+      "finished_tick": 660,
+      "revision": 5
+    },
+    "wall_seconds": 1.1365701658651233
+  },
+  {
+    "request": {
+      "id": "action-003",
+      "op": "route",
+      "args": {
+        "target": {
+          "kind": "hand_mine",
+          "item": "iron-ore",
+          "quantity": 50,
+          "resource_id": "iron-ore:-7.5:-16.5",
+          "position": {
+            "y": -16.5,
+            "x": -7.5
+          },
+          "observed_resource_units": 1000,
+          "straight_line_distance": 7.798737878657033,
+          "route_command": "/advisor-route -7.5 -16.5 50",
+          "instruction": "Approach -7.5, -16.5 and hand-mine 50 additional iron-ore from this tile.",
+          "completion_check": "Confirm 50 newly collected iron-ore; export again if the tile depleted or access changed."
+        }
+      },
+      "tick": 660,
+      "revision": 5,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "steam-power",
+      "label": "Find a walking route to 50 iron-ore"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "sequence": 2,
+        "character_id": "12"
+      },
+      "started_tick": 660,
+      "finished_tick": 661,
+      "revision": 7
+    },
+    "wall_seconds": 0.044877332635223866
+  },
+  {
+    "request": {
+      "id": "action-004",
+      "op": "mine",
+      "args": {
+        "sequence": 2,
+        "receipt_sha256": "f4a10aa1ba790b9e33041d6322656c0501a4f46bef283be2211db4cead0d02c3"
+      },
+      "tick": 661,
+      "revision": 7,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "steam-power",
+      "label": "Walk, then hand-mine 50 iron-ore at (-7.5, -16.5)"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "item": "iron-ore",
+        "gained": 50,
+        "depleted": 50,
+        "sequence": 2
+      },
+      "started_tick": 661,
+      "finished_tick": 6763,
+      "revision": 9
+    },
+    "wall_seconds": 10.189948874991387
+  },
+  {
+    "request": {
+      "id": "action-005",
+      "op": "place",
+      "args": {
+        "spec": {
+          "address": "smelter/entity/1,1",
+          "direction": 0,
+          "name": "stone-furnace",
+          "position": {
+            "x": -9,
+            "y": -14
+          }
+        }
+      },
+      "tick": 6763,
+      "revision": 9,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "steam-power",
+      "label": "Place starter furnace at {'x': -9, 'y': -14}"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "id": "14",
+        "added": true,
+        "address": "smelter/entity/1,1"
+      },
+      "started_tick": 6763,
+      "finished_tick": 6763,
+      "revision": 11
+    },
+    "wall_seconds": 0.03991712490096688
+  },
+  {
+    "request": {
+      "id": "action-006",
+      "op": "approach",
+      "args": {
+        "address": "smelter/entity/1,1"
+      },
+      "tick": 6763,
+      "revision": 11,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "steam-power",
+      "label": "Walk within reach of the existing furnace"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "id": "14",
+        "position": {
+          "y": -15.1875,
+          "x": -9.25
+        },
+        "path": [
+          {
+            "position": {
+              "y": -15.1875,
+              "x": -9.25
+            }
+          }
+        ]
+      },
+      "started_tick": 6763,
+      "finished_tick": 6763,
+      "revision": 13
+    },
+    "wall_seconds": 0.04160625021904707
+  },
+  {
+    "request": {
+      "id": "action-007",
+      "op": "smelt",
+      "args": {
+        "address": "smelter/entity/1,1",
+        "recipe": "iron-plate",
+        "crafts": 50,
+        "coal": 4
+      },
+      "tick": 6763,
+      "revision": 13,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "steam-power",
+      "label": "Load ore and 4 coal; smelt and collect {'iron-plate': 50}"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "station_id": "14",
+        "crafts": 50,
+        "outputs": {
+          "iron-plate": 50
+        },
+        "smelting_ticks": 9602
+      },
+      "started_tick": 6763,
+      "finished_tick": 16365,
+      "revision": 15
+    },
+    "wall_seconds": 16.036394624970853
+  },
+  {
+    "request": {
+      "id": "action-008",
+      "op": "research",
+      "args": {
+        "technology": "steam-power"
+      },
+      "tick": 16365,
+      "revision": 15,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "steam-power",
+      "label": "Check whether steam-power unlocked"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "technology": "steam-power",
+        "observed": true
+      },
+      "started_tick": 16365,
+      "finished_tick": 16382,
+      "revision": 17
+    },
+    "wall_seconds": 0.038138000294566154
+  },
+  {
+    "request": {
+      "id": "action-009",
+      "op": "route",
+      "args": {
+        "target": {
+          "kind": "hand_mine",
+          "item": "coal",
+          "quantity": 1,
+          "resource_id": "coal:-16.5:-16.5",
+          "position": {
+            "y": -16.5,
+            "x": -16.5
+          },
+          "observed_resource_units": 996,
+          "straight_line_distance": 7.367846106563301,
+          "route_command": "/advisor-route -16.5 -16.5 1",
+          "instruction": "Approach -16.5, -16.5 and hand-mine 1 additional coal from this tile.",
+          "completion_check": "Confirm 1 newly collected coal; export again if the tile depleted or access changed."
+        }
+      },
+      "tick": 16382,
+      "revision": 17,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "electronics",
+      "label": "Find a walking route to 1 coal"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "sequence": 3,
+        "character_id": "12"
+      },
+      "started_tick": 16382,
+      "finished_tick": 16383,
+      "revision": 19
+    },
+    "wall_seconds": 0.044845125172287226
+  },
+  {
+    "request": {
+      "id": "action-010",
+      "op": "mine",
+      "args": {
+        "sequence": 3,
+        "receipt_sha256": "7ba8267a6a0e3253febc03a743b842cb7697161ace8238bee4fed20644674c0b"
+      },
+      "tick": 16383,
+      "revision": 19,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "electronics",
+      "label": "Walk, then hand-mine 1 coal at (-16.5, -16.5)"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "item": "coal",
+        "gained": 1,
+        "depleted": 1,
+        "sequence": 3
+      },
+      "started_tick": 16383,
+      "finished_tick": 16552,
+      "revision": 21
+    },
+    "wall_seconds": 0.319951250217855
+  },
+  {
+    "request": {
+      "id": "action-011",
+      "op": "route",
+      "args": {
+        "target": {
+          "kind": "hand_mine",
+          "item": "copper-ore",
+          "quantity": 10,
+          "resource_id": "copper-ore:8.5:-16.5",
+          "position": {
+            "y": -16.5,
+            "x": 8.5
+          },
+          "observed_resource_units": 1000,
+          "straight_line_distance": 23.279216826069476,
+          "route_command": "/advisor-route 8.5 -16.5 10",
+          "instruction": "Approach 8.5, -16.5 and hand-mine 10 additional copper-ore from this tile.",
+          "completion_check": "Confirm 10 newly collected copper-ore; export again if the tile depleted or access changed."
+        }
+      },
+      "tick": 16552,
+      "revision": 21,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "electronics",
+      "label": "Find a walking route to 10 copper-ore"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "sequence": 4,
+        "character_id": "12"
+      },
+      "started_tick": 16552,
+      "finished_tick": 16553,
+      "revision": 23
+    },
+    "wall_seconds": 0.04487108299508691
+  },
+  {
+    "request": {
+      "id": "action-012",
+      "op": "mine",
+      "args": {
+        "sequence": 4,
+        "receipt_sha256": "31d2e0d29cac4b736fa42a1173f094b7b1e28f7be3480c50ad91dc51445f6d9d"
+      },
+      "tick": 16553,
+      "revision": 23,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "electronics",
+      "label": "Walk, then hand-mine 10 copper-ore at (8.5, -16.5)"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "item": "copper-ore",
+        "gained": 10,
+        "depleted": 10,
+        "sequence": 4
+      },
+      "started_tick": 16553,
+      "finished_tick": 17951,
+      "revision": 25
+    },
+    "wall_seconds": 2.3395364582538605
+  },
+  {
+    "request": {
+      "id": "action-013",
+      "op": "approach",
+      "args": {
+        "address": "smelter/entity/1,1"
+      },
+      "tick": 17951,
+      "revision": 25,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "electronics",
+      "label": "Walk within reach of the existing furnace"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "id": "14",
+        "position": {
+          "y": -15.1875,
+          "x": -0.1953125
+        },
+        "path": [
+          {
+            "position": {
+              "y": -15.1875,
+              "x": 6.78125
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 6.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 5.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 5.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 4.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 4.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 3.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 3.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 2.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 2.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 1.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 1.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 0.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 0.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": -0.25
+            },
+            "needs_destroy_to_reach": false
+          }
+        ]
+      },
+      "started_tick": 17951,
+      "finished_tick": 18013,
+      "revision": 27
+    },
+    "wall_seconds": 0.14164254209026694
+  },
+  {
+    "request": {
+      "id": "action-014",
+      "op": "smelt",
+      "args": {
+        "address": "smelter/entity/1,1",
+        "recipe": "copper-plate",
+        "crafts": 10,
+        "coal": 1
+      },
+      "tick": 18013,
+      "revision": 27,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "electronics",
+      "label": "Load ore and 1 coal; smelt and collect {'copper-plate': 10}"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "station_id": "14",
+        "crafts": 10,
+        "outputs": {
+          "copper-plate": 10
+        },
+        "smelting_ticks": 1921
+      },
+      "started_tick": 18013,
+      "finished_tick": 19934,
+      "revision": 29
+    },
+    "wall_seconds": 3.231411333195865
+  },
+  {
+    "request": {
+      "id": "action-015",
+      "op": "research",
+      "args": {
+        "technology": "electronics"
+      },
+      "tick": 19934,
+      "revision": 29,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "electronics",
+      "label": "Check whether electronics unlocked"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "technology": "electronics",
+        "observed": true
+      },
+      "started_tick": 19934,
+      "finished_tick": 19958,
+      "revision": 31
+    },
+    "wall_seconds": 0.07311624987050891
+  },
+  {
+    "request": {
+      "id": "action-016",
+      "op": "route",
+      "args": {
+        "target": {
+          "kind": "hand_mine",
+          "item": "coal",
+          "quantity": 1,
+          "resource_id": "coal:-16.5:-16.5",
+          "position": {
+            "y": -16.5,
+            "x": -16.5
+          },
+          "observed_resource_units": 995,
+          "straight_line_distance": 16.35742922108044,
+          "route_command": "/advisor-route -16.5 -16.5 1",
+          "instruction": "Approach -16.5, -16.5 and hand-mine 1 additional coal from this tile.",
+          "completion_check": "Confirm 1 newly collected coal; export again if the tile depleted or access changed."
+        }
+      },
+      "tick": 19958,
+      "revision": 31,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Find a walking route to 1 coal"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "sequence": 5,
+        "character_id": "12"
+      },
+      "started_tick": 19958,
+      "finished_tick": 19959,
+      "revision": 33
+    },
+    "wall_seconds": 0.04318983294069767
+  },
+  {
+    "request": {
+      "id": "action-017",
+      "op": "mine",
+      "args": {
+        "sequence": 5,
+        "receipt_sha256": "87f3590acf4b99c0e5d0531eb162c3e60a8183c173238a8e848e16636a7be24d"
+      },
+      "tick": 19959,
+      "revision": 33,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Walk, then hand-mine 1 coal at (-16.5, -16.5)"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "item": "coal",
+        "gained": 1,
+        "depleted": 1,
+        "sequence": 5
+      },
+      "started_tick": 19959,
+      "finished_tick": 20207,
+      "revision": 35
+    },
+    "wall_seconds": 0.45156837487593293
+  },
+  {
+    "request": {
+      "id": "action-018",
+      "op": "route",
+      "args": {
+        "target": {
+          "kind": "hand_mine",
+          "item": "copper-ore",
+          "quantity": 5,
+          "resource_id": "copper-ore:8.5:-16.5",
+          "position": {
+            "y": -16.5,
+            "x": 8.5
+          },
+          "observed_resource_units": 990,
+          "straight_line_distance": 23.279216826069476,
+          "route_command": "/advisor-route 8.5 -16.5 5",
+          "instruction": "Approach 8.5, -16.5 and hand-mine 5 additional copper-ore from this tile.",
+          "completion_check": "Confirm 5 newly collected copper-ore; export again if the tile depleted or access changed."
+        }
+      },
+      "tick": 20207,
+      "revision": 35,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Find a walking route to 5 copper-ore"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "sequence": 6,
+        "character_id": "12"
+      },
+      "started_tick": 20207,
+      "finished_tick": 20208,
+      "revision": 37
+    },
+    "wall_seconds": 0.04483391670510173
+  },
+  {
+    "request": {
+      "id": "action-019",
+      "op": "mine",
+      "args": {
+        "sequence": 6,
+        "receipt_sha256": "41ea2ae24f62e4bc65b4389dfe98b97e71fd7c0419bc058a2b88c5552974b811"
+      },
+      "tick": 20208,
+      "revision": 37,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Walk, then hand-mine 5 copper-ore at (8.5, -16.5)"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "item": "copper-ore",
+        "gained": 5,
+        "depleted": 5,
+        "sequence": 6
+      },
+      "started_tick": 20208,
+      "finished_tick": 21001,
+      "revision": 39
+    },
+    "wall_seconds": 1.3499357919208705
+  },
+  {
+    "request": {
+      "id": "action-020",
+      "op": "approach",
+      "args": {
+        "address": "smelter/entity/1,1"
+      },
+      "tick": 21001,
+      "revision": 39,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Walk within reach of the existing furnace"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "id": "14",
+        "position": {
+          "y": -15.1875,
+          "x": -0.1953125
+        },
+        "path": [
+          {
+            "position": {
+              "y": -15.1875,
+              "x": 6.78125
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 6.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 5.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 5.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 4.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 4.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 3.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 3.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 2.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 2.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 1.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 1.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 0.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 0.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": -0.25
+            },
+            "needs_destroy_to_reach": false
+          }
+        ]
+      },
+      "started_tick": 21001,
+      "finished_tick": 21063,
+      "revision": 41
+    },
+    "wall_seconds": 0.14327012514695525
+  },
+  {
+    "request": {
+      "id": "action-021",
+      "op": "smelt",
+      "args": {
+        "address": "smelter/entity/1,1",
+        "recipe": "copper-plate",
+        "crafts": 5,
+        "coal": 1
+      },
+      "tick": 21063,
+      "revision": 41,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Load ore and 1 coal; smelt and collect {'copper-plate': 5}"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "station_id": "14",
+        "crafts": 5,
+        "outputs": {
+          "copper-plate": 5
+        },
+        "smelting_ticks": 961
+      },
+      "started_tick": 21063,
+      "finished_tick": 22024,
+      "revision": 43
+    },
+    "wall_seconds": 1.6131232092157006
+  },
+  {
+    "request": {
+      "id": "action-022",
+      "op": "handcraft",
+      "args": {
+        "recipe": "copper-cable",
+        "crafts": 15
+      },
+      "tick": 22024,
+      "revision": 43,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Handcraft 15 batches of copper-cable"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "copper-cable",
+        "crafts": 15,
+        "crafting_ticks": 465
+      },
+      "started_tick": 22024,
+      "finished_tick": 22489,
+      "revision": 45
+    },
+    "wall_seconds": 0.8014304577372968
+  },
+  {
+    "request": {
+      "id": "action-023",
+      "op": "handcraft",
+      "args": {
+        "recipe": "electronic-circuit",
+        "crafts": 10
+      },
+      "tick": 22489,
+      "revision": 45,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Handcraft 10 batches of electronic-circuit"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "electronic-circuit",
+        "crafts": 10,
+        "crafting_ticks": 310
+      },
+      "started_tick": 22489,
+      "finished_tick": 22799,
+      "revision": 47
+    },
+    "wall_seconds": 0.5498885829001665
+  },
+  {
+    "request": {
+      "id": "action-024",
+      "op": "handcraft",
+      "args": {
+        "recipe": "iron-gear-wheel",
+        "crafts": 10
+      },
+      "tick": 22799,
+      "revision": 47,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Handcraft 10 batches of iron-gear-wheel"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "iron-gear-wheel",
+        "crafts": 10,
+        "crafting_ticks": 310
+      },
+      "started_tick": 22799,
+      "finished_tick": 23109,
+      "revision": 49
+    },
+    "wall_seconds": 0.544754124712199
+  },
+  {
+    "request": {
+      "id": "action-025",
+      "op": "handcraft",
+      "args": {
+        "recipe": "iron-gear-wheel",
+        "crafts": 2
+      },
+      "tick": 23109,
+      "revision": 49,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Handcraft 2 batches of iron-gear-wheel"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "iron-gear-wheel",
+        "crafts": 2,
+        "crafting_ticks": 62
+      },
+      "started_tick": 23109,
+      "finished_tick": 23171,
+      "revision": 51
+    },
+    "wall_seconds": 0.1381341670639813
+  },
+  {
+    "request": {
+      "id": "action-026",
+      "op": "handcraft",
+      "args": {
+        "recipe": "transport-belt",
+        "crafts": 2
+      },
+      "tick": 23171,
+      "revision": 51,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Handcraft 2 batches of transport-belt"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "transport-belt",
+        "crafts": 2,
+        "crafting_ticks": 62
+      },
+      "started_tick": 23171,
+      "finished_tick": 23233,
+      "revision": 53
+    },
+    "wall_seconds": 0.1415538750588894
+  },
+  {
+    "request": {
+      "id": "action-027",
+      "op": "handcraft",
+      "args": {
+        "recipe": "lab",
+        "crafts": 1
+      },
+      "tick": 23233,
+      "revision": 53,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Handcraft 1 batches of lab"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "lab",
+        "crafts": 1,
+        "crafting_ticks": 121
+      },
+      "started_tick": 23233,
+      "finished_tick": 23354,
+      "revision": 55
+    },
+    "wall_seconds": 0.24012654228135943
+  },
+  {
+    "request": {
+      "id": "action-028",
+      "op": "research",
+      "args": {
+        "technology": "automation-science-pack"
+      },
+      "tick": 23354,
+      "revision": 55,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Check whether automation-science-pack unlocked"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "technology": "automation-science-pack",
+        "observed": true
+      },
+      "started_tick": 23354,
+      "finished_tick": 23378,
+      "revision": 57
+    },
+    "wall_seconds": 0.07311529200524092
+  }
+]

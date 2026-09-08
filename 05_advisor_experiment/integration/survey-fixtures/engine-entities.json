@@ -1,0 +1,13 @@
+{
+  "inserter_id": "16",
+  "chest_id": "15",
+  "assembler_id": "14",
+  "pole1_id": "17",
+  "pole2_id": "18",
+  "isolated_id": "19",
+  "blocked_resource_position": {
+    "y": 0.5,
+    "x": -7.5
+  },
+  "drill_id": "13"
+}

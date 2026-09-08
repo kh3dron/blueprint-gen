@@ -1,0 +1,431 @@
+[
+  {
+    "reason": "out_of_reach",
+    "request_id": "action-029",
+    "unchanged": true,
+    "before": {
+      "inventory": {
+        "burner-mining-drill": 1,
+        "lab": 1,
+        "wood": 1,
+        "iron-plate": 22
+      },
+      "built": [
+        {
+          "address": "smelter/entity/1,1",
+          "id": "14",
+          "name": "stone-furnace",
+          "position": {
+            "y": -14,
+            "x": -9
+          },
+          "crafts": 65,
+          "progress": 0,
+          "fuel_j": 1278200,
+          "input": {},
+          "output": {},
+          "fuel": {
+            "coal": 1
+          }
+        }
+      ],
+      "power_entities": {},
+      "cursor_placements": [
+        {
+          "tick": 6765,
+          "address": "smelter/entity/1,1",
+          "id": "14",
+          "name": "stone-furnace",
+          "position": {
+            "y": -14,
+            "x": -9
+          },
+          "direction": 0,
+          "before": {
+            "burner-mining-drill": 1,
+            "stone-furnace": 1,
+            "wood": 1,
+            "coal": 4,
+            "iron-ore": 50,
+            "iron-plate": 8
+          },
+          "after": {
+            "burner-mining-drill": 1,
+            "wood": 1,
+            "coal": 4,
+            "iron-ore": 50,
+            "iron-plate": 8
+          },
+          "player_index": 1
+        }
+      ],
+      "player_build_events": [
+        {
+          "tick": 6765,
+          "player_index": 1,
+          "id": "14",
+          "name": "stone-furnace",
+          "position": {
+            "y": -14,
+            "x": -9
+          }
+        }
+      ]
+    },
+    "after": {
+      "inventory": {
+        "burner-mining-drill": 1,
+        "lab": 1,
+        "wood": 1,
+        "iron-plate": 22
+      },
+      "built": [
+        {
+          "address": "smelter/entity/1,1",
+          "id": "14",
+          "name": "stone-furnace",
+          "position": {
+            "y": -14,
+            "x": -9
+          },
+          "crafts": 65,
+          "progress": 0,
+          "fuel_j": 1278200,
+          "input": {},
+          "output": {},
+          "fuel": {
+            "coal": 1
+          }
+        }
+      ],
+      "power_entities": {},
+      "cursor_placements": [
+        {
+          "tick": 6765,
+          "address": "smelter/entity/1,1",
+          "id": "14",
+          "name": "stone-furnace",
+          "position": {
+            "y": -14,
+            "x": -9
+          },
+          "direction": 0,
+          "before": {
+            "burner-mining-drill": 1,
+            "stone-furnace": 1,
+            "wood": 1,
+            "coal": 4,
+            "iron-ore": 50,
+            "iron-plate": 8
+          },
+          "after": {
+            "burner-mining-drill": 1,
+            "wood": 1,
+            "coal": 4,
+            "iron-ore": 50,
+            "iron-plate": 8
+          },
+          "player_index": 1
+        }
+      ],
+      "player_build_events": [
+        {
+          "tick": 6765,
+          "player_index": 1,
+          "id": "14",
+          "name": "stone-furnace",
+          "position": {
+            "y": -14,
+            "x": -9
+          }
+        }
+      ]
+    }
+  },
+  {
+    "reason": "missing_item",
+    "request_id": "action-030",
+    "unchanged": true,
+    "before": {
+      "inventory": {
+        "burner-mining-drill": 1,
+        "lab": 1,
+        "wood": 1,
+        "iron-plate": 22
+      },
+      "built": [
+        {
+          "address": "smelter/entity/1,1",
+          "id": "14",
+          "name": "stone-furnace",
+          "position": {
+            "y": -14,
+            "x": -9
+          },
+          "crafts": 65,
+          "progress": 0,
+          "fuel_j": 1278200,
+          "input": {},
+          "output": {},
+          "fuel": {
+            "coal": 1
+          }
+        }
+      ],
+      "power_entities": {},
+      "cursor_placements": [
+        {
+          "tick": 6765,
+          "address": "smelter/entity/1,1",
+          "id": "14",
+          "name": "stone-furnace",
+          "position": {
+            "y": -14,
+            "x": -9
+          },
+          "direction": 0,
+          "before": {
+            "burner-mining-drill": 1,
+            "stone-furnace": 1,
+            "wood": 1,
+            "coal": 4,
+            "iron-ore": 50,
+            "iron-plate": 8
+          },
+          "after": {
+            "burner-mining-drill": 1,
+            "wood": 1,
+            "coal": 4,
+            "iron-ore": 50,
+            "iron-plate": 8
+          },
+          "player_index": 1
+        }
+      ],
+      "player_build_events": [
+        {
+          "tick": 6765,
+          "player_index": 1,
+          "id": "14",
+          "name": "stone-furnace",
+          "position": {
+            "y": -14,
+            "x": -9
+          }
+        }
+      ]
+    },
+    "after": {
+      "inventory": {
+        "burner-mining-drill": 1,
+        "lab": 1,
+        "wood": 1,
+        "iron-plate": 22
+      },
+      "built": [
+        {
+          "address": "smelter/entity/1,1",
+          "id": "14",
+          "name": "stone-furnace",
+          "position": {
+            "y": -14,
+            "x": -9
+          },
+          "crafts": 65,
+          "progress": 0,
+          "fuel_j": 1278200,
+          "input": {},
+          "output": {},
+          "fuel": {
+            "coal": 1
+          }
+        }
+      ],
+      "power_entities": {},
+      "cursor_placements": [
+        {
+          "tick": 6765,
+          "address": "smelter/entity/1,1",
+          "id": "14",
+          "name": "stone-furnace",
+          "position": {
+            "y": -14,
+            "x": -9
+          },
+          "direction": 0,
+          "before": {
+            "burner-mining-drill": 1,
+            "stone-furnace": 1,
+            "wood": 1,
+            "coal": 4,
+            "iron-ore": 50,
+            "iron-plate": 8
+          },
+          "after": {
+            "burner-mining-drill": 1,
+            "wood": 1,
+            "coal": 4,
+            "iron-ore": 50,
+            "iron-plate": 8
+          },
+          "player_index": 1
+        }
+      ],
+      "player_build_events": [
+        {
+          "tick": 6765,
+          "player_index": 1,
+          "id": "14",
+          "name": "stone-furnace",
+          "position": {
+            "y": -14,
+            "x": -9
+          }
+        }
+      ]
+    }
+  },
+  {
+    "reason": "cursor_build_blocked",
+    "request_id": "action-031",
+    "unchanged": true,
+    "before": {
+      "inventory": {
+        "burner-mining-drill": 1,
+        "lab": 1,
+        "wood": 1,
+        "iron-plate": 22
+      },
+      "built": [
+        {
+          "address": "smelter/entity/1,1",
+          "id": "14",
+          "name": "stone-furnace",
+          "position": {
+            "y": -14,
+            "x": -9
+          },
+          "crafts": 65,
+          "progress": 0,
+          "fuel_j": 1278200,
+          "input": {},
+          "output": {},
+          "fuel": {
+            "coal": 1
+          }
+        }
+      ],
+      "power_entities": {},
+      "cursor_placements": [
+        {
+          "tick": 6765,
+          "address": "smelter/entity/1,1",
+          "id": "14",
+          "name": "stone-furnace",
+          "position": {
+            "y": -14,
+            "x": -9
+          },
+          "direction": 0,
+          "before": {
+            "burner-mining-drill": 1,
+            "stone-furnace": 1,
+            "wood": 1,
+            "coal": 4,
+            "iron-ore": 50,
+            "iron-plate": 8
+          },
+          "after": {
+            "burner-mining-drill": 1,
+            "wood": 1,
+            "coal": 4,
+            "iron-ore": 50,
+            "iron-plate": 8
+          },
+          "player_index": 1
+        }
+      ],
+      "player_build_events": [
+        {
+          "tick": 6765,
+          "player_index": 1,
+          "id": "14",
+          "name": "stone-furnace",
+          "position": {
+            "y": -14,
+            "x": -9
+          }
+        }
+      ]
+    },
+    "after": {
+      "inventory": {
+        "burner-mining-drill": 1,
+        "lab": 1,
+        "wood": 1,
+        "iron-plate": 22
+      },
+      "built": [
+        {
+          "address": "smelter/entity/1,1",
+          "id": "14",
+          "name": "stone-furnace",
+          "position": {
+            "y": -14,
+            "x": -9
+          },
+          "crafts": 65,
+          "progress": 0,
+          "fuel_j": 1278200,
+          "input": {},
+          "output": {},
+          "fuel": {
+            "coal": 1
+          }
+        }
+      ],
+      "power_entities": {},
+      "cursor_placements": [
+        {
+          "tick": 6765,
+          "address": "smelter/entity/1,1",
+          "id": "14",
+          "name": "stone-furnace",
+          "position": {
+            "y": -14,
+            "x": -9
+          },
+          "direction": 0,
+          "before": {
+            "burner-mining-drill": 1,
+            "stone-furnace": 1,
+            "wood": 1,
+            "coal": 4,
+            "iron-ore": 50,
+            "iron-plate": 8
+          },
+          "after": {
+            "burner-mining-drill": 1,
+            "wood": 1,
+            "coal": 4,
+            "iron-ore": 50,
+            "iron-plate": 8
+          },
+          "player_index": 1
+        }
+      ],
+      "player_build_events": [
+        {
+          "tick": 6765,
+          "player_index": 1,
+          "id": "14",
+          "name": "stone-furnace",
+          "position": {
+            "y": -14,
+            "x": -9
+          }
+        }
+      ]
+    }
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "factorio_version": "2.1.16",
+  "active_mods": {
+    "base": "2.1.16",
+    "blueprint-gen-observer": "0.2.0"
+  },
+  "capture_ticks": [
+    120,
+    122
+  ],
+  "gathered_quantities_planned": {
+    "coal": 4,
+    "iron-ore": 50
+  },
+  "mining_targets": 3,
+  "blocked_ore_excluded": true,
+  "water_tiles": 19,
+  "copper_membership_checked": true,
+  "removed_source_diagnosed": true,
+  "unfueled_drill_diagnosed": true,
+  "supply_and_generation_still_unknown": true
+}

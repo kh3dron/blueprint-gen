@@ -1,0 +1,17 @@
+{
+  "source": "/private/tmp/blueprint-gen-power-shifted-01",
+  "kind": "native Factorio screenshots with synchronized state overlay",
+  "trace_sha256": "9c6d755c97b41c887c3f367a74cdbba399743d9ba9cf12e7963f983cb11eca62",
+  "method": "hold latest captured image and its own state together; no interpolation",
+  "missing_frames": 0,
+  "fps": 12,
+  "playback_simulated_seconds_per_second": 12,
+  "first_tick": 0,
+  "last_tick": 53607,
+  "duration_seconds": 75.5,
+  "mp4": true,
+  "camera": "follow character; zoom 0.8",
+  "visual_settings": "960x640 source; daylight override; alt mode; no game GUI, clouds or fog",
+  "source_frames": 1114,
+  "rendered_frames": 906
+}

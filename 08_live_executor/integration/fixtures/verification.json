@@ -1,0 +1,61 @@
+{
+  "active_mods": {
+    "base": "2.1.16",
+    "blueprint-gen-observer": "0.3.0"
+  },
+  "initial_inventory": {
+    "burner-mining-drill": 1,
+    "stone-furnace": 1,
+    "wood": 1,
+    "iron-plate": 8
+  },
+  "final_inventory": {
+    "burner-mining-drill": 1,
+    "lab": 1,
+    "wood": 1,
+    "iron-plate": 22
+  },
+  "produced": {
+    "iron-plate": 50,
+    "copper-plate": 15,
+    "lab": 0
+  },
+  "researched": [
+    "electronics",
+    "steam-power"
+  ],
+  "mined": {
+    "coal": 6,
+    "iron-ore": 50,
+    "copper-ore": 15
+  },
+  "furnace_id": "13",
+  "furnace_position": {
+    "y": -14,
+    "x": -9
+  },
+  "furnace_crafts": 65,
+  "paid_furnaces": 1,
+  "simulation_ticks": 23954,
+  "command_count": 28,
+  "server_starts": 2,
+  "checkpoint_preserved": true,
+  "duplicate_after_restart_ignored": true,
+  "stale_command_rejected": true,
+  "goal_complete": false,
+  "lab_handcrafted": true,
+  "lab_research_observed": false,
+  "research_attribution_gap": true,
+  "next_action": {
+    "kind": "observe",
+    "title": "Resolve the missing observations before planning a change",
+    "why": "The game export does not yet establish all inputs needed for a reliable recommendation.",
+    "completion_check": "Confirm the listed facts for this capture and import it with the completed review.",
+    "snapshot_revision": "import-5efe81e49eb317f56cd23f2a",
+    "snapshot_tick": 23954,
+    "changes_snapshot": false,
+    "observation_gaps": [
+      "The standalone character crafted a lab, but its research trigger was not credited. Check player-attributed crafting before producing another lab."
+    ]
+  }
+}

@@ -3,6 +3,13 @@
 Your game as Python objects in a notebook: modules you size and upgrade, a factory that adds them up,
 and the next move. Open `game.ipynb`; `../.venv/bin/python plan.py` is the terminal shortcut.
 
+The new [advisor experiment](../05_advisor_experiment/README.md) develops observed-state planning,
+fuel/power constraints, and finite construction checklists separately from this notebook tool.
+It now has a [read-only game observer/importer](../05_advisor_experiment/OBSERVER.md), tested in
+a disposable Factorio scenario.
+Its [experiment log](../05_advisor_experiment/EXPERIMENTS.md) records what has been tested and what
+still needs game validation. The limits below continue to apply to this implementation.
+
 There is no jupyter in `.venv` — `pip install jupyterlab` (or open the notebook from an environment
 that has one, pointed at this directory).
 

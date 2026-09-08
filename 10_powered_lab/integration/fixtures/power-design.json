@@ -1,0 +1,99 @@
+{
+  "method": "east-shore finite steam-powered lab",
+  "placements": [
+    {
+      "address": "power.pump",
+      "name": "offshore-pump",
+      "position": {
+        "x": -31.5,
+        "y": 0.5
+      },
+      "direction": 12
+    },
+    {
+      "address": "power.water-pipe",
+      "name": "pipe",
+      "position": {
+        "x": -30.5,
+        "y": 0.5
+      },
+      "direction": 0
+    },
+    {
+      "address": "power.boiler",
+      "name": "boiler",
+      "position": {
+        "x": -28.5,
+        "y": 0.0
+      },
+      "direction": 0
+    },
+    {
+      "address": "power.engine",
+      "name": "steam-engine",
+      "position": {
+        "x": -28.5,
+        "y": -3.5
+      },
+      "direction": 0
+    },
+    {
+      "address": "power.pole",
+      "name": "small-electric-pole",
+      "position": {
+        "x": -25.5,
+        "y": -1.5
+      },
+      "direction": 0
+    },
+    {
+      "address": "power.lab",
+      "name": "lab",
+      "position": {
+        "x": -23.5,
+        "y": -3.5
+      },
+      "direction": 0
+    }
+  ],
+  "staging": {
+    "x": -26.0,
+    "y": 3.0
+  },
+  "bill": {
+    "offshore-pump": 1,
+    "pipe": 1,
+    "boiler": 1,
+    "steam-engine": 1,
+    "small-electric-pole": 1,
+    "lab": 1
+  },
+  "connections": [
+    {
+      "from": "power.pump",
+      "to": "power.water-pipe",
+      "kind": "fluid",
+      "fluid": "water"
+    },
+    {
+      "from": "power.water-pipe",
+      "to": "power.boiler",
+      "kind": "fluid",
+      "fluid": "water"
+    },
+    {
+      "from": "power.boiler",
+      "to": "power.engine",
+      "kind": "fluid",
+      "fluid": "steam"
+    },
+    {
+      "from": "power.engine",
+      "to": "power.lab",
+      "via": "power.pole",
+      "kind": "electric"
+    }
+  ],
+  "completion": "observe automation researched by this lab from ten paid science packs",
+  "note": "Design connections require engine validation; no advertised continuous power or science rate."
+}

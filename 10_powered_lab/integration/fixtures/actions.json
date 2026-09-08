@@ -1,0 +1,4086 @@
+[
+  {
+    "request": {
+      "id": "action-001",
+      "op": "route",
+      "args": {
+        "target": {
+          "kind": "hand_mine",
+          "item": "coal",
+          "quantity": 4,
+          "resource_id": "coal:-16.5:-16.5",
+          "position": {
+            "y": -16.5,
+            "x": -16.5
+          },
+          "observed_resource_units": 1000,
+          "straight_line_distance": 23.33452377915607,
+          "route_command": "/advisor-route -16.5 -16.5 4",
+          "instruction": "Approach -16.5, -16.5 and hand-mine 4 additional coal from this tile.",
+          "completion_check": "Confirm 4 newly collected coal; export again if the tile depleted or access changed."
+        }
+      },
+      "tick": 0,
+      "revision": 1,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "steam-power",
+      "label": "Find a walking route to 4 coal"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "sequence": 1,
+        "character_id": "12"
+      },
+      "started_tick": 0,
+      "finished_tick": 1,
+      "revision": 3
+    },
+    "wall_seconds": 0.04320970783010125
+  },
+  {
+    "request": {
+      "id": "action-002",
+      "op": "mine",
+      "args": {
+        "sequence": 1,
+        "receipt_sha256": "dc96424e2bfaf453f428595eb31761ce7a1552bc9b72fd0af03e26ac9dd545bb"
+      },
+      "tick": 1,
+      "revision": 3,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "steam-power",
+      "label": "Walk, then hand-mine 4 coal at (-16.5, -16.5)"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "item": "coal",
+        "gained": 4,
+        "depleted": 4,
+        "sequence": 1
+      },
+      "started_tick": 1,
+      "finished_tick": 662,
+      "revision": 5
+    },
+    "wall_seconds": 1.1198157500475645
+  },
+  {
+    "request": {
+      "id": "action-003",
+      "op": "route",
+      "args": {
+        "target": {
+          "kind": "hand_mine",
+          "item": "iron-ore",
+          "quantity": 50,
+          "resource_id": "iron-ore:-7.5:-16.5",
+          "position": {
+            "y": -16.5,
+            "x": -7.5
+          },
+          "observed_resource_units": 1000,
+          "straight_line_distance": 7.798737878657033,
+          "route_command": "/advisor-route -7.5 -16.5 50",
+          "instruction": "Approach -7.5, -16.5 and hand-mine 50 additional iron-ore from this tile.",
+          "completion_check": "Confirm 50 newly collected iron-ore; export again if the tile depleted or access changed."
+        }
+      },
+      "tick": 662,
+      "revision": 5,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "steam-power",
+      "label": "Find a walking route to 50 iron-ore"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "sequence": 2,
+        "character_id": "12"
+      },
+      "started_tick": 662,
+      "finished_tick": 663,
+      "revision": 7
+    },
+    "wall_seconds": 0.041960999835282564
+  },
+  {
+    "request": {
+      "id": "action-004",
+      "op": "mine",
+      "args": {
+        "sequence": 2,
+        "receipt_sha256": "cb85053eb92561e34efd63b70486249dab61c17c3c6b25c7dcc12a963e80a26f"
+      },
+      "tick": 663,
+      "revision": 7,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "steam-power",
+      "label": "Walk, then hand-mine 50 iron-ore at (-7.5, -16.5)"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "item": "iron-ore",
+        "gained": 50,
+        "depleted": 50,
+        "sequence": 2
+      },
+      "started_tick": 663,
+      "finished_tick": 6765,
+      "revision": 9
+    },
+    "wall_seconds": 10.193301584105939
+  },
+  {
+    "request": {
+      "id": "action-005",
+      "op": "place",
+      "args": {
+        "spec": {
+          "address": "smelter/entity/1,1",
+          "direction": 0,
+          "name": "stone-furnace",
+          "position": {
+            "x": -9,
+            "y": -14
+          }
+        }
+      },
+      "tick": 6765,
+      "revision": 9,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "steam-power",
+      "label": "Place starter furnace at {'x': -9, 'y': -14}"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "id": "14",
+        "added": true,
+        "address": "smelter/entity/1,1"
+      },
+      "started_tick": 6765,
+      "finished_tick": 6765,
+      "revision": 11
+    },
+    "wall_seconds": 0.04148291703313589
+  },
+  {
+    "request": {
+      "id": "action-006",
+      "op": "approach",
+      "args": {
+        "address": "smelter/entity/1,1"
+      },
+      "tick": 6765,
+      "revision": 11,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "steam-power",
+      "label": "Walk within reach of the existing furnace"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "id": "14",
+        "position": {
+          "y": -15.1875,
+          "x": -9.25
+        },
+        "path": [
+          {
+            "position": {
+              "y": -15.1875,
+              "x": -9.25
+            }
+          }
+        ]
+      },
+      "started_tick": 6765,
+      "finished_tick": 6765,
+      "revision": 13
+    },
+    "wall_seconds": 0.04156529065221548
+  },
+  {
+    "request": {
+      "id": "action-007",
+      "op": "smelt",
+      "args": {
+        "address": "smelter/entity/1,1",
+        "recipe": "iron-plate",
+        "crafts": 50,
+        "coal": 4
+      },
+      "tick": 6765,
+      "revision": 13,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "steam-power",
+      "label": "Load ore and 4 coal; smelt and collect {'iron-plate': 50}"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "station_id": "14",
+        "crafts": 50,
+        "outputs": {
+          "iron-plate": 50
+        },
+        "smelting_ticks": 9602
+      },
+      "started_tick": 6765,
+      "finished_tick": 16367,
+      "revision": 15
+    },
+    "wall_seconds": 16.028098041191697
+  },
+  {
+    "request": {
+      "id": "action-008",
+      "op": "research",
+      "args": {
+        "technology": "steam-power"
+      },
+      "tick": 16367,
+      "revision": 15,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "steam-power",
+      "label": "Observe steam-power"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "technology": "steam-power",
+        "observed": true
+      },
+      "started_tick": 16367,
+      "finished_tick": 16382,
+      "revision": 17
+    },
+    "wall_seconds": 0.038038916885852814
+  },
+  {
+    "request": {
+      "id": "action-009",
+      "op": "route",
+      "args": {
+        "target": {
+          "kind": "hand_mine",
+          "item": "coal",
+          "quantity": 1,
+          "resource_id": "coal:-16.5:-16.5",
+          "position": {
+            "y": -16.5,
+            "x": -16.5
+          },
+          "observed_resource_units": 996,
+          "straight_line_distance": 7.367846106563301,
+          "route_command": "/advisor-route -16.5 -16.5 1",
+          "instruction": "Approach -16.5, -16.5 and hand-mine 1 additional coal from this tile.",
+          "completion_check": "Confirm 1 newly collected coal; export again if the tile depleted or access changed."
+        }
+      },
+      "tick": 16382,
+      "revision": 17,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "electronics",
+      "label": "Find a walking route to 1 coal"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "sequence": 3,
+        "character_id": "12"
+      },
+      "started_tick": 16382,
+      "finished_tick": 16383,
+      "revision": 19
+    },
+    "wall_seconds": 0.039729209151118994
+  },
+  {
+    "request": {
+      "id": "action-010",
+      "op": "mine",
+      "args": {
+        "sequence": 3,
+        "receipt_sha256": "7ba8267a6a0e3253febc03a743b842cb7697161ace8238bee4fed20644674c0b"
+      },
+      "tick": 16383,
+      "revision": 19,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "electronics",
+      "label": "Walk, then hand-mine 1 coal at (-16.5, -16.5)"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "item": "coal",
+        "gained": 1,
+        "depleted": 1,
+        "sequence": 3
+      },
+      "started_tick": 16383,
+      "finished_tick": 16552,
+      "revision": 21
+    },
+    "wall_seconds": 0.306511334143579
+  },
+  {
+    "request": {
+      "id": "action-011",
+      "op": "route",
+      "args": {
+        "target": {
+          "kind": "hand_mine",
+          "item": "copper-ore",
+          "quantity": 10,
+          "resource_id": "copper-ore:8.5:-16.5",
+          "position": {
+            "y": -16.5,
+            "x": 8.5
+          },
+          "observed_resource_units": 1000,
+          "straight_line_distance": 23.279216826069476,
+          "route_command": "/advisor-route 8.5 -16.5 10",
+          "instruction": "Approach 8.5, -16.5 and hand-mine 10 additional copper-ore from this tile.",
+          "completion_check": "Confirm 10 newly collected copper-ore; export again if the tile depleted or access changed."
+        }
+      },
+      "tick": 16552,
+      "revision": 21,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "electronics",
+      "label": "Find a walking route to 10 copper-ore"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "sequence": 4,
+        "character_id": "12"
+      },
+      "started_tick": 16552,
+      "finished_tick": 16553,
+      "revision": 23
+    },
+    "wall_seconds": 0.04491520905867219
+  },
+  {
+    "request": {
+      "id": "action-012",
+      "op": "mine",
+      "args": {
+        "sequence": 4,
+        "receipt_sha256": "31d2e0d29cac4b736fa42a1173f094b7b1e28f7be3480c50ad91dc51445f6d9d"
+      },
+      "tick": 16553,
+      "revision": 23,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "electronics",
+      "label": "Walk, then hand-mine 10 copper-ore at (8.5, -16.5)"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "item": "copper-ore",
+        "gained": 10,
+        "depleted": 10,
+        "sequence": 4
+      },
+      "started_tick": 16553,
+      "finished_tick": 17951,
+      "revision": 25
+    },
+    "wall_seconds": 2.3432395406998694
+  },
+  {
+    "request": {
+      "id": "action-013",
+      "op": "approach",
+      "args": {
+        "address": "smelter/entity/1,1"
+      },
+      "tick": 17951,
+      "revision": 25,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "electronics",
+      "label": "Walk within reach of the existing furnace"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "id": "14",
+        "position": {
+          "y": -15.1875,
+          "x": -0.1953125
+        },
+        "path": [
+          {
+            "position": {
+              "y": -15.1875,
+              "x": 6.78125
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 6.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 5.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 5.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 4.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 4.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 3.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 3.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 2.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 2.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 1.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 1.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 0.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 0.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": -0.25
+            },
+            "needs_destroy_to_reach": false
+          }
+        ]
+      },
+      "started_tick": 17951,
+      "finished_tick": 18013,
+      "revision": 27
+    },
+    "wall_seconds": 0.14162054099142551
+  },
+  {
+    "request": {
+      "id": "action-014",
+      "op": "smelt",
+      "args": {
+        "address": "smelter/entity/1,1",
+        "recipe": "copper-plate",
+        "crafts": 10,
+        "coal": 1
+      },
+      "tick": 18013,
+      "revision": 27,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "electronics",
+      "label": "Load ore and 1 coal; smelt and collect {'copper-plate': 10}"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "station_id": "14",
+        "crafts": 10,
+        "outputs": {
+          "copper-plate": 10
+        },
+        "smelting_ticks": 1921
+      },
+      "started_tick": 18013,
+      "finished_tick": 19934,
+      "revision": 29
+    },
+    "wall_seconds": 3.211320084054023
+  },
+  {
+    "request": {
+      "id": "action-015",
+      "op": "research",
+      "args": {
+        "technology": "electronics"
+      },
+      "tick": 19934,
+      "revision": 29,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "electronics",
+      "label": "Observe electronics"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "technology": "electronics",
+        "observed": true
+      },
+      "started_tick": 19934,
+      "finished_tick": 19958,
+      "revision": 31
+    },
+    "wall_seconds": 0.07316033309325576
+  },
+  {
+    "request": {
+      "id": "action-016",
+      "op": "route",
+      "args": {
+        "target": {
+          "kind": "hand_mine",
+          "item": "coal",
+          "quantity": 1,
+          "resource_id": "coal:-16.5:-16.5",
+          "position": {
+            "y": -16.5,
+            "x": -16.5
+          },
+          "observed_resource_units": 995,
+          "straight_line_distance": 16.35742922108044,
+          "route_command": "/advisor-route -16.5 -16.5 1",
+          "instruction": "Approach -16.5, -16.5 and hand-mine 1 additional coal from this tile.",
+          "completion_check": "Confirm 1 newly collected coal; export again if the tile depleted or access changed."
+        }
+      },
+      "tick": 19958,
+      "revision": 31,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Find a walking route to 1 coal"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "sequence": 5,
+        "character_id": "12"
+      },
+      "started_tick": 19958,
+      "finished_tick": 19959,
+      "revision": 33
+    },
+    "wall_seconds": 0.044763708021491766
+  },
+  {
+    "request": {
+      "id": "action-017",
+      "op": "mine",
+      "args": {
+        "sequence": 5,
+        "receipt_sha256": "87f3590acf4b99c0e5d0531eb162c3e60a8183c173238a8e848e16636a7be24d"
+      },
+      "tick": 19959,
+      "revision": 33,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Walk, then hand-mine 1 coal at (-16.5, -16.5)"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "item": "coal",
+        "gained": 1,
+        "depleted": 1,
+        "sequence": 5
+      },
+      "started_tick": 19959,
+      "finished_tick": 20207,
+      "revision": 35
+    },
+    "wall_seconds": 0.4549425831064582
+  },
+  {
+    "request": {
+      "id": "action-018",
+      "op": "route",
+      "args": {
+        "target": {
+          "kind": "hand_mine",
+          "item": "copper-ore",
+          "quantity": 5,
+          "resource_id": "copper-ore:8.5:-16.5",
+          "position": {
+            "y": -16.5,
+            "x": 8.5
+          },
+          "observed_resource_units": 990,
+          "straight_line_distance": 23.279216826069476,
+          "route_command": "/advisor-route 8.5 -16.5 5",
+          "instruction": "Approach 8.5, -16.5 and hand-mine 5 additional copper-ore from this tile.",
+          "completion_check": "Confirm 5 newly collected copper-ore; export again if the tile depleted or access changed."
+        }
+      },
+      "tick": 20207,
+      "revision": 35,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Find a walking route to 5 copper-ore"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "sequence": 6,
+        "character_id": "12"
+      },
+      "started_tick": 20207,
+      "finished_tick": 20208,
+      "revision": 37
+    },
+    "wall_seconds": 0.04476508405059576
+  },
+  {
+    "request": {
+      "id": "action-019",
+      "op": "mine",
+      "args": {
+        "sequence": 6,
+        "receipt_sha256": "41ea2ae24f62e4bc65b4389dfe98b97e71fd7c0419bc058a2b88c5552974b811"
+      },
+      "tick": 20208,
+      "revision": 37,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Walk, then hand-mine 5 copper-ore at (8.5, -16.5)"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "item": "copper-ore",
+        "gained": 5,
+        "depleted": 5,
+        "sequence": 6
+      },
+      "started_tick": 20208,
+      "finished_tick": 21001,
+      "revision": 39
+    },
+    "wall_seconds": 1.3614892503246665
+  },
+  {
+    "request": {
+      "id": "action-020",
+      "op": "approach",
+      "args": {
+        "address": "smelter/entity/1,1"
+      },
+      "tick": 21001,
+      "revision": 39,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Walk within reach of the existing furnace"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "id": "14",
+        "position": {
+          "y": -15.1875,
+          "x": -0.1953125
+        },
+        "path": [
+          {
+            "position": {
+              "y": -15.1875,
+              "x": 6.78125
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 6.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 5.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 5.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 4.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 4.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 3.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 3.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 2.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 2.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 1.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 1.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 0.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 0.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": -0.25
+            },
+            "needs_destroy_to_reach": false
+          }
+        ]
+      },
+      "started_tick": 21001,
+      "finished_tick": 21063,
+      "revision": 41
+    },
+    "wall_seconds": 0.14002429088577628
+  },
+  {
+    "request": {
+      "id": "action-021",
+      "op": "smelt",
+      "args": {
+        "address": "smelter/entity/1,1",
+        "recipe": "copper-plate",
+        "crafts": 5,
+        "coal": 1
+      },
+      "tick": 21063,
+      "revision": 41,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Load ore and 1 coal; smelt and collect {'copper-plate': 5}"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "station_id": "14",
+        "crafts": 5,
+        "outputs": {
+          "copper-plate": 5
+        },
+        "smelting_ticks": 961
+      },
+      "started_tick": 21063,
+      "finished_tick": 22024,
+      "revision": 43
+    },
+    "wall_seconds": 1.6163788749836385
+  },
+  {
+    "request": {
+      "id": "action-022",
+      "op": "handcraft",
+      "args": {
+        "recipe": "copper-cable",
+        "crafts": 15
+      },
+      "tick": 22024,
+      "revision": 43,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Handcraft 15 batches of copper-cable"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "copper-cable",
+        "crafts": 15,
+        "crafting_ticks": 465
+      },
+      "started_tick": 22024,
+      "finished_tick": 22489,
+      "revision": 45
+    },
+    "wall_seconds": 0.7949238340370357
+  },
+  {
+    "request": {
+      "id": "action-023",
+      "op": "handcraft",
+      "args": {
+        "recipe": "electronic-circuit",
+        "crafts": 10
+      },
+      "tick": 22489,
+      "revision": 45,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Handcraft 10 batches of electronic-circuit"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "electronic-circuit",
+        "crafts": 10,
+        "crafting_ticks": 310
+      },
+      "started_tick": 22489,
+      "finished_tick": 22799,
+      "revision": 47
+    },
+    "wall_seconds": 0.5265138749964535
+  },
+  {
+    "request": {
+      "id": "action-024",
+      "op": "handcraft",
+      "args": {
+        "recipe": "iron-gear-wheel",
+        "crafts": 10
+      },
+      "tick": 22799,
+      "revision": 47,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Handcraft 10 batches of iron-gear-wheel"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "iron-gear-wheel",
+        "crafts": 10,
+        "crafting_ticks": 310
+      },
+      "started_tick": 22799,
+      "finished_tick": 23109,
+      "revision": 49
+    },
+    "wall_seconds": 0.5512766251340508
+  },
+  {
+    "request": {
+      "id": "action-025",
+      "op": "handcraft",
+      "args": {
+        "recipe": "iron-gear-wheel",
+        "crafts": 2
+      },
+      "tick": 23109,
+      "revision": 49,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Handcraft 2 batches of iron-gear-wheel"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "iron-gear-wheel",
+        "crafts": 2,
+        "crafting_ticks": 62
+      },
+      "started_tick": 23109,
+      "finished_tick": 23171,
+      "revision": 51
+    },
+    "wall_seconds": 0.13819087529554963
+  },
+  {
+    "request": {
+      "id": "action-026",
+      "op": "handcraft",
+      "args": {
+        "recipe": "transport-belt",
+        "crafts": 2
+      },
+      "tick": 23171,
+      "revision": 51,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Handcraft 2 batches of transport-belt"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "transport-belt",
+        "crafts": 2,
+        "crafting_ticks": 62
+      },
+      "started_tick": 23171,
+      "finished_tick": 23233,
+      "revision": 53
+    },
+    "wall_seconds": 0.11123633291572332
+  },
+  {
+    "request": {
+      "id": "action-027",
+      "op": "handcraft",
+      "args": {
+        "recipe": "lab",
+        "crafts": 1
+      },
+      "tick": 23233,
+      "revision": 53,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Handcraft 1 batches of lab"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "lab",
+        "crafts": 1,
+        "crafting_ticks": 121
+      },
+      "started_tick": 23233,
+      "finished_tick": 23354,
+      "revision": 55
+    },
+    "wall_seconds": 0.21314279129728675
+  },
+  {
+    "request": {
+      "id": "action-028",
+      "op": "research",
+      "args": {
+        "technology": "automation-science-pack"
+      },
+      "tick": 23354,
+      "revision": 55,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-science-pack",
+      "label": "Observe automation-science-pack"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "technology": "automation-science-pack",
+        "observed": true
+      },
+      "started_tick": 23354,
+      "finished_tick": 23378,
+      "revision": 57
+    },
+    "wall_seconds": 0.07648708298802376
+  },
+  {
+    "request": {
+      "id": "action-029",
+      "op": "place_power",
+      "args": {
+        "spec": {
+          "address": "probe.out_of_reach",
+          "direction": 0,
+          "name": "lab",
+          "position": {
+            "x": 9999.5,
+            "y": 9999.5
+          }
+        }
+      },
+      "tick": 23378,
+      "revision": 57,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Check refusal: out_of_reach"
+    },
+    "outcome": {
+      "status": "failed",
+      "error": "__level__/adapter.lua:33: out_of_reach",
+      "started_tick": 23378,
+      "finished_tick": 23378,
+      "revision": 59
+    },
+    "wall_seconds": 0.03986399993300438
+  },
+  {
+    "request": {
+      "id": "action-030",
+      "op": "place_power",
+      "args": {
+        "spec": {
+          "address": "probe.missing_item",
+          "direction": 0,
+          "name": "steam-engine",
+          "position": {
+            "x": -0.5,
+            "y": -9.5
+          }
+        }
+      },
+      "tick": 23378,
+      "revision": 59,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Check refusal: missing_item"
+    },
+    "outcome": {
+      "status": "failed",
+      "error": "__level__/adapter.lua:38: missing_item",
+      "started_tick": 23378,
+      "finished_tick": 23378,
+      "revision": 61
+    },
+    "wall_seconds": 0.04146087495610118
+  },
+  {
+    "request": {
+      "id": "action-031",
+      "op": "place_power",
+      "args": {
+        "spec": {
+          "address": "probe.cursor_build_blocked",
+          "direction": 0,
+          "name": "lab",
+          "position": {
+            "x": -8.5,
+            "y": -13.5
+          }
+        }
+      },
+      "tick": 23378,
+      "revision": 61,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Check refusal: cursor_build_blocked"
+    },
+    "outcome": {
+      "status": "failed",
+      "error": "__level__/adapter.lua:52: __level__/adapter.lua:45: cursor_build_blocked",
+      "started_tick": 23378,
+      "finished_tick": 23378,
+      "revision": 63
+    },
+    "wall_seconds": 0.036563457921147346
+  },
+  {
+    "request": {
+      "id": "action-032",
+      "op": "route",
+      "args": {
+        "target": {
+          "kind": "hand_mine",
+          "item": "coal",
+          "quantity": 4,
+          "resource_id": "coal:-16.5:-16.5",
+          "position": {
+            "y": -16.5,
+            "x": -16.5
+          },
+          "observed_resource_units": 994,
+          "straight_line_distance": 16.35742922108044,
+          "route_command": "/advisor-route -16.5 -16.5 4",
+          "instruction": "Approach -16.5, -16.5 and hand-mine 4 additional coal from this tile.",
+          "completion_check": "Confirm 4 newly collected coal; export again if the tile depleted or access changed."
+        }
+      },
+      "tick": 23378,
+      "revision": 63,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Find a walking route to 4 coal"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "sequence": 7,
+        "character_id": "12"
+      },
+      "started_tick": 23378,
+      "finished_tick": 23379,
+      "revision": 65
+    },
+    "wall_seconds": 0.04150845902040601
+  },
+  {
+    "request": {
+      "id": "action-033",
+      "op": "mine",
+      "args": {
+        "sequence": 7,
+        "receipt_sha256": "a110b10d1766e6146d573e95371b1098c2b51dd9e5b81387459cecf5b53e9caa"
+      },
+      "tick": 23379,
+      "revision": 65,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Walk, then hand-mine 4 coal at (-16.5, -16.5)"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "item": "coal",
+        "gained": 4,
+        "depleted": 4,
+        "sequence": 7
+      },
+      "started_tick": 23379,
+      "finished_tick": 23992,
+      "revision": 67
+    },
+    "wall_seconds": 1.061526750214398
+  },
+  {
+    "request": {
+      "id": "action-034",
+      "op": "route",
+      "args": {
+        "target": {
+          "kind": "hand_mine",
+          "item": "copper-ore",
+          "quantity": 1,
+          "resource_id": "copper-ore:8.5:-16.5",
+          "position": {
+            "y": -16.5,
+            "x": 8.5
+          },
+          "observed_resource_units": 985,
+          "straight_line_distance": 23.279216826069476,
+          "route_command": "/advisor-route 8.5 -16.5 1",
+          "instruction": "Approach 8.5, -16.5 and hand-mine 1 additional copper-ore from this tile.",
+          "completion_check": "Confirm 1 newly collected copper-ore; export again if the tile depleted or access changed."
+        }
+      },
+      "tick": 23992,
+      "revision": 67,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Find a walking route to 1 copper-ore"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "sequence": 8,
+        "character_id": "12"
+      },
+      "started_tick": 23992,
+      "finished_tick": 23993,
+      "revision": 69
+    },
+    "wall_seconds": 0.041568292304873466
+  },
+  {
+    "request": {
+      "id": "action-035",
+      "op": "mine",
+      "args": {
+        "sequence": 8,
+        "receipt_sha256": "058dff3e8580b69414a995a014c289bf5471c88beda494cebbc88662f9114a7a"
+      },
+      "tick": 23993,
+      "revision": 69,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Walk, then hand-mine 1 copper-ore at (8.5, -16.5)"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "item": "copper-ore",
+        "gained": 1,
+        "depleted": 1,
+        "sequence": 8
+      },
+      "started_tick": 23993,
+      "finished_tick": 24302,
+      "revision": 71
+    },
+    "wall_seconds": 0.5582087920047343
+  },
+  {
+    "request": {
+      "id": "action-036",
+      "op": "route",
+      "args": {
+        "target": {
+          "kind": "hand_mine",
+          "item": "iron-ore",
+          "quantity": 21,
+          "resource_id": "iron-ore:-0.5:-16.5",
+          "position": {
+            "y": -16.5,
+            "x": -0.5
+          },
+          "observed_resource_units": 1000,
+          "straight_line_distance": 7.398598368103245,
+          "route_command": "/advisor-route -0.5 -16.5 21",
+          "instruction": "Approach -0.5, -16.5 and hand-mine 21 additional iron-ore from this tile.",
+          "completion_check": "Confirm 21 newly collected iron-ore; export again if the tile depleted or access changed."
+        }
+      },
+      "tick": 24302,
+      "revision": 71,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Find a walking route to 21 iron-ore"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "sequence": 9,
+        "character_id": "12"
+      },
+      "started_tick": 24302,
+      "finished_tick": 24303,
+      "revision": 73
+    },
+    "wall_seconds": 0.0448722499422729
+  },
+  {
+    "request": {
+      "id": "action-037",
+      "op": "mine",
+      "args": {
+        "sequence": 9,
+        "receipt_sha256": "5b58732bf62ba72afd449b2a45149748e08bf4ea2a7c9b403c8e519e9d7d0abe"
+      },
+      "tick": 24303,
+      "revision": 73,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Walk, then hand-mine 21 iron-ore at (-0.5, -16.5)"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "item": "iron-ore",
+        "gained": 21,
+        "depleted": 21,
+        "sequence": 9
+      },
+      "started_tick": 24303,
+      "finished_tick": 26892,
+      "revision": 75
+    },
+    "wall_seconds": 4.3315316662192345
+  },
+  {
+    "request": {
+      "id": "action-038",
+      "op": "route",
+      "args": {
+        "target": {
+          "kind": "hand_mine",
+          "item": "stone",
+          "quantity": 5,
+          "resource_id": "stone:24.5:-16.5",
+          "position": {
+            "y": -16.5,
+            "x": 24.5
+          },
+          "observed_resource_units": 1000,
+          "straight_line_distance": 23.248016600968484,
+          "route_command": "/advisor-route 24.5 -16.5 5",
+          "instruction": "Approach 24.5, -16.5 and hand-mine 5 additional stone from this tile.",
+          "completion_check": "Confirm 5 newly collected stone; export again if the tile depleted or access changed."
+        }
+      },
+      "tick": 26892,
+      "revision": 75,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Find a walking route to 5 stone"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "sequence": 10,
+        "character_id": "12"
+      },
+      "started_tick": 26892,
+      "finished_tick": 26893,
+      "revision": 77
+    },
+    "wall_seconds": 0.04476912459358573
+  },
+  {
+    "request": {
+      "id": "action-039",
+      "op": "mine",
+      "args": {
+        "sequence": 10,
+        "receipt_sha256": "fe9ebd462db7a8388cea2d8b05a9bae92968e595ba09d8ea6e0b55c29cdba80d"
+      },
+      "tick": 26893,
+      "revision": 77,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Walk, then hand-mine 5 stone at (24.5, -16.5)"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "item": "stone",
+        "gained": 5,
+        "depleted": 5,
+        "sequence": 10
+      },
+      "started_tick": 26893,
+      "finished_tick": 27685,
+      "revision": 79
+    },
+    "wall_seconds": 1.3398533752188087
+  },
+  {
+    "request": {
+      "id": "action-040",
+      "op": "handcraft",
+      "args": {
+        "recipe": "iron-gear-wheel",
+        "crafts": 2
+      },
+      "tick": 27685,
+      "revision": 79,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Handcraft 2 batches of iron-gear-wheel"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "iron-gear-wheel",
+        "crafts": 2,
+        "crafting_ticks": 62
+      },
+      "started_tick": 27685,
+      "finished_tick": 27747,
+      "revision": 81
+    },
+    "wall_seconds": 0.13813679199665785
+  },
+  {
+    "request": {
+      "id": "action-041",
+      "op": "handcraft",
+      "args": {
+        "recipe": "pipe",
+        "crafts": 3
+      },
+      "tick": 27747,
+      "revision": 81,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Handcraft 3 batches of pipe"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "pipe",
+        "crafts": 3,
+        "crafting_ticks": 93
+      },
+      "started_tick": 27747,
+      "finished_tick": 27840,
+      "revision": 83
+    },
+    "wall_seconds": 0.17305670911446214
+  },
+  {
+    "request": {
+      "id": "action-042",
+      "op": "handcraft",
+      "args": {
+        "recipe": "offshore-pump",
+        "crafts": 1
+      },
+      "tick": 27840,
+      "revision": 83,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Handcraft 1 batches of offshore-pump"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "offshore-pump",
+        "crafts": 1,
+        "crafting_ticks": 31
+      },
+      "started_tick": 27840,
+      "finished_tick": 27871,
+      "revision": 85
+    },
+    "wall_seconds": 0.07646708283573389
+  },
+  {
+    "request": {
+      "id": "action-043",
+      "op": "handcraft",
+      "args": {
+        "recipe": "pipe",
+        "crafts": 1
+      },
+      "tick": 27871,
+      "revision": 85,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Handcraft 1 batches of pipe"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "pipe",
+        "crafts": 1,
+        "crafting_ticks": 31
+      },
+      "started_tick": 27871,
+      "finished_tick": 27902,
+      "revision": 87
+    },
+    "wall_seconds": 0.07142437482252717
+  },
+  {
+    "request": {
+      "id": "action-044",
+      "op": "handcraft",
+      "args": {
+        "recipe": "pipe",
+        "crafts": 4
+      },
+      "tick": 27902,
+      "revision": 87,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Handcraft 4 batches of pipe"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "pipe",
+        "crafts": 4,
+        "crafting_ticks": 124
+      },
+      "started_tick": 27902,
+      "finished_tick": 28026,
+      "revision": 89
+    },
+    "wall_seconds": 0.24315754231065512
+  },
+  {
+    "request": {
+      "id": "action-045",
+      "op": "handcraft",
+      "args": {
+        "recipe": "stone-furnace",
+        "crafts": 1
+      },
+      "tick": 28026,
+      "revision": 89,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Handcraft 1 batches of stone-furnace"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "stone-furnace",
+        "crafts": 1,
+        "crafting_ticks": 31
+      },
+      "started_tick": 28026,
+      "finished_tick": 28057,
+      "revision": 91
+    },
+    "wall_seconds": 0.07641595788300037
+  },
+  {
+    "request": {
+      "id": "action-046",
+      "op": "handcraft",
+      "args": {
+        "recipe": "boiler",
+        "crafts": 1
+      },
+      "tick": 28057,
+      "revision": 91,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Handcraft 1 batches of boiler"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "boiler",
+        "crafts": 1,
+        "crafting_ticks": 31
+      },
+      "started_tick": 28057,
+      "finished_tick": 28088,
+      "revision": 93
+    },
+    "wall_seconds": 0.07642224989831448
+  },
+  {
+    "request": {
+      "id": "action-047",
+      "op": "approach",
+      "args": {
+        "address": "smelter/entity/1,1"
+      },
+      "tick": 28088,
+      "revision": 93,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Walk within reach of the existing furnace"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "id": "14",
+        "position": {
+          "y": -15.1875,
+          "x": -0.1953125
+        },
+        "path": [
+          {
+            "position": {
+              "y": -15.1875,
+              "x": 22.6640625
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 22.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 21.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 21.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 20.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 20.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 19.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 19.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 18.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 18.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 17.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 17.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 16.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 16.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 15.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 15.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 14.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 13.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 13.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 12.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 12.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 11.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 11.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 10.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 10.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 9.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 9.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 8.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 8.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 7.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 7.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 6.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 6.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 5.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 5.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 4.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 4.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 3.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 3.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 2.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 2.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 1.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 1.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 0.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": 0.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -15.25,
+              "x": -0.25
+            },
+            "needs_destroy_to_reach": false
+          }
+        ]
+      },
+      "started_tick": 28088,
+      "finished_tick": 28289,
+      "revision": 95
+    },
+    "wall_seconds": 0.3515579579398036
+  },
+  {
+    "request": {
+      "id": "action-048",
+      "op": "smelt",
+      "args": {
+        "address": "smelter/entity/1,1",
+        "recipe": "iron-plate",
+        "crafts": 6,
+        "coal": 1
+      },
+      "tick": 28289,
+      "revision": 95,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Load ore and 1 coal; smelt and collect {'iron-plate': 6}"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "station_id": "14",
+        "crafts": 6,
+        "outputs": {
+          "iron-plate": 6
+        },
+        "smelting_ticks": 1153
+      },
+      "started_tick": 28289,
+      "finished_tick": 29442,
+      "revision": 97
+    },
+    "wall_seconds": 1.9479957921430469
+  },
+  {
+    "request": {
+      "id": "action-049",
+      "op": "handcraft",
+      "args": {
+        "recipe": "iron-gear-wheel",
+        "crafts": 8
+      },
+      "tick": 29442,
+      "revision": 97,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Handcraft 8 batches of iron-gear-wheel"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "iron-gear-wheel",
+        "crafts": 8,
+        "crafting_ticks": 248
+      },
+      "started_tick": 29442,
+      "finished_tick": 29690,
+      "revision": 99
+    },
+    "wall_seconds": 0.4514746251516044
+  },
+  {
+    "request": {
+      "id": "action-050",
+      "op": "approach",
+      "args": {
+        "address": "smelter/entity/1,1"
+      },
+      "tick": 29690,
+      "revision": 99,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Walk within reach of the existing furnace"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "id": "14",
+        "position": {
+          "y": -15.1875,
+          "x": -0.1953125
+        },
+        "path": [
+          {
+            "position": {
+              "y": -15.1875,
+              "x": -0.1953125
+            }
+          }
+        ]
+      },
+      "started_tick": 29690,
+      "finished_tick": 29690,
+      "revision": 101
+    },
+    "wall_seconds": 0.041428332682698965
+  },
+  {
+    "request": {
+      "id": "action-051",
+      "op": "smelt",
+      "args": {
+        "address": "smelter/entity/1,1",
+        "recipe": "iron-plate",
+        "crafts": 10,
+        "coal": 1
+      },
+      "tick": 29690,
+      "revision": 101,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Load ore and 1 coal; smelt and collect {'iron-plate': 10}"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "station_id": "14",
+        "crafts": 10,
+        "outputs": {
+          "iron-plate": 10
+        },
+        "smelting_ticks": 1921
+      },
+      "started_tick": 29690,
+      "finished_tick": 31611,
+      "revision": 103
+    },
+    "wall_seconds": 3.2111818748526275
+  },
+  {
+    "request": {
+      "id": "action-052",
+      "op": "approach",
+      "args": {
+        "address": "smelter/entity/1,1"
+      },
+      "tick": 31611,
+      "revision": 103,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Walk within reach of the existing furnace"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "id": "14",
+        "position": {
+          "y": -15.1875,
+          "x": -0.1953125
+        },
+        "path": [
+          {
+            "position": {
+              "y": -15.1875,
+              "x": -0.1953125
+            }
+          }
+        ]
+      },
+      "started_tick": 31611,
+      "finished_tick": 31611,
+      "revision": 105
+    },
+    "wall_seconds": 0.04144649999216199
+  },
+  {
+    "request": {
+      "id": "action-053",
+      "op": "smelt",
+      "args": {
+        "address": "smelter/entity/1,1",
+        "recipe": "iron-plate",
+        "crafts": 5,
+        "coal": 1
+      },
+      "tick": 31611,
+      "revision": 105,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Load ore and 1 coal; smelt and collect {'iron-plate': 5}"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "station_id": "14",
+        "crafts": 5,
+        "outputs": {
+          "iron-plate": 5
+        },
+        "smelting_ticks": 961
+      },
+      "started_tick": 31611,
+      "finished_tick": 32572,
+      "revision": 107
+    },
+    "wall_seconds": 1.6330920001491904
+  },
+  {
+    "request": {
+      "id": "action-054",
+      "op": "handcraft",
+      "args": {
+        "recipe": "pipe",
+        "crafts": 5
+      },
+      "tick": 32572,
+      "revision": 107,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Handcraft 5 batches of pipe"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "pipe",
+        "crafts": 5,
+        "crafting_ticks": 155
+      },
+      "started_tick": 32572,
+      "finished_tick": 32727,
+      "revision": 109
+    },
+    "wall_seconds": 0.2831678749062121
+  },
+  {
+    "request": {
+      "id": "action-055",
+      "op": "handcraft",
+      "args": {
+        "recipe": "steam-engine",
+        "crafts": 1
+      },
+      "tick": 32727,
+      "revision": 109,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Handcraft 1 batches of steam-engine"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "steam-engine",
+        "crafts": 1,
+        "crafting_ticks": 31
+      },
+      "started_tick": 32727,
+      "finished_tick": 32758,
+      "revision": 111
+    },
+    "wall_seconds": 0.07470858283340931
+  },
+  {
+    "request": {
+      "id": "action-056",
+      "op": "approach",
+      "args": {
+        "address": "smelter/entity/1,1"
+      },
+      "tick": 32758,
+      "revision": 111,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Walk within reach of the existing furnace"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "id": "14",
+        "position": {
+          "y": -15.1875,
+          "x": -0.1953125
+        },
+        "path": [
+          {
+            "position": {
+              "y": -15.1875,
+              "x": -0.1953125
+            }
+          }
+        ]
+      },
+      "started_tick": 32758,
+      "finished_tick": 32758,
+      "revision": 113
+    },
+    "wall_seconds": 0.0415270421653986
+  },
+  {
+    "request": {
+      "id": "action-057",
+      "op": "smelt",
+      "args": {
+        "address": "smelter/entity/1,1",
+        "recipe": "copper-plate",
+        "crafts": 1,
+        "coal": 1
+      },
+      "tick": 32758,
+      "revision": 113,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Load ore and 1 coal; smelt and collect {'copper-plate': 1}"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "station_id": "14",
+        "crafts": 1,
+        "outputs": {
+          "copper-plate": 1
+        },
+        "smelting_ticks": 193
+      },
+      "started_tick": 32758,
+      "finished_tick": 32951,
+      "revision": 115
+    },
+    "wall_seconds": 0.33978387527167797
+  },
+  {
+    "request": {
+      "id": "action-058",
+      "op": "handcraft",
+      "args": {
+        "recipe": "copper-cable",
+        "crafts": 1
+      },
+      "tick": 32951,
+      "revision": 115,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Handcraft 1 batches of copper-cable"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "copper-cable",
+        "crafts": 1,
+        "crafting_ticks": 31
+      },
+      "started_tick": 32951,
+      "finished_tick": 32982,
+      "revision": 117
+    },
+    "wall_seconds": 0.0764331673271954
+  },
+  {
+    "request": {
+      "id": "action-059",
+      "op": "handcraft",
+      "args": {
+        "recipe": "small-electric-pole",
+        "crafts": 1
+      },
+      "tick": 32982,
+      "revision": 117,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Handcraft 1 batches of small-electric-pole"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "small-electric-pole",
+        "crafts": 1,
+        "crafting_ticks": 31
+      },
+      "started_tick": 32982,
+      "finished_tick": 33013,
+      "revision": 119
+    },
+    "wall_seconds": 0.07311920775100589
+  },
+  {
+    "request": {
+      "id": "action-060",
+      "op": "route",
+      "args": {
+        "target": {
+          "kind": "hand_mine",
+          "item": "coal",
+          "quantity": 3,
+          "resource_id": "coal:-16.5:-16.5",
+          "position": {
+            "y": -16.5,
+            "x": -16.5
+          },
+          "observed_resource_units": 990,
+          "straight_line_distance": 16.35742922108044,
+          "route_command": "/advisor-route -16.5 -16.5 3",
+          "instruction": "Approach -16.5, -16.5 and hand-mine 3 additional coal from this tile.",
+          "completion_check": "Confirm 3 newly collected coal; export again if the tile depleted or access changed."
+        }
+      },
+      "tick": 33013,
+      "revision": 119,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Find a walking route to 3 coal"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "sequence": 11,
+        "character_id": "12"
+      },
+      "started_tick": 33013,
+      "finished_tick": 33014,
+      "revision": 121
+    },
+    "wall_seconds": 0.044757416006177664
+  },
+  {
+    "request": {
+      "id": "action-061",
+      "op": "mine",
+      "args": {
+        "sequence": 11,
+        "receipt_sha256": "982d3a1bbcf9efeb6c09b90d000f4adb19a5a437dffe0c8e54bd76b04ca08668"
+      },
+      "tick": 33014,
+      "revision": 121,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Walk, then hand-mine 3 coal at (-16.5, -16.5)"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "item": "coal",
+        "gained": 3,
+        "depleted": 3,
+        "sequence": 11
+      },
+      "started_tick": 33014,
+      "finished_tick": 33504,
+      "revision": 123
+    },
+    "wall_seconds": 0.8565757088363171
+  },
+  {
+    "request": {
+      "id": "action-062",
+      "op": "preflight_power",
+      "args": {
+        "specs": [
+          {
+            "address": "power.pump",
+            "name": "offshore-pump",
+            "position": {
+              "x": -31.5,
+              "y": 0.5
+            },
+            "direction": 12
+          },
+          {
+            "address": "power.water-pipe",
+            "name": "pipe",
+            "position": {
+              "x": -30.5,
+              "y": 0.5
+            },
+            "direction": 0
+          },
+          {
+            "address": "power.boiler",
+            "name": "boiler",
+            "position": {
+              "x": -28.5,
+              "y": 0.0
+            },
+            "direction": 0
+          },
+          {
+            "address": "power.engine",
+            "name": "steam-engine",
+            "position": {
+              "x": -28.5,
+              "y": -3.5
+            },
+            "direction": 0
+          },
+          {
+            "address": "power.pole",
+            "name": "small-electric-pole",
+            "position": {
+              "x": -25.5,
+              "y": -1.5
+            },
+            "direction": 0
+          },
+          {
+            "address": "power.lab",
+            "name": "lab",
+            "position": {
+              "x": -23.5,
+              "y": -3.5
+            },
+            "direction": 0
+          }
+        ]
+      },
+      "tick": 33504,
+      "revision": 123,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Check the proposed power island against the actual terrain"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "clear": true,
+        "specs": [
+          {
+            "address": "power.pump",
+            "direction": 12,
+            "name": "offshore-pump",
+            "position": {
+              "x": -31.5,
+              "y": 0.5
+            }
+          },
+          {
+            "address": "power.water-pipe",
+            "direction": 0,
+            "name": "pipe",
+            "position": {
+              "x": -30.5,
+              "y": 0.5
+            }
+          },
+          {
+            "address": "power.boiler",
+            "direction": 0,
+            "name": "boiler",
+            "position": {
+              "x": -28.5,
+              "y": 0
+            }
+          },
+          {
+            "address": "power.engine",
+            "direction": 0,
+            "name": "steam-engine",
+            "position": {
+              "x": -28.5,
+              "y": -3.5
+            }
+          },
+          {
+            "address": "power.pole",
+            "direction": 0,
+            "name": "small-electric-pole",
+            "position": {
+              "x": -25.5,
+              "y": -1.5
+            }
+          },
+          {
+            "address": "power.lab",
+            "direction": 0,
+            "name": "lab",
+            "position": {
+              "x": -23.5,
+              "y": -3.5
+            }
+          }
+        ]
+      },
+      "started_tick": 33504,
+      "finished_tick": 33504,
+      "revision": 125
+    },
+    "wall_seconds": 0.04100412502884865
+  },
+  {
+    "request": {
+      "id": "action-063",
+      "op": "walk_to",
+      "args": {
+        "position": {
+          "x": -26.0,
+          "y": 3.0
+        }
+      },
+      "tick": 33504,
+      "revision": 125,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Walk to the power island construction position"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "position": {
+          "y": 2.94921875,
+          "x": -25.91796875
+        },
+        "path": [
+          {
+            "position": {
+              "y": -15.1875,
+              "x": -14.7421875
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -14.75,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -14.25,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -13.75,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -13.25,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -12.75,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -12.25,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -11.75,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -11.25,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -10.75,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -10.25,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -9.75,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -9.25,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -8.75,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -8.25,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -7.75,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -7.25,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -6.75,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -6.25,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -5.75,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -5.25,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -4.75,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -4.25,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -3.75,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -3.25,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -2.75,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -2.25,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -1.75,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -1.25,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -0.75,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -0.25,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 0.25,
+              "x": -15.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 0.75,
+              "x": -15.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 1.25,
+              "x": -16.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 1.75,
+              "x": -16.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 2.25,
+              "x": -17.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 2.75,
+              "x": -17.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -18.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -18.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -19.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -19.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -20.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -20.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -21.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -21.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -22.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -22.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -23.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -23.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -24.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -24.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -25.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 2.75,
+              "x": -25.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 2.75,
+              "x": -25.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3,
+              "x": -26
+            },
+            "needs_destroy_to_reach": false
+          }
+        ]
+      },
+      "started_tick": 33504,
+      "finished_tick": 33748,
+      "revision": 127
+    },
+    "wall_seconds": 0.4483913751319051
+  },
+  {
+    "request": {
+      "id": "action-064",
+      "op": "place_power",
+      "args": {
+        "spec": {
+          "address": "power.pump",
+          "name": "offshore-pump",
+          "position": {
+            "x": -31.5,
+            "y": 0.5
+          },
+          "direction": 12
+        }
+      },
+      "tick": 33748,
+      "revision": 127,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Place offshore-pump at {'x': -31.5, 'y': 0.5} using the player cursor"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "id": "15",
+        "address": "power.pump",
+        "added": true
+      },
+      "started_tick": 33748,
+      "finished_tick": 33748,
+      "revision": 129
+    },
+    "wall_seconds": 0.04312066687270999
+  },
+  {
+    "request": {
+      "id": "action-065",
+      "op": "place_power",
+      "args": {
+        "spec": {
+          "address": "power.water-pipe",
+          "name": "pipe",
+          "position": {
+            "x": -30.5,
+            "y": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "tick": 33748,
+      "revision": 129,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Place pipe at {'x': -30.5, 'y': 0.5} using the player cursor"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "id": "16",
+        "address": "power.water-pipe",
+        "added": true
+      },
+      "started_tick": 33748,
+      "finished_tick": 33748,
+      "revision": 131
+    },
+    "wall_seconds": 0.04316295776516199
+  },
+  {
+    "request": {
+      "id": "action-066",
+      "op": "place_power",
+      "args": {
+        "spec": {
+          "address": "power.boiler",
+          "name": "boiler",
+          "position": {
+            "x": -28.5,
+            "y": 0.0
+          },
+          "direction": 0
+        }
+      },
+      "tick": 33748,
+      "revision": 131,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Place boiler at {'x': -28.5, 'y': 0.0} using the player cursor"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "id": "17",
+        "address": "power.boiler",
+        "added": true
+      },
+      "started_tick": 33748,
+      "finished_tick": 33748,
+      "revision": 133
+    },
+    "wall_seconds": 0.04294800013303757
+  },
+  {
+    "request": {
+      "id": "action-067",
+      "op": "place_power",
+      "args": {
+        "spec": {
+          "address": "power.engine",
+          "name": "steam-engine",
+          "position": {
+            "x": -28.5,
+            "y": -3.5
+          },
+          "direction": 0
+        }
+      },
+      "tick": 33748,
+      "revision": 133,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Place steam-engine at {'x': -28.5, 'y': -3.5} using the player cursor"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "id": "18",
+        "address": "power.engine",
+        "added": true
+      },
+      "started_tick": 33748,
+      "finished_tick": 33748,
+      "revision": 135
+    },
+    "wall_seconds": 0.03964758291840553
+  },
+  {
+    "request": {
+      "id": "action-068",
+      "op": "place_power",
+      "args": {
+        "spec": {
+          "address": "power.pole",
+          "name": "small-electric-pole",
+          "position": {
+            "x": -25.5,
+            "y": -1.5
+          },
+          "direction": 0
+        }
+      },
+      "tick": 33748,
+      "revision": 135,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Place small-electric-pole at {'x': -25.5, 'y': -1.5} using the player cursor"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "id": "19",
+        "address": "power.pole",
+        "added": true
+      },
+      "started_tick": 33748,
+      "finished_tick": 33748,
+      "revision": 137
+    },
+    "wall_seconds": 0.04291149973869324
+  },
+  {
+    "request": {
+      "id": "action-069",
+      "op": "place_power",
+      "args": {
+        "spec": {
+          "address": "power.lab",
+          "name": "lab",
+          "position": {
+            "x": -23.5,
+            "y": -3.5
+          },
+          "direction": 0
+        }
+      },
+      "tick": 33748,
+      "revision": 137,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Place lab at {'x': -23.5, 'y': -3.5} using the player cursor"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "id": "20",
+        "address": "power.lab",
+        "added": true
+      },
+      "started_tick": 33748,
+      "finished_tick": 33748,
+      "revision": 139
+    },
+    "wall_seconds": 0.04279129160568118
+  },
+  {
+    "request": {
+      "id": "action-070",
+      "op": "place_power",
+      "args": {
+        "spec": {
+          "address": "power.lab",
+          "name": "lab",
+          "position": {
+            "x": -23.5,
+            "y": -3.5
+          },
+          "direction": 0
+        }
+      },
+      "tick": 33748,
+      "revision": 139,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Reconcile the lab again; retain the existing entity"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "id": "20",
+        "address": "power.lab",
+        "added": false
+      },
+      "started_tick": 33748,
+      "finished_tick": 33748,
+      "revision": 141
+    },
+    "wall_seconds": 0.04120545880869031
+  },
+  {
+    "request": {
+      "id": "action-071",
+      "op": "fuel_power",
+      "args": {
+        "coal": 3
+      },
+      "tick": 33748,
+      "revision": 141,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "powered-lab",
+      "label": "Load three paid coal into the boiler"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "loaded_coal": 3,
+        "station_id": "17"
+      },
+      "started_tick": 33748,
+      "finished_tick": 33748,
+      "revision": 143
+    },
+    "wall_seconds": 0.03951500030234456
+  },
+  {
+    "request": {
+      "id": "action-072",
+      "op": "route",
+      "args": {
+        "target": {
+          "kind": "hand_mine",
+          "item": "coal",
+          "quantity": 3,
+          "resource_id": "coal:-23.5:-16.5",
+          "position": {
+            "y": -16.5,
+            "x": -23.5
+          },
+          "observed_resource_units": 1000,
+          "straight_line_distance": 19.59894596301873,
+          "route_command": "/advisor-route -23.5 -16.5 3",
+          "instruction": "Approach -23.5, -16.5 and hand-mine 3 additional coal from this tile.",
+          "completion_check": "Confirm 3 newly collected coal; export again if the tile depleted or access changed."
+        }
+      },
+      "tick": 33748,
+      "revision": 143,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-research",
+      "label": "Find a walking route to 3 coal"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "sequence": 12,
+        "character_id": "12"
+      },
+      "started_tick": 33748,
+      "finished_tick": 33749,
+      "revision": 145
+    },
+    "wall_seconds": 0.04451674968004227
+  },
+  {
+    "request": {
+      "id": "action-073",
+      "op": "mine",
+      "args": {
+        "sequence": 12,
+        "receipt_sha256": "17cbaf858f77609f54653a5c54d0f3d46ef43d0d19385e1cd69b9609929453db"
+      },
+      "tick": 33749,
+      "revision": 145,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-research",
+      "label": "Walk, then hand-mine 3 coal at (-23.5, -16.5)"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "item": "coal",
+        "gained": 3,
+        "depleted": 3,
+        "sequence": 12
+      },
+      "started_tick": 33749,
+      "finished_tick": 34276,
+      "revision": 147
+    },
+    "wall_seconds": 0.8961955001577735
+  },
+  {
+    "request": {
+      "id": "action-074",
+      "op": "route",
+      "args": {
+        "target": {
+          "kind": "hand_mine",
+          "item": "copper-ore",
+          "quantity": 10,
+          "resource_id": "copper-ore:8.5:-16.5",
+          "position": {
+            "y": -16.5,
+            "x": 8.5
+          },
+          "observed_resource_units": 984,
+          "straight_line_distance": 33.28188544727869,
+          "route_command": "/advisor-route 8.5 -16.5 10",
+          "instruction": "Approach 8.5, -16.5 and hand-mine 10 additional copper-ore from this tile.",
+          "completion_check": "Confirm 10 newly collected copper-ore; export again if the tile depleted or access changed."
+        }
+      },
+      "tick": 34276,
+      "revision": 147,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-research",
+      "label": "Find a walking route to 10 copper-ore"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "sequence": 13,
+        "character_id": "12"
+      },
+      "started_tick": 34276,
+      "finished_tick": 34277,
+      "revision": 149
+    },
+    "wall_seconds": 0.042742582969367504
+  },
+  {
+    "request": {
+      "id": "action-075",
+      "op": "mine",
+      "args": {
+        "sequence": 13,
+        "receipt_sha256": "98a1d677407ac0a71f15f7d62139da73bc7707fc07094dd0a6e166c7dfc6423e"
+      },
+      "tick": 34277,
+      "revision": 149,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-research",
+      "label": "Walk, then hand-mine 10 copper-ore at (8.5, -16.5)"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "item": "copper-ore",
+        "gained": 10,
+        "depleted": 10,
+        "sequence": 13
+      },
+      "started_tick": 34277,
+      "finished_tick": 35762,
+      "revision": 151
+    },
+    "wall_seconds": 2.50777875026688
+  },
+  {
+    "request": {
+      "id": "action-076",
+      "op": "route",
+      "args": {
+        "target": {
+          "kind": "hand_mine",
+          "item": "iron-ore",
+          "quantity": 20,
+          "resource_id": "iron-ore:-0.5:-16.5",
+          "position": {
+            "y": -16.5,
+            "x": -0.5
+          },
+          "observed_resource_units": 979,
+          "straight_line_distance": 7.321162904179311,
+          "route_command": "/advisor-route -0.5 -16.5 20",
+          "instruction": "Approach -0.5, -16.5 and hand-mine 20 additional iron-ore from this tile.",
+          "completion_check": "Confirm 20 newly collected iron-ore; export again if the tile depleted or access changed."
+        }
+      },
+      "tick": 35762,
+      "revision": 151,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-research",
+      "label": "Find a walking route to 20 iron-ore"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "sequence": 14,
+        "character_id": "12"
+      },
+      "started_tick": 35762,
+      "finished_tick": 35763,
+      "revision": 153
+    },
+    "wall_seconds": 0.04449704196304083
+  },
+  {
+    "request": {
+      "id": "action-077",
+      "op": "mine",
+      "args": {
+        "sequence": 14,
+        "receipt_sha256": "67b637f57e298ef868e72e9dbb5fb7adc6d5ad1706eacd1bb886277f7bc0f4fb"
+      },
+      "tick": 35763,
+      "revision": 153,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-research",
+      "label": "Walk, then hand-mine 20 iron-ore at (-0.5, -16.5)"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "item": "iron-ore",
+        "gained": 20,
+        "depleted": 20,
+        "sequence": 14
+      },
+      "started_tick": 35763,
+      "finished_tick": 38230,
+      "revision": 155
+    },
+    "wall_seconds": 4.154541916679591
+  },
+  {
+    "request": {
+      "id": "action-078",
+      "op": "approach",
+      "args": {
+        "address": "smelter/entity/1,1"
+      },
+      "tick": 38230,
+      "revision": 155,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-research",
+      "label": "Walk within reach of the existing furnace"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "id": "14",
+        "position": {
+          "y": -15.234375,
+          "x": 1.3671875
+        },
+        "path": [
+          {
+            "position": {
+              "y": -15.234375,
+              "x": 1.3671875
+            }
+          }
+        ]
+      },
+      "started_tick": 38230,
+      "finished_tick": 38230,
+      "revision": 157
+    },
+    "wall_seconds": 0.03931695828214288
+  },
+  {
+    "request": {
+      "id": "action-079",
+      "op": "smelt",
+      "args": {
+        "address": "smelter/entity/1,1",
+        "recipe": "copper-plate",
+        "crafts": 10,
+        "coal": 1
+      },
+      "tick": 38230,
+      "revision": 157,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-research",
+      "label": "Load ore and 1 coal; smelt and collect {'copper-plate': 10}"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "station_id": "14",
+        "crafts": 10,
+        "outputs": {
+          "copper-plate": 10
+        },
+        "smelting_ticks": 1921
+      },
+      "started_tick": 38230,
+      "finished_tick": 40151,
+      "revision": 159
+    },
+    "wall_seconds": 3.2242002920247614
+  },
+  {
+    "request": {
+      "id": "action-080",
+      "op": "approach",
+      "args": {
+        "address": "smelter/entity/1,1"
+      },
+      "tick": 40151,
+      "revision": 159,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-research",
+      "label": "Walk within reach of the existing furnace"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "id": "14",
+        "position": {
+          "y": -15.234375,
+          "x": 1.3671875
+        },
+        "path": [
+          {
+            "position": {
+              "y": -15.234375,
+              "x": 1.3671875
+            }
+          }
+        ]
+      },
+      "started_tick": 40151,
+      "finished_tick": 40151,
+      "revision": 161
+    },
+    "wall_seconds": 0.04119154205545783
+  },
+  {
+    "request": {
+      "id": "action-081",
+      "op": "smelt",
+      "args": {
+        "address": "smelter/entity/1,1",
+        "recipe": "iron-plate",
+        "crafts": 20,
+        "coal": 2
+      },
+      "tick": 40151,
+      "revision": 161,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-research",
+      "label": "Load ore and 2 coal; smelt and collect {'iron-plate': 20}"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "station_id": "14",
+        "crafts": 20,
+        "outputs": {
+          "iron-plate": 20
+        },
+        "smelting_ticks": 3841
+      },
+      "started_tick": 40151,
+      "finished_tick": 43992,
+      "revision": 163
+    },
+    "wall_seconds": 6.432718416210264
+  },
+  {
+    "request": {
+      "id": "action-082",
+      "op": "handcraft",
+      "args": {
+        "recipe": "iron-gear-wheel",
+        "crafts": 10
+      },
+      "tick": 43992,
+      "revision": 163,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-research",
+      "label": "Handcraft 10 batches of iron-gear-wheel"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "iron-gear-wheel",
+        "crafts": 10,
+        "crafting_ticks": 310
+      },
+      "started_tick": 43992,
+      "finished_tick": 44302,
+      "revision": 165
+    },
+    "wall_seconds": 0.5577676249668002
+  },
+  {
+    "request": {
+      "id": "action-083",
+      "op": "handcraft",
+      "args": {
+        "recipe": "automation-science-pack",
+        "crafts": 10
+      },
+      "tick": 44302,
+      "revision": 165,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-research",
+      "label": "Handcraft 10 batches of automation-science-pack"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "recipe": "automation-science-pack",
+        "crafts": 10,
+        "crafting_ticks": 3010
+      },
+      "started_tick": 44302,
+      "finished_tick": 47312,
+      "revision": 167
+    },
+    "wall_seconds": 5.049162082839757
+  },
+  {
+    "request": {
+      "id": "action-084",
+      "op": "walk_to",
+      "args": {
+        "position": {
+          "x": -26.0,
+          "y": 3.0
+        }
+      },
+      "tick": 47312,
+      "revision": 167,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-research",
+      "label": "Return within reach of the powered lab"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "position": {
+          "y": 2.9921875,
+          "x": -26.015625
+        },
+        "path": [
+          {
+            "position": {
+              "y": -15.234375,
+              "x": 1.3671875
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -14.75,
+              "x": 0.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -14.25,
+              "x": 0.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -13.75,
+              "x": -0.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -13.25,
+              "x": -0.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -12.75,
+              "x": -1.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -12.25,
+              "x": -1.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -11.75,
+              "x": -2.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -11.25,
+              "x": -2.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -10.75,
+              "x": -3.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -10.25,
+              "x": -3.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -9.75,
+              "x": -4.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -9.25,
+              "x": -4.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -8.75,
+              "x": -5.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -8.25,
+              "x": -5.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -7.75,
+              "x": -6.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -7.25,
+              "x": -6.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -6.75,
+              "x": -7.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -6.25,
+              "x": -7.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -5.75,
+              "x": -8.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -5.25,
+              "x": -8.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -4.75,
+              "x": -9.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -4.25,
+              "x": -9.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -3.75,
+              "x": -10.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -3.25,
+              "x": -10.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -2.75,
+              "x": -11.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -2.25,
+              "x": -11.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -1.75,
+              "x": -12.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -1.25,
+              "x": -12.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -0.75,
+              "x": -13.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": -0.25,
+              "x": -13.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 0.25,
+              "x": -14.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 0.75,
+              "x": -14.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 1.25,
+              "x": -15.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 1.75,
+              "x": -15.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 2.25,
+              "x": -16.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 2.75,
+              "x": -16.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -17.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -17.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -18.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -18.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -19.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -19.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -20.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -20.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -21.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -21.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -22.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -22.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -23.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -23.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -24.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -24.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3.25,
+              "x": -25.25
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 2.75,
+              "x": -25.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 2.75,
+              "x": -25.75
+            },
+            "needs_destroy_to_reach": false
+          },
+          {
+            "position": {
+              "y": 3,
+              "x": -26
+            },
+            "needs_destroy_to_reach": false
+          }
+        ]
+      },
+      "started_tick": 47312,
+      "finished_tick": 47607,
+      "revision": 169
+    },
+    "wall_seconds": 0.50798629084602
+  },
+  {
+    "request": {
+      "id": "action-085",
+      "op": "research_lab",
+      "args": {
+        "technology": "automation",
+        "packs": 10
+      },
+      "tick": 47607,
+      "revision": 169,
+      "goal": "Produce 10 red science per minute",
+      "milestone": "automation-research",
+      "label": "Load ten red science packs; let the steam-powered lab research automation"
+    },
+    "outcome": {
+      "status": "done",
+      "value": {
+        "technology": "automation",
+        "observed": true,
+        "science_consumed": 10,
+        "research_ticks": 6000
+      },
+      "started_tick": 47607,
+      "finished_tick": 53607,
+      "revision": 171
+    },
+    "wall_seconds": 10.031078124884516
+  }
+]

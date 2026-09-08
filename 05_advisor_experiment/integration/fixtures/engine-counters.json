@@ -1,0 +1,13 @@
+{
+  "red1_finished": 6,
+  "red2_finished": 6,
+  "cable_finished": 60,
+  "cable_contents": [
+    {
+      "name": "copper-cable",
+      "quality": "normal",
+      "count": 120
+    }
+  ],
+  "gears_finished": 52
+}

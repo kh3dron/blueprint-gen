@@ -1,0 +1,40 @@
+{
+  "factorio_version": "2.1.16",
+  "ruleset_sha256": "8527b02e263878981c614dd65a10865e3118a3220b03cd48dad6a3fbb4dc1872",
+  "initial_inventory": {
+    "burner-mining-drill": 1,
+    "stone-furnace": 1,
+    "wood": 1,
+    "iron-plate": 8
+  },
+  "final_inventory": {
+    "burner-mining-drill": 1,
+    "wood": 1,
+    "iron-plate": 58
+  },
+  "new_iron_plates": 50,
+  "mined": {
+    "coal": 4,
+    "iron-ore": 50
+  },
+  "steam_power_observed": true,
+  "furnace_position": {
+    "y": -14,
+    "x": -2
+  },
+  "paid_furnaces": 1,
+  "retained_on_repeat": true,
+  "refusals": {
+    "out_of_reach": true,
+    "collision": true,
+    "missing_item": true,
+    "short_transfer": true
+  },
+  "execution_ticks": 16394,
+  "smelting_ticks": 9602,
+  "walking_distance": 34.39243097854141,
+  "trigger_wait_ticks": 19,
+  "goal_complete": false,
+  "method": "native walking_state/mining_state; costed test placement and reach-checked transfers; ordinary furnace ticks",
+  "instructions_sha256": "05c3add280a13a701c4d753785d66c1128f876997ffc40fa6b1b15c7d098677b"
+}

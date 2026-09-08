@@ -1,0 +1,13 @@
+{
+  "kind": "supply",
+  "title": "Establish copper-ore delivery of at least 10/min",
+  "why": "Installed production cannot create this missing input; inventory is only a finite buffer.",
+  "completion_check": "Measure net delivery at the factory input and update supplies_per_s in a fresh snapshot.",
+  "snapshot_revision": "import-9bb7f71126bd8473b683d3a4",
+  "snapshot_tick": 53607,
+  "changes_snapshot": false,
+  "item": "copper-ore",
+  "target_per_min": 10.0,
+  "additional_per_min": 10.0,
+  "extraction_plan_pending": true
+}

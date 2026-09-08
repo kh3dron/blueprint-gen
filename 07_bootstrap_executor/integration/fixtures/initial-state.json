@@ -1,0 +1,25 @@
+{
+  "tick": 120,
+  "active_mods": {
+    "base": "2.1.16",
+    "blueprint-gen-observer": "0.3.0"
+  },
+  "character_id": "12",
+  "surface_index": 1,
+  "force_index": 1,
+  "map_seed": 42,
+  "position": {
+    "y": 0,
+    "x": 0
+  },
+  "inventory": {
+    "burner-mining-drill": 1,
+    "stone-furnace": 1,
+    "wood": 1,
+    "iron-plate": 8
+  },
+  "researched": {},
+  "build_distance": 10,
+  "reach_distance": 10,
+  "produced_iron": 0
+}

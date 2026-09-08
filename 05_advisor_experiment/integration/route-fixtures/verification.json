@@ -1,0 +1,24 @@
+{
+  "factorio_version": "2.1.16",
+  "active_mods": {
+    "base": "2.1.16",
+    "blueprint-gen-observer": "0.3.0"
+  },
+  "route_outcomes": {
+    "1": "ready",
+    "2": "no_path",
+    "3": "invalidated",
+    "4": "ready",
+    "5": "invalidated"
+  },
+  "planned_distance_tiles": 23.34691860114614,
+  "walking_distance_tiles": 23.380060348936453,
+  "actual_ore_collected": 3,
+  "resource_depletion": 3,
+  "can_reach": true,
+  "wall_preserved": true,
+  "covered_target_rejected": true,
+  "receipt_sha256": "0f2aef029e9c81fdbecfc962317565e8c70c9607766c87bdfecc0f8d9eddd427",
+  "execution_ticks": 527,
+  "method": "walking_state plus mining_state; no teleport or instant mine"
+}

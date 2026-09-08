@@ -1,0 +1,23 @@
+{
+  "factorio_version": "2.1.16",
+  "active_mods": {
+    "base": "2.1.16",
+    "blueprint-gen-observer": "0.2.0"
+  },
+  "window_ticks": [
+    30,
+    3630
+  ],
+  "produced": {
+    "copper-cable": 120,
+    "iron-gear-wheel": 52,
+    "automation-science-pack": 12
+  },
+  "cable_crafts": 60,
+  "cable_items": 120,
+  "recipe_change_rejected": true,
+  "unreviewed_action": "observe",
+  "finite_stock_goal_fraction": 0,
+  "full_output_overrides_review": true,
+  "ruleset_sha256": "9832500a30b1947b92cf5afecdf6d5609b57d165d0a54a8026c27411f5908d25"
+}

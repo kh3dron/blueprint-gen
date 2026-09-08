@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "ruleset_id": "nauvis-opening-2.1.14-v1",
+  "ruleset_sha256": "f05d22101f8ac94b5fa5f2de9cbba6f20ea1565f9df6b2d8323f4a592e96980e",
+  "factorio_version": "2.1.14",
+  "mods": {
+    "base": "2.1.14"
+  },
+  "surface": "nauvis",
+  "tick": 3600,
+  "revision": "oil-1",
+  "inventory": {},
+  "crafted": {},
+  "researched": [
+    "steam-power",
+    "electronics",
+    "automation-science-pack",
+    "automation",
+    "steel-processing",
+    "logistic-science-pack",
+    "automation-2",
+    "engine",
+    "fluid-handling",
+    "oil-gathering",
+    "oil-processing",
+    "plastics",
+    "advanced-circuit",
+    "sulfur-processing",
+    "chemical-science-pack",
+    "advanced-oil-processing"
+  ],
+  "supplies_per_s": {
+    "crude-oil": 20,
+    "water": 10
+  },
+  "goals_per_min": {
+    "heavy-oil": 300,
+    "light-oil": 540,
+    "petroleum-gas": 660
+  },
+  "selected_recipes": {},
+  "machines": [
+    {
+      "id": "refinery",
+      "prototype": "oil-refinery",
+      "recipe": "advanced-oil-processing",
+      "count": 1,
+      "built": true,
+      "connected": true,
+      "powered": true,
+      "output_open": true,
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    }
+  ],
+  "power": {
+    "available_kw": 900,
+    "required": true
+  },
+  "require_lab": false,
+  "goal_window_seconds": 60,
+  "max_observation_age_seconds": 10,
+  "observations": [],
+  "research_units_completed": {}
+}

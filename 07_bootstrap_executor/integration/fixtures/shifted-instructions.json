@@ -1,0 +1,884 @@
+{
+  "schema_version": 1,
+  "ruleset_sha256": "8527b02e263878981c614dd65a10865e3118a3220b03cd48dad6a3fbb4dc1872",
+  "capture_sha256": "54a25edd8c8bb176d98928c1713adcd43e499192ce6fc087b27667250c60c60e",
+  "initial_state_sha256": "51c2fd671ecdea66731df50846488c68a9bd271595f3502fa39db68ecd0a7b5e",
+  "advisor_action": {
+    "kind": "trigger",
+    "title": "Produce 50 additional iron-plate for steam-power",
+    "why": "This technology is unlocked by crafting, before the target factory can be built.",
+    "completion_check": "Observe steam-power researched; existing inventory alone does not satisfy a crafting trigger.",
+    "snapshot_revision": "import-c22c29ff586618522b0af72f",
+    "snapshot_tick": 120,
+    "changes_snapshot": false,
+    "technology": "steam-power",
+    "construction": {
+      "requested": {
+        "iron-plate": 50
+      },
+      "force_new_crafts": true,
+      "inventory_used": {
+        "stone-furnace": 1
+      },
+      "gather": {
+        "iron-ore": 50,
+        "coal": 4
+      },
+      "steps": [
+        {
+          "kind": "gather",
+          "item": "iron-ore",
+          "quantity": 50
+        },
+        {
+          "kind": "place",
+          "item": "stone-furnace",
+          "quantity": 1,
+          "check": "Place on clear ground within reach; record its position before loading."
+        },
+        {
+          "kind": "gather",
+          "item": "coal",
+          "quantity": 4
+        },
+        {
+          "kind": "smelt",
+          "recipe": "iron-plate",
+          "crafts": 50,
+          "machine": "stone-furnace",
+          "coal": 4,
+          "processing_seconds": 160.0,
+          "inputs": {
+            "iron-ore": 50
+          },
+          "outputs": {
+            "iron-plate": 50
+          }
+        }
+      ],
+      "requires_research": [],
+      "unsupported": [],
+      "remaining_inventory": {
+        "burner-mining-drill": 1,
+        "wood": 1,
+        "iron-plate": 8
+      },
+      "handcraft_seconds": 0.0,
+      "smelting_machine_seconds": 160.0,
+      "note": "Times exclude gathering, movement, placement and transfers; furnace time may overlap handcrafting."
+    }
+  },
+  "materials": {
+    "requested": {
+      "iron-plate": 50
+    },
+    "force_new_crafts": true,
+    "inventory_used": {
+      "stone-furnace": 1
+    },
+    "gather": {
+      "iron-ore": 50,
+      "coal": 4
+    },
+    "steps": [
+      {
+        "kind": "gather",
+        "item": "iron-ore",
+        "quantity": 50
+      },
+      {
+        "kind": "place",
+        "item": "stone-furnace",
+        "quantity": 1,
+        "check": "Place on clear ground within reach; record its position before loading."
+      },
+      {
+        "kind": "gather",
+        "item": "coal",
+        "quantity": 4
+      },
+      {
+        "kind": "smelt",
+        "recipe": "iron-plate",
+        "crafts": 50,
+        "machine": "stone-furnace",
+        "coal": 4,
+        "processing_seconds": 160.0,
+        "inputs": {
+          "iron-ore": 50
+        },
+        "outputs": {
+          "iron-plate": 50
+        }
+      }
+    ],
+    "requires_research": [],
+    "unsupported": [],
+    "remaining_inventory": {
+      "burner-mining-drill": 1,
+      "wood": 1,
+      "iron-plate": 8
+    },
+    "handcraft_seconds": 0.0,
+    "smelting_machine_seconds": 160.0,
+    "note": "Times exclude gathering, movement, placement and transfers; furnace time may overlap handcrafting."
+  },
+  "targets": [
+    {
+      "kind": "hand_mine",
+      "item": "coal",
+      "quantity": 4,
+      "resource_id": "coal:-16.5:-16.5",
+      "position": {
+        "y": -16.5,
+        "x": -16.5
+      },
+      "observed_resource_units": 1000,
+      "straight_line_distance": 23.33452377915607,
+      "route_command": "/advisor-route -16.5 -16.5 4",
+      "instruction": "Approach -16.5, -16.5 and hand-mine 4 additional coal from this tile.",
+      "completion_check": "Confirm 4 newly collected coal; export again if the tile depleted or access changed."
+    },
+    {
+      "kind": "hand_mine",
+      "item": "iron-ore",
+      "quantity": 50,
+      "resource_id": "iron-ore:12.5:-0.5",
+      "position": {
+        "y": -0.5,
+        "x": 12.5
+      },
+      "observed_resource_units": 1000,
+      "straight_line_distance": 12.509996003196804,
+      "route_command": "/advisor-route 12.5 -0.5 50",
+      "instruction": "Approach 12.5, -0.5 and hand-mine 50 additional iron-ore from this tile.",
+      "completion_check": "Confirm 50 newly collected iron-ore; export again if the tile depleted or access changed."
+    }
+  ],
+  "routes": [
+    {
+      "receipt_sha256": "6e1132d2963d40a3a9425fa78931beb54155dbdd75ef477e9dff825073f1aa54",
+      "sequence": 1,
+      "character_id": "12",
+      "based_on_tick": 121,
+      "generation": 1,
+      "changes_game": false,
+      "target": {
+        "id": "coal:-16.5:-16.5",
+        "prototype": "coal",
+        "item": "coal",
+        "position": {
+          "y": -16.5,
+          "x": -16.5
+        },
+        "quantity": 4,
+        "amount": 1000
+      },
+      "waypoints": [
+        {
+          "y": 0,
+          "x": 0
+        },
+        {
+          "y": -15.25,
+          "x": -15.25
+        }
+      ],
+      "instructions": [
+        "Walk to (-15.25, -15.25).",
+        "Stand at (-15.25, -15.25) and hand-mine 4 additional coal at (-16.5, -16.5)."
+      ],
+      "kind": "walk_then_mine",
+      "stand_position": {
+        "y": -15.25,
+        "x": -15.25
+      },
+      "planned_distance_tiles": 21.5667568261897,
+      "preconditions": [
+        "Use the same character, starting position, and unchanged world; request again after edits or movement.",
+        "Keep inventory room, follow the turns, and confirm the target is within mining reach before mining."
+      ],
+      "completion_check": "Observe 4 additional coal in inventory and matching resource depletion; this receipt is not execution evidence.",
+      "limits": [
+        "Native walking paths use 0.25-tile extra clearance and independent swept-character-box collision checks. Conservative checks can reject narrow routes; moving entities and enemies can still interfere.",
+        "Mining reach uses the observed character radius minus 0.5 tile. The engine harness separately tests actual walking and mining.",
+        "This CLI cannot see the current game tick or edits unless new observations are supplied."
+      ],
+      "requested_tick": 121
+    },
+    {
+      "receipt_sha256": "b9bea07b3b4fe4e0e7f4d5f936c796949341ccd4c238928eb5c2c61cda7c0aac",
+      "sequence": 2,
+      "character_id": "12",
+      "based_on_tick": 752,
+      "generation": 1,
+      "changes_game": false,
+      "target": {
+        "id": "iron-ore:12.5:-0.5",
+        "prototype": "iron-ore",
+        "item": "iron-ore",
+        "position": {
+          "y": -0.5,
+          "x": 12.5
+        },
+        "quantity": 50,
+        "amount": 1000
+      },
+      "waypoints": [
+        {
+          "y": -15.1875,
+          "x": -15.1875
+        },
+        {
+          "y": -0.25,
+          "x": -0.25
+        },
+        {
+          "y": -0.25,
+          "x": 10.75
+        }
+      ],
+      "instructions": [
+        "Walk to (-0.25, -0.25).",
+        "Walk to (10.75, -0.25).",
+        "Stand at (10.75, -0.25) and hand-mine 50 additional iron-ore at (12.5, -0.5)."
+      ],
+      "kind": "walk_then_mine",
+      "stand_position": {
+        "y": -0.25,
+        "x": 10.75
+      },
+      "planned_distance_tiles": 32.12481508794811,
+      "preconditions": [
+        "Use the same character, starting position, and unchanged world; request again after edits or movement.",
+        "Keep inventory room, follow the turns, and confirm the target is within mining reach before mining."
+      ],
+      "completion_check": "Observe 50 additional iron-ore in inventory and matching resource depletion; this receipt is not execution evidence.",
+      "limits": [
+        "Native walking paths use 0.25-tile extra clearance and independent swept-character-box collision checks. Conservative checks can reject narrow routes; moving entities and enemies can still interfere.",
+        "Mining reach uses the observed character radius minus 0.5 tile. The engine harness separately tests actual walking and mining.",
+        "This CLI cannot see the current game tick or edits unless new observations are supplied."
+      ],
+      "requested_tick": 752
+    }
+  ],
+  "method": "finite 50-plate opening on a disposable proving ground",
+  "design": {
+    "schema_version": 1,
+    "name": "opening",
+    "factorio_version": "2.1.16",
+    "active_mods": {
+      "base": "2.1.16",
+      "blueprint-gen-observer": "0.3.0"
+    },
+    "modules": {
+      "smelter": {
+        "at": [
+          10,
+          0
+        ],
+        "size": [
+          2,
+          2
+        ],
+        "asset_sha256": "dacb9d7eec89ff27baf31ec4de568ec863ddcb01c4e4c789b45e09bc6feacdd3"
+      }
+    },
+    "ports": {},
+    "links": {},
+    "entities": {
+      "smelter/entity/1,1": {
+        "direction": 0,
+        "name": "stone-furnace",
+        "position": {
+          "x": 11,
+          "y": 1
+        }
+      }
+    },
+    "wires": [],
+    "external_inputs": {},
+    "unconnected_outputs": {},
+    "evidence": "compiled design; placement, research, inventory, supply and power need game observation",
+    "sha256": "1c165a3850bac89f12c7694e0186805edb0934c45b48a6861ca4f7fbbba6037f"
+  },
+  "change": {
+    "schema_version": 1,
+    "base_sha256": null,
+    "desired_sha256": "1c165a3850bac89f12c7694e0186805edb0934c45b48a6861ca4f7fbbba6037f",
+    "kind": "additive",
+    "add": {
+      "smelter/entity/1,1": {
+        "direction": 0,
+        "name": "stone-furnace",
+        "position": {
+          "x": 11,
+          "y": 1
+        }
+      }
+    },
+    "remove": [],
+    "replace": [],
+    "wire_add": [],
+    "retained": [],
+    "bill": {
+      "stone-furnace": 1
+    },
+    "observation_sha256": null,
+    "conflicts": [],
+    "changes_game": false,
+    "preconditions": [
+      "Refresh the actual game and compare every retained entity before applying.",
+      "Check research, available construction inventory, world collisions and reach.",
+      "Establish external inputs, power and output handling; then measure actual production."
+    ]
+  },
+  "placement": {
+    "address": "smelter/entity/1,1",
+    "direction": 0,
+    "name": "stone-furnace",
+    "position": {
+      "x": 11,
+      "y": 1
+    }
+  },
+  "placement_state": {
+    "tick": 7021,
+    "active_mods": {
+      "base": "2.1.16",
+      "blueprint-gen-observer": "0.3.0"
+    },
+    "character_id": "12",
+    "surface_index": 1,
+    "force_index": 1,
+    "map_seed": 42,
+    "position": {
+      "y": -0.31640625,
+      "x": 10.66796875
+    },
+    "inventory": {
+      "burner-mining-drill": 1,
+      "stone-furnace": 1,
+      "wood": 1,
+      "coal": 4,
+      "iron-ore": 50,
+      "iron-plate": 8
+    },
+    "researched": {},
+    "build_distance": 10,
+    "reach_distance": 10,
+    "produced_iron": 0,
+    "furnace_sites": [
+      {
+        "x": 4,
+        "y": -6
+      },
+      {
+        "x": 4,
+        "y": -5
+      },
+      {
+        "x": 4,
+        "y": -4
+      },
+      {
+        "x": 4,
+        "y": -3
+      },
+      {
+        "x": 4,
+        "y": -2
+      },
+      {
+        "x": 4,
+        "y": -1
+      },
+      {
+        "x": 4,
+        "y": 0
+      },
+      {
+        "x": 4,
+        "y": 1
+      },
+      {
+        "x": 4,
+        "y": 2
+      },
+      {
+        "x": 4,
+        "y": 3
+      },
+      {
+        "x": 4,
+        "y": 4
+      },
+      {
+        "x": 4,
+        "y": 5
+      },
+      {
+        "x": 5,
+        "y": -7
+      },
+      {
+        "x": 5,
+        "y": -6
+      },
+      {
+        "x": 5,
+        "y": -5
+      },
+      {
+        "x": 5,
+        "y": -4
+      },
+      {
+        "x": 5,
+        "y": -3
+      },
+      {
+        "x": 5,
+        "y": -2
+      },
+      {
+        "x": 5,
+        "y": -1
+      },
+      {
+        "x": 5,
+        "y": 0
+      },
+      {
+        "x": 5,
+        "y": 1
+      },
+      {
+        "x": 5,
+        "y": 2
+      },
+      {
+        "x": 5,
+        "y": 3
+      },
+      {
+        "x": 5,
+        "y": 4
+      },
+      {
+        "x": 5,
+        "y": 5
+      },
+      {
+        "x": 6,
+        "y": -7
+      },
+      {
+        "x": 6,
+        "y": -6
+      },
+      {
+        "x": 6,
+        "y": -5
+      },
+      {
+        "x": 6,
+        "y": -4
+      },
+      {
+        "x": 6,
+        "y": -3
+      },
+      {
+        "x": 6,
+        "y": -2
+      },
+      {
+        "x": 6,
+        "y": -1
+      },
+      {
+        "x": 6,
+        "y": 0
+      },
+      {
+        "x": 6,
+        "y": 1
+      },
+      {
+        "x": 6,
+        "y": 2
+      },
+      {
+        "x": 6,
+        "y": 3
+      },
+      {
+        "x": 6,
+        "y": 4
+      },
+      {
+        "x": 6,
+        "y": 5
+      },
+      {
+        "x": 7,
+        "y": -7
+      },
+      {
+        "x": 7,
+        "y": -6
+      },
+      {
+        "x": 7,
+        "y": -5
+      },
+      {
+        "x": 7,
+        "y": -4
+      },
+      {
+        "x": 7,
+        "y": -3
+      },
+      {
+        "x": 7,
+        "y": -2
+      },
+      {
+        "x": 7,
+        "y": -1
+      },
+      {
+        "x": 7,
+        "y": 0
+      },
+      {
+        "x": 7,
+        "y": 1
+      },
+      {
+        "x": 7,
+        "y": 2
+      },
+      {
+        "x": 7,
+        "y": 3
+      },
+      {
+        "x": 7,
+        "y": 4
+      },
+      {
+        "x": 7,
+        "y": 5
+      },
+      {
+        "x": 8,
+        "y": -7
+      },
+      {
+        "x": 8,
+        "y": -6
+      },
+      {
+        "x": 8,
+        "y": -5
+      },
+      {
+        "x": 8,
+        "y": -4
+      },
+      {
+        "x": 8,
+        "y": -3
+      },
+      {
+        "x": 8,
+        "y": -2
+      },
+      {
+        "x": 8,
+        "y": -1
+      },
+      {
+        "x": 8,
+        "y": 0
+      },
+      {
+        "x": 8,
+        "y": 1
+      },
+      {
+        "x": 8,
+        "y": 2
+      },
+      {
+        "x": 8,
+        "y": 3
+      },
+      {
+        "x": 8,
+        "y": 4
+      },
+      {
+        "x": 8,
+        "y": 5
+      },
+      {
+        "x": 9,
+        "y": -7
+      },
+      {
+        "x": 9,
+        "y": -6
+      },
+      {
+        "x": 9,
+        "y": -5
+      },
+      {
+        "x": 9,
+        "y": -4
+      },
+      {
+        "x": 9,
+        "y": -3
+      },
+      {
+        "x": 9,
+        "y": -2
+      },
+      {
+        "x": 9,
+        "y": -1
+      },
+      {
+        "x": 9,
+        "y": 0
+      },
+      {
+        "x": 9,
+        "y": 1
+      },
+      {
+        "x": 9,
+        "y": 2
+      },
+      {
+        "x": 9,
+        "y": 3
+      },
+      {
+        "x": 9,
+        "y": 4
+      },
+      {
+        "x": 9,
+        "y": 5
+      },
+      {
+        "x": 10,
+        "y": -7
+      },
+      {
+        "x": 10,
+        "y": -6
+      },
+      {
+        "x": 10,
+        "y": -5
+      },
+      {
+        "x": 10,
+        "y": -4
+      },
+      {
+        "x": 10,
+        "y": -3
+      },
+      {
+        "x": 10,
+        "y": -2
+      },
+      {
+        "x": 10,
+        "y": 1
+      },
+      {
+        "x": 10,
+        "y": 2
+      },
+      {
+        "x": 10,
+        "y": 3
+      },
+      {
+        "x": 10,
+        "y": 4
+      },
+      {
+        "x": 10,
+        "y": 5
+      },
+      {
+        "x": 11,
+        "y": -7
+      },
+      {
+        "x": 11,
+        "y": -6
+      },
+      {
+        "x": 11,
+        "y": -5
+      },
+      {
+        "x": 11,
+        "y": -4
+      },
+      {
+        "x": 11,
+        "y": -3
+      },
+      {
+        "x": 11,
+        "y": -2
+      },
+      {
+        "x": 11,
+        "y": 1
+      },
+      {
+        "x": 11,
+        "y": 2
+      },
+      {
+        "x": 11,
+        "y": 3
+      },
+      {
+        "x": 11,
+        "y": 4
+      },
+      {
+        "x": 11,
+        "y": 5
+      },
+      {
+        "x": 12,
+        "y": 1
+      },
+      {
+        "x": 12,
+        "y": 2
+      },
+      {
+        "x": 12,
+        "y": 3
+      },
+      {
+        "x": 12,
+        "y": 4
+      },
+      {
+        "x": 12,
+        "y": 5
+      },
+      {
+        "x": 13,
+        "y": 1
+      },
+      {
+        "x": 13,
+        "y": 2
+      },
+      {
+        "x": 13,
+        "y": 3
+      },
+      {
+        "x": 13,
+        "y": 4
+      },
+      {
+        "x": 13,
+        "y": 5
+      },
+      {
+        "x": 14,
+        "y": 1
+      },
+      {
+        "x": 14,
+        "y": 2
+      },
+      {
+        "x": 14,
+        "y": 3
+      },
+      {
+        "x": 14,
+        "y": 4
+      },
+      {
+        "x": 14,
+        "y": 5
+      },
+      {
+        "x": 15,
+        "y": 1
+      },
+      {
+        "x": 15,
+        "y": 2
+      },
+      {
+        "x": 15,
+        "y": 3
+      },
+      {
+        "x": 15,
+        "y": 4
+      },
+      {
+        "x": 15,
+        "y": 5
+      },
+      {
+        "x": 16,
+        "y": 1
+      },
+      {
+        "x": 16,
+        "y": 2
+      },
+      {
+        "x": 16,
+        "y": 3
+      },
+      {
+        "x": 16,
+        "y": 4
+      },
+      {
+        "x": 16,
+        "y": 5
+      }
+    ]
+  },
+  "smelt": {
+    "kind": "smelt",
+    "recipe": "iron-plate",
+    "crafts": 50,
+    "machine": "stone-furnace",
+    "coal": 4,
+    "processing_seconds": 160.0,
+    "inputs": {
+      "iron-ore": 50
+    },
+    "outputs": {
+      "iron-plate": 50
+    }
+  }
+}

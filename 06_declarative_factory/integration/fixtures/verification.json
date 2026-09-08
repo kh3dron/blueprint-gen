@@ -1,0 +1,1180 @@
+{
+  "before": {
+    "source": "factorio-proving-ground",
+    "manifest_sha256": "bc7f6edef186132cd0cdf0475fa889d610d335d726494695a68c4df4d528dcd5",
+    "tick": 10,
+    "factorio_version": "2.1.16",
+    "active_mods": {
+      "base": "2.1.16",
+      "blueprint-gen-observer": "0.3.0"
+    },
+    "entities": {
+      "link/feed-a/0,4": {
+        "unit_number": 12,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 4.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "link/feed-a/0,5": {
+        "unit_number": 13,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 5.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "link/feed-a/0,6": {
+        "unit_number": 14,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 6.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "link/feed-a/0,7": {
+        "unit_number": 15,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 7.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "link/feed-a/0,8": {
+        "unit_number": 16,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 8.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "link/feed-a/0,9": {
+        "unit_number": 17,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 9.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/0.5,0.5": {
+        "unit_number": 18,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 10.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/0.5,1.5": {
+        "unit_number": 19,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 11.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/0.5,2.5": {
+        "unit_number": 20,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 12.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/0.5,3.5": {
+        "unit_number": 21,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 13.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/0.5,4.5": {
+        "unit_number": 22,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 14.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/24.5,0.5": {
+        "unit_number": 23,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 10.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/24.5,1.5": {
+        "unit_number": 24,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 11.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/24.5,2.5": {
+        "unit_number": 25,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 12.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/24.5,3.5": {
+        "unit_number": 26,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 13.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/24.5,4.5": {
+        "unit_number": 27,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 14.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "main/gear-a/entity/0.5,0.5": {
+        "unit_number": 28,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 0.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/gear-a/entity/0.5,1.5": {
+        "unit_number": 29,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 1.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/gear-a/entity/0.5,2.5": {
+        "unit_number": 30,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 2.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/gear-a/entity/0.5,3.5": {
+        "unit_number": 31,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 3.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/gear-a/entity/1.5,1.5": {
+        "unit_number": 32,
+        "configuration": {
+          "name": "inserter",
+          "position": {
+            "y": 1.5,
+            "x": 1.5
+          },
+          "direction": 12
+        }
+      },
+      "main/gear-a/entity/3.5,1.5": {
+        "unit_number": 33,
+        "configuration": {
+          "name": "assembling-machine-1",
+          "position": {
+            "y": 1.5,
+            "x": 3.5
+          },
+          "direction": 0,
+          "recipe": "iron-gear-wheel"
+        }
+      },
+      "main/gear-a/entity/3.5,3.5": {
+        "unit_number": 34,
+        "configuration": {
+          "name": "small-electric-pole",
+          "position": {
+            "y": 3.5,
+            "x": 3.5
+          },
+          "direction": 0
+        }
+      },
+      "main/gear-a/entity/5.5,1.5": {
+        "unit_number": 35,
+        "configuration": {
+          "name": "inserter",
+          "position": {
+            "y": 1.5,
+            "x": 5.5
+          },
+          "direction": 12
+        }
+      },
+      "main/gear-a/entity/6.5,0.5": {
+        "unit_number": 36,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 0.5,
+            "x": 6.5
+          },
+          "direction": 8
+        }
+      },
+      "main/gear-a/entity/6.5,1.5": {
+        "unit_number": 37,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 1.5,
+            "x": 6.5
+          },
+          "direction": 8
+        }
+      },
+      "main/gear-a/entity/6.5,2.5": {
+        "unit_number": 38,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 2.5,
+            "x": 6.5
+          },
+          "direction": 8
+        }
+      },
+      "main/gear-a/entity/6.5,3.5": {
+        "unit_number": 39,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 3.5,
+            "x": 6.5
+          },
+          "direction": 8
+        }
+      }
+    }
+  },
+  "after": {
+    "source": "factorio-proving-ground",
+    "manifest_sha256": "68bd9737d7fcc2b129404e0f56ea7961650a1d3bb033e321ce5a2f4a3433a8ed",
+    "tick": 20,
+    "factorio_version": "2.1.16",
+    "active_mods": {
+      "base": "2.1.16",
+      "blueprint-gen-observer": "0.3.0"
+    },
+    "entities": {
+      "link/feed-a/0,4": {
+        "unit_number": 12,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 4.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "link/feed-a/0,5": {
+        "unit_number": 13,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 5.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "link/feed-a/0,6": {
+        "unit_number": 14,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 6.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "link/feed-a/0,7": {
+        "unit_number": 15,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 7.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "link/feed-a/0,8": {
+        "unit_number": 16,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 8.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "link/feed-a/0,9": {
+        "unit_number": 17,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 9.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "link/feed-b/24,4": {
+        "unit_number": 41,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 4.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "link/feed-b/24,5": {
+        "unit_number": 42,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 5.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "link/feed-b/24,6": {
+        "unit_number": 43,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 6.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "link/feed-b/24,7": {
+        "unit_number": 44,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 7.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "link/feed-b/24,8": {
+        "unit_number": 45,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 8.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "link/feed-b/24,9": {
+        "unit_number": 46,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 9.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/0.5,0.5": {
+        "unit_number": 18,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 10.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/0.5,1.5": {
+        "unit_number": 19,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 11.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/0.5,2.5": {
+        "unit_number": 20,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 12.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/0.5,3.5": {
+        "unit_number": 21,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 13.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/0.5,4.5": {
+        "unit_number": 22,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 14.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/24.5,0.5": {
+        "unit_number": 23,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 10.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/24.5,1.5": {
+        "unit_number": 24,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 11.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/24.5,2.5": {
+        "unit_number": 25,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 12.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/24.5,3.5": {
+        "unit_number": 26,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 13.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/24.5,4.5": {
+        "unit_number": 27,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 14.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "main/gear-a/entity/0.5,0.5": {
+        "unit_number": 28,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 0.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/gear-a/entity/0.5,1.5": {
+        "unit_number": 29,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 1.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/gear-a/entity/0.5,2.5": {
+        "unit_number": 30,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 2.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/gear-a/entity/0.5,3.5": {
+        "unit_number": 31,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 3.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/gear-a/entity/1.5,1.5": {
+        "unit_number": 32,
+        "configuration": {
+          "name": "inserter",
+          "position": {
+            "y": 1.5,
+            "x": 1.5
+          },
+          "direction": 12
+        }
+      },
+      "main/gear-a/entity/3.5,1.5": {
+        "unit_number": 33,
+        "configuration": {
+          "name": "assembling-machine-1",
+          "position": {
+            "y": 1.5,
+            "x": 3.5
+          },
+          "direction": 0,
+          "recipe": "iron-gear-wheel"
+        }
+      },
+      "main/gear-a/entity/3.5,3.5": {
+        "unit_number": 34,
+        "configuration": {
+          "name": "small-electric-pole",
+          "position": {
+            "y": 3.5,
+            "x": 3.5
+          },
+          "direction": 0
+        }
+      },
+      "main/gear-a/entity/5.5,1.5": {
+        "unit_number": 35,
+        "configuration": {
+          "name": "inserter",
+          "position": {
+            "y": 1.5,
+            "x": 5.5
+          },
+          "direction": 12
+        }
+      },
+      "main/gear-a/entity/6.5,0.5": {
+        "unit_number": 36,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 0.5,
+            "x": 6.5
+          },
+          "direction": 8
+        }
+      },
+      "main/gear-a/entity/6.5,1.5": {
+        "unit_number": 37,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 1.5,
+            "x": 6.5
+          },
+          "direction": 8
+        }
+      },
+      "main/gear-a/entity/6.5,2.5": {
+        "unit_number": 38,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 2.5,
+            "x": 6.5
+          },
+          "direction": 8
+        }
+      },
+      "main/gear-a/entity/6.5,3.5": {
+        "unit_number": 39,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 3.5,
+            "x": 6.5
+          },
+          "direction": 8
+        }
+      },
+      "main/gear-b/entity/0.5,0.5": {
+        "unit_number": 47,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 0.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "main/gear-b/entity/0.5,1.5": {
+        "unit_number": 48,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 1.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "main/gear-b/entity/0.5,2.5": {
+        "unit_number": 49,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 2.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "main/gear-b/entity/0.5,3.5": {
+        "unit_number": 50,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 3.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "main/gear-b/entity/1.5,1.5": {
+        "unit_number": 51,
+        "configuration": {
+          "name": "inserter",
+          "position": {
+            "y": 1.5,
+            "x": 25.5
+          },
+          "direction": 12
+        }
+      },
+      "main/gear-b/entity/3.5,1.5": {
+        "unit_number": 52,
+        "configuration": {
+          "name": "assembling-machine-1",
+          "position": {
+            "y": 1.5,
+            "x": 27.5
+          },
+          "direction": 0,
+          "recipe": "iron-gear-wheel"
+        }
+      },
+      "main/gear-b/entity/3.5,3.5": {
+        "unit_number": 53,
+        "configuration": {
+          "name": "small-electric-pole",
+          "position": {
+            "y": 3.5,
+            "x": 27.5
+          },
+          "direction": 0
+        }
+      },
+      "main/gear-b/entity/5.5,1.5": {
+        "unit_number": 54,
+        "configuration": {
+          "name": "inserter",
+          "position": {
+            "y": 1.5,
+            "x": 29.5
+          },
+          "direction": 12
+        }
+      },
+      "main/gear-b/entity/6.5,0.5": {
+        "unit_number": 55,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 0.5,
+            "x": 30.5
+          },
+          "direction": 8
+        }
+      },
+      "main/gear-b/entity/6.5,1.5": {
+        "unit_number": 56,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 1.5,
+            "x": 30.5
+          },
+          "direction": 8
+        }
+      },
+      "main/gear-b/entity/6.5,2.5": {
+        "unit_number": 57,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 2.5,
+            "x": 30.5
+          },
+          "direction": 8
+        }
+      },
+      "main/gear-b/entity/6.5,3.5": {
+        "unit_number": 58,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 3.5,
+            "x": 30.5
+          },
+          "direction": 8
+        }
+      }
+    }
+  },
+  "drift": {
+    "source": "factorio-proving-ground",
+    "manifest_sha256": "bc7f6edef186132cd0cdf0475fa889d610d335d726494695a68c4df4d528dcd5",
+    "tick": 1800,
+    "factorio_version": "2.1.16",
+    "active_mods": {
+      "base": "2.1.16",
+      "blueprint-gen-observer": "0.3.0"
+    },
+    "entities": {
+      "link/feed-a/0,4": {
+        "unit_number": 12,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 4.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "link/feed-a/0,5": {
+        "unit_number": 13,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 5.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "link/feed-a/0,6": {
+        "unit_number": 14,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 6.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "link/feed-a/0,7": {
+        "unit_number": 15,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 7.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "link/feed-a/0,8": {
+        "unit_number": 16,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 8.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "link/feed-a/0,9": {
+        "unit_number": 17,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 9.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/0.5,0.5": {
+        "unit_number": 18,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 10.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/0.5,1.5": {
+        "unit_number": 19,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 11.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/0.5,2.5": {
+        "unit_number": 20,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 12.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/0.5,3.5": {
+        "unit_number": 21,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 13.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/0.5,4.5": {
+        "unit_number": 22,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 14.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/24.5,0.5": {
+        "unit_number": 23,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 10.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/24.5,1.5": {
+        "unit_number": 24,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 11.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/24.5,2.5": {
+        "unit_number": 25,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 12.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/24.5,3.5": {
+        "unit_number": 26,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 13.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "main/feeds/entity/24.5,4.5": {
+        "unit_number": 27,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 14.5,
+            "x": 24.5
+          },
+          "direction": 0
+        }
+      },
+      "main/gear-a/entity/0.5,0.5": {
+        "unit_number": 28,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 0.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/gear-a/entity/0.5,1.5": {
+        "unit_number": 29,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 1.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/gear-a/entity/0.5,2.5": {
+        "unit_number": 30,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 2.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/gear-a/entity/0.5,3.5": {
+        "unit_number": 31,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 3.5,
+            "x": 0.5
+          },
+          "direction": 0
+        }
+      },
+      "main/gear-a/entity/1.5,1.5": {
+        "unit_number": 32,
+        "configuration": {
+          "name": "inserter",
+          "position": {
+            "y": 1.5,
+            "x": 1.5
+          },
+          "direction": 12
+        }
+      },
+      "main/gear-a/entity/3.5,1.5": {
+        "unit_number": 33,
+        "configuration": {
+          "name": "assembling-machine-1",
+          "position": {
+            "y": 1.5,
+            "x": 3.5
+          },
+          "direction": 0,
+          "recipe": "copper-cable"
+        }
+      },
+      "main/gear-a/entity/3.5,3.5": {
+        "unit_number": 34,
+        "configuration": {
+          "name": "small-electric-pole",
+          "position": {
+            "y": 3.5,
+            "x": 3.5
+          },
+          "direction": 0
+        }
+      },
+      "main/gear-a/entity/5.5,1.5": {
+        "unit_number": 35,
+        "configuration": {
+          "name": "inserter",
+          "position": {
+            "y": 1.5,
+            "x": 5.5
+          },
+          "direction": 12
+        }
+      },
+      "main/gear-a/entity/6.5,0.5": {
+        "unit_number": 36,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 0.5,
+            "x": 6.5
+          },
+          "direction": 8
+        }
+      },
+      "main/gear-a/entity/6.5,1.5": {
+        "unit_number": 37,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 1.5,
+            "x": 6.5
+          },
+          "direction": 8
+        }
+      },
+      "main/gear-a/entity/6.5,2.5": {
+        "unit_number": 38,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 2.5,
+            "x": 6.5
+          },
+          "direction": 8
+        }
+      },
+      "main/gear-a/entity/6.5,3.5": {
+        "unit_number": 39,
+        "configuration": {
+          "name": "transport-belt",
+          "position": {
+            "y": 3.5,
+            "x": 6.5
+          },
+          "direction": 8
+        }
+      }
+    }
+  },
+  "initial_added": 28,
+  "incremental_added": 18,
+  "repeat_added": 0,
+  "retained_ids_preserved": true,
+  "obstacle_rejected": true,
+  "locked_rejected": true,
+  "drift_rejected": true,
+  "inserted_plates": [
+    96,
+    96
+  ],
+  "gear_crafts": {
+    "main/gear-a/entity/3.5,1.5": 18,
+    "main/gear-b/entity/3.5,1.5": 18
+  },
+  "method": "test-only creation with preflight; test research, electricity and finite supplied plates"
+}

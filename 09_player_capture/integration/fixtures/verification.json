@@ -1,0 +1,44 @@
+{
+  "active_mods": {
+    "base": "2.1.17",
+    "blueprint-gen-observer": "0.3.0"
+  },
+  "character_id": "12",
+  "player_index": 1,
+  "attachment_preserved_state": true,
+  "cheat_mode": false,
+  "mined": {
+    "coal": 6,
+    "iron-ore": 50,
+    "copper-ore": 15
+  },
+  "produced": {
+    "iron-plate": 50,
+    "copper-plate": 15,
+    "lab": 1
+  },
+  "final_inventory": {
+    "burner-mining-drill": 1,
+    "lab": 1,
+    "wood": 1,
+    "iron-plate": 22
+  },
+  "researched": [
+    "automation-science-pack",
+    "electronics",
+    "steam-power"
+  ],
+  "furnace_id": "14",
+  "furnace_position": {
+    "y": -14,
+    "x": -9
+  },
+  "furnace_crafts": 65,
+  "paid_furnaces": 1,
+  "native_player_craft_events": 40,
+  "command_count": 28,
+  "simulation_ticks": 23378,
+  "lab_research_observed": true,
+  "goal_complete": false,
+  "next_action_kind": "prepare_lab"
+}

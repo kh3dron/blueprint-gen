@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "ruleset_id": "nauvis-opening-2.1.14-v1",
+  "ruleset_sha256": "f05d22101f8ac94b5fa5f2de9cbba6f20ea1565f9df6b2d8323f4a592e96980e",
+  "factorio_version": "2.1.14",
+  "mods": {
+    "base": "2.1.14"
+  },
+  "surface": "nauvis",
+  "tick": 0,
+  "revision": "opening-0",
+  "inventory": {
+    "iron-plate": 8,
+    "stone-furnace": 1,
+    "burner-mining-drill": 1
+  },
+  "crafted": {},
+  "researched": [],
+  "supplies_per_s": {},
+  "goals_per_min": {
+    "automation-science-pack": 10
+  },
+  "selected_recipes": {},
+  "machines": [],
+  "power": {
+    "available_kw": 0,
+    "required": true
+  },
+  "require_lab": true,
+  "goal_window_seconds": 60,
+  "max_observation_age_seconds": 10,
+  "observations": [],
+  "research_units_completed": {}
+}

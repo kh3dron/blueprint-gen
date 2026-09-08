@@ -3,6 +3,11 @@
 Blueprints as objects with typed INPUT / OUTPUT ports, a generator for single-recipe objects, and a bus
 that stitches objects into larger objects. All commands from this directory with `../.venv/bin/python`.
 
+The separate [declarative factory experiment](../06_declarative_factory/README.md) imports a generated
+module through the JSON boundary and adds stable placement, named connections, and incremental
+blueprint plans. Its engine check preserves existing entities while attaching a second module.
+The generator here continues to produce complete layouts; its packing behavior is unchanged.
+
 ## 1.0 Files
 
 | File | Role |

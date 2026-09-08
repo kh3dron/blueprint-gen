@@ -1,0 +1,57 @@
+{
+  "kind": "trigger",
+  "title": "Produce 10 additional copper-plate for electronics",
+  "why": "This technology is unlocked by crafting, before the target factory can be built.",
+  "completion_check": "Observe electronics researched; existing inventory alone does not satisfy a crafting trigger.",
+  "snapshot_revision": "import-3f84bc7705863aaab3e92edc",
+  "snapshot_tick": 16514,
+  "changes_snapshot": false,
+  "technology": "electronics",
+  "construction": {
+    "requested": {
+      "copper-plate": 10
+    },
+    "force_new_crafts": true,
+    "inventory_used": {},
+    "gather": {
+      "copper-ore": 10,
+      "coal": 1
+    },
+    "steps": [
+      {
+        "kind": "gather",
+        "item": "copper-ore",
+        "quantity": 10
+      },
+      {
+        "kind": "gather",
+        "item": "coal",
+        "quantity": 1
+      },
+      {
+        "kind": "smelt",
+        "recipe": "copper-plate",
+        "crafts": 10,
+        "machine": "stone-furnace",
+        "coal": 1,
+        "processing_seconds": 32.0,
+        "inputs": {
+          "copper-ore": 10
+        },
+        "outputs": {
+          "copper-plate": 10
+        }
+      }
+    ],
+    "requires_research": [],
+    "unsupported": [],
+    "remaining_inventory": {
+      "burner-mining-drill": 1,
+      "wood": 1,
+      "iron-plate": 58
+    },
+    "handcraft_seconds": 0.0,
+    "smelting_machine_seconds": 32.0,
+    "note": "Times exclude gathering, movement, placement and transfers; furnace time may overlap handcrafting."
+  }
+}

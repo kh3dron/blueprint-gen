@@ -1,0 +1,134 @@
+{
+ "name": "iron-gear-wheel 1/s",
+ "width": 7,
+ "height": 4,
+ "inputs": [
+  {
+   "io": "in",
+   "kind": "belt",
+   "item": "iron-plate",
+   "lane": "both",
+   "x": 0,
+   "y": 3,
+   "direction": 0,
+   "rate": 2.0
+  }
+ ],
+ "outputs": [
+  {
+   "io": "out",
+   "kind": "belt",
+   "item": "iron-gear-wheel",
+   "lane": "left",
+   "x": 6,
+   "y": 3,
+   "direction": 8,
+   "rate": 1.0
+  }
+ ],
+ "notes": [
+  "1x assembling-machine-1 iron-gear-wheel; column 1 of 1 for iron-gear-wheel 1/s (1 machines -> 1/s); template 1_to_1, belt transport-belt; port caps in [15.0] out 7.5 /s"
+ ],
+ "entities": [
+  {
+   "name": "transport-belt",
+   "position": {
+    "x": 0.5,
+    "y": 0.5
+   },
+   "direction": 0
+  },
+  {
+   "name": "transport-belt",
+   "position": {
+    "x": 6.5,
+    "y": 0.5
+   },
+   "direction": 8
+  },
+  {
+   "name": "transport-belt",
+   "position": {
+    "x": 0.5,
+    "y": 1.5
+   },
+   "direction": 0
+  },
+  {
+   "name": "inserter",
+   "position": {
+    "x": 1.5,
+    "y": 1.5
+   },
+   "direction": 12
+  },
+  {
+   "name": "assembling-machine-1",
+   "position": {
+    "x": 3.5,
+    "y": 1.5
+   },
+   "direction": 0,
+   "recipe": "iron-gear-wheel"
+  },
+  {
+   "name": "inserter",
+   "position": {
+    "x": 5.5,
+    "y": 1.5
+   },
+   "direction": 12
+  },
+  {
+   "name": "transport-belt",
+   "position": {
+    "x": 6.5,
+    "y": 1.5
+   },
+   "direction": 8
+  },
+  {
+   "name": "transport-belt",
+   "position": {
+    "x": 0.5,
+    "y": 2.5
+   },
+   "direction": 0
+  },
+  {
+   "name": "transport-belt",
+   "position": {
+    "x": 6.5,
+    "y": 2.5
+   },
+   "direction": 8
+  },
+  {
+   "name": "transport-belt",
+   "position": {
+    "x": 0.5,
+    "y": 3.5
+   },
+   "direction": 0
+  },
+  {
+   "name": "medium-electric-pole",
+   "position": {
+    "x": 3.5,
+    "y": 3.5
+   },
+   "direction": 0
+  },
+  {
+   "name": "transport-belt",
+   "position": {
+    "x": 6.5,
+    "y": 3.5
+   },
+   "direction": 8
+  }
+ ],
+ "tiles": [],
+ "wires": [],
+ "no_mirror": false
+}

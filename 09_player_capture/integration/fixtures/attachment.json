@@ -1,0 +1,34 @@
+{
+  "attached": true,
+  "attachment": {
+    "before": {
+      "character_id": "12",
+      "position": {
+        "y": 0,
+        "x": 0
+      },
+      "inventory": {
+        "burner-mining-drill": 1,
+        "stone-furnace": 1,
+        "wood": 1,
+        "iron-plate": 8
+      }
+    },
+    "after": {
+      "character_id": "12",
+      "position": {
+        "y": 0,
+        "x": 0
+      },
+      "inventory": {
+        "burner-mining-drill": 1,
+        "stone-furnace": 1,
+        "wood": 1,
+        "iron-plate": 8
+      }
+    },
+    "player_index": 1,
+    "cheat_mode": false,
+    "tick": 0
+  }
+}

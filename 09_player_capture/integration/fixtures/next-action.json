@@ -1,0 +1,32 @@
+{
+  "kind": "prepare_lab",
+  "title": "Prepare a powered lab for automation",
+  "why": "Science packs need a built lab connected to available electricity.",
+  "completion_check": "Observe a built, connected, powered lab and sufficient electricity in a new snapshot.",
+  "snapshot_revision": "import-41fbfbb1e5b8fc7ecf275779",
+  "snapshot_tick": 23378,
+  "changes_snapshot": false,
+  "construction": {
+    "requested": {
+      "lab": 1
+    },
+    "force_new_crafts": false,
+    "inventory_used": {
+      "lab": 1
+    },
+    "gather": {},
+    "steps": [],
+    "requires_research": [],
+    "unsupported": [],
+    "remaining_inventory": {
+      "burner-mining-drill": 1,
+      "wood": 1,
+      "iron-plate": 22
+    },
+    "handcraft_seconds": 0.0,
+    "smelting_machine_seconds": 0.0,
+    "note": "Times exclude gathering, movement, placement and transfers; furnace time may overlap handcrafting."
+  },
+  "requires_power_kw": 60,
+  "placement_pending": true
+}

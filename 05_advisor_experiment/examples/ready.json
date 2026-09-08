@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "ruleset_id": "nauvis-opening-2.1.14-v1",
+  "ruleset_sha256": "f05d22101f8ac94b5fa5f2de9cbba6f20ea1565f9df6b2d8323f4a592e96980e",
+  "factorio_version": "2.1.14",
+  "mods": {
+    "base": "2.1.14"
+  },
+  "surface": "nauvis",
+  "tick": 3600,
+  "revision": "red-1",
+  "inventory": {
+    "automation-science-pack": 1000
+  },
+  "crafted": {
+    "iron-plate": 120,
+    "copper-plate": 40,
+    "lab": 1
+  },
+  "researched": [
+    "steam-power",
+    "electronics",
+    "automation-science-pack",
+    "automation"
+  ],
+  "supplies_per_s": {
+    "iron-ore": 0.3333333333333333,
+    "copper-ore": 0.16666666666666666,
+    "coal": 0.05
+  },
+  "goals_per_min": {
+    "automation-science-pack": 10
+  },
+  "selected_recipes": {},
+  "machines": [
+    {
+      "id": "iron",
+      "prototype": "stone-furnace",
+      "recipe": "iron-plate",
+      "count": 2,
+      "built": true,
+      "connected": true,
+      "powered": true,
+      "output_open": true,
+      "position": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": "copper",
+      "prototype": "stone-furnace",
+      "recipe": "copper-plate",
+      "count": 1,
+      "built": true,
+      "connected": true,
+      "powered": true,
+      "output_open": true,
+      "position": {
+        "x": 8,
+        "y": 0
+      }
+    },
+    {
+      "id": "gears",
+      "prototype": "assembling-machine-1",
+      "recipe": "iron-gear-wheel",
+      "count": 1,
+      "built": true,
+      "connected": true,
+      "powered": true,
+      "output_open": true,
+      "position": {
+        "x": 0,
+        "y": 8
+      }
+    },
+    {
+      "id": "red",
+      "prototype": "assembling-machine-1",
+      "recipe": "automation-science-pack",
+      "count": 2,
+      "built": true,
+      "connected": true,
+      "powered": true,
+      "output_open": true,
+      "position": {
+        "x": 8,
+        "y": 8
+      }
+    },
+    {
+      "id": "lab",
+      "prototype": "lab",
+      "recipe": null,
+      "count": 1,
+      "built": true,
+      "connected": true,
+      "powered": true,
+      "output_open": true,
+      "position": {
+        "x": 16,
+        "y": 8
+      }
+    }
+  ],
+  "power": {
+    "available_kw": 900,
+    "required": true
+  },
+  "require_lab": true,
+  "goal_window_seconds": 60,
+  "max_observation_age_seconds": 10,
+  "observations": [],
+  "research_units_completed": {}
+}

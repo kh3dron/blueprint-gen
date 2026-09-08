@@ -1,0 +1,108 @@
+{
+  "before": {
+    "tick": 16382,
+    "revision": 17,
+    "active_mods": {
+      "base": "2.1.16",
+      "blueprint-gen-observer": "0.3.0"
+    },
+    "character_id": "12",
+    "surface_index": 1,
+    "force_index": 1,
+    "map_seed": 42,
+    "position": {
+      "y": -15.1875,
+      "x": -9.25
+    },
+    "inventory": {
+      "burner-mining-drill": 1,
+      "wood": 1,
+      "iron-plate": 58
+    },
+    "researched": [
+      "steam-power"
+    ],
+    "crafted": {
+      "iron-plate": 50,
+      "copper-plate": 0,
+      "lab": 0
+    },
+    "produced_iron": 50,
+    "build_distance": 10,
+    "reach_distance": 10,
+    "built": [
+      {
+        "address": "smelter/entity/1,1",
+        "id": "13",
+        "name": "stone-furnace",
+        "position": {
+          "y": -14,
+          "x": -9
+        },
+        "crafts": 50,
+        "progress": 0,
+        "fuel_j": 1598400,
+        "input": {},
+        "output": {},
+        "fuel": {}
+      }
+    ],
+    "paid_furnaces": 1,
+    "paused": true,
+    "speed": 40
+  },
+  "after": {
+    "tick": 16382,
+    "revision": 17,
+    "active_mods": {
+      "base": "2.1.16",
+      "blueprint-gen-observer": "0.3.0"
+    },
+    "character_id": "12",
+    "surface_index": 1,
+    "force_index": 1,
+    "map_seed": 42,
+    "position": {
+      "y": -15.1875,
+      "x": -9.25
+    },
+    "inventory": {
+      "burner-mining-drill": 1,
+      "wood": 1,
+      "iron-plate": 58
+    },
+    "researched": [
+      "steam-power"
+    ],
+    "crafted": {
+      "iron-plate": 50,
+      "copper-plate": 0,
+      "lab": 0
+    },
+    "produced_iron": 50,
+    "build_distance": 10,
+    "reach_distance": 10,
+    "built": [
+      {
+        "address": "smelter/entity/1,1",
+        "id": "13",
+        "name": "stone-furnace",
+        "position": {
+          "y": -14,
+          "x": -9
+        },
+        "crafts": 50,
+        "progress": 0,
+        "fuel_j": 1598400,
+        "input": {},
+        "output": {},
+        "fuel": {}
+      }
+    ],
+    "paid_furnaces": 1,
+    "paused": true,
+    "speed": 40
+  },
+  "duplicate_ignored": true,
+  "stale_rejected": true
+}

@@ -1,0 +1,124 @@
+{
+  "factorio_version": "2.1.16",
+  "active_mods": {
+    "base": "2.1.16",
+    "blueprint-gen-observer": "0.3.0"
+  },
+  "config": {
+    "inventory": {
+      "burner-mining-drill": 1,
+      "iron-plate": 8,
+      "stone-furnace": 1,
+      "wood": 1
+    },
+    "patches": [
+      {
+        "amount": 1000,
+        "height": 8,
+        "item": "coal",
+        "width": 8,
+        "x": -24,
+        "y": -24
+      },
+      {
+        "amount": 1000,
+        "height": 8,
+        "item": "iron-ore",
+        "width": 8,
+        "x": 29,
+        "y": 29
+      },
+      {
+        "amount": 1000,
+        "height": 8,
+        "item": "copper-ore",
+        "width": 8,
+        "x": 8,
+        "y": -24
+      },
+      {
+        "amount": 1000,
+        "height": 8,
+        "item": "stone",
+        "width": 8,
+        "x": 24,
+        "y": -24
+      }
+    ],
+    "schema_version": 1,
+    "seed": 42,
+    "spawn": [
+      0,
+      0
+    ],
+    "trees": [
+      {
+        "x": 31,
+        "y": -40
+      },
+      {
+        "x": 43,
+        "y": -24
+      },
+      {
+        "x": 46,
+        "y": -24
+      },
+      {
+        "x": 49,
+        "y": -24
+      }
+    ],
+    "water": [
+      {
+        "height": 8,
+        "width": 8,
+        "x": -48,
+        "y": -24
+      }
+    ]
+  },
+  "resource_totals_before_depletion": {
+    "coal": 64000,
+    "copper-ore": 64000,
+    "stone": 64000,
+    "iron-ore": 64000
+  },
+  "resource_tile_counts": {
+    "coal": 64,
+    "copper-ore": 64,
+    "stone": 64,
+    "iron-ore": 64
+  },
+  "tree_count": 4,
+  "water_count": 64,
+  "far_tile": "grass-1",
+  "resource_not_refilled": true,
+  "inventory": [
+    {
+      "name": "burner-mining-drill",
+      "quality": "normal",
+      "count": 1
+    },
+    {
+      "name": "stone-furnace",
+      "quality": "normal",
+      "count": 1
+    },
+    {
+      "name": "wood",
+      "quality": "normal",
+      "count": 1
+    },
+    {
+      "name": "iron-plate",
+      "quality": "normal",
+      "count": 8
+    }
+  ],
+  "researched": {},
+  "width": 2000000,
+  "height": 2000000,
+  "config_sha256": "1aa2de5a5979da2a7b44e1fda80f83c2306679c3abd4de67a3a37ffd55ce7c14",
+  "surveyed_positions_checked": 256
+}

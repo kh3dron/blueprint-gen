@@ -1,0 +1,14 @@
+[
+  {
+    "technology": "steam-power",
+    "observed": true
+  },
+  {
+    "technology": "electronics",
+    "observed": true
+  },
+  {
+    "technology": "automation-science-pack",
+    "observed": true
+  }
+]
