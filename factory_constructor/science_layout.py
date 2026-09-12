@@ -12,7 +12,7 @@ import math
 
 SIZES = {"burner-mining-drill": (2, 2), "stone-furnace": (2, 2),
          "assembling-machine-1": (3, 3), "lab": (3, 3),
-         "steam-engine": (3, 5), "boiler": (3, 2)}
+         "steam-engine": (3, 5), "boiler": (3, 2), "splitter": (2, 1)}
 
 
 def _position(entity):

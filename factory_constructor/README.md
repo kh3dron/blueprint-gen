@@ -95,6 +95,59 @@ From the repository root:
   --out /tmp/constructor-iron-new
 ```
 
+**Offline blueprint sequence**
+
+Generate a fresh-start build sequence on the surveyed map without launching Factorio:
+
+```sh
+.venv/bin/python -m factory_constructor sequence \
+  --red-per-minute 10 --green-per-minute 10 \
+  --out factory_constructor/out/red-green-sequence
+```
+
+Open `index.html` in the output directory. It shows eight stages with cumulative map
+placements, highlighted additions, finite construction bills, research events and required
+material flows. Belts and inserters appear from stage 4; Fit, 2× and 4× controls let you
+inspect belt arrows, inserter arms, underground crossings and power wires.
+`blueprint-book.txt` contains the eight importable build blueprints;
+each stage also has its own blueprint string and SVG. `plan.json` retains the complete
+planning state and rule provenance. An optional `--observation` selects another fresh
+observation under the supported base 2.1.17 profile.
+
+The default input is the empty opening from `09_player_capture`, including its starter
+inventory, four resource patches, pond and trees. The sequence covers starter smelting,
+steam power and a lab, handcrafting ten red packs for Automation and twenty for Logistics,
+10 red/min, researching
+green science with 75 red packs, expanding supplies, adding intermediates, and 10 red/min
+plus 10 green/min. Existing placements retain their addresses and coordinates throughout.
+
+`progression.py` simulates research prerequisites, craft triggers, finite inventory and
+conditional production rates. It uses runtime recipe and technology data from the observation.
+`planning_profile.json` supplies missing green-science, splitter and underground-belt recipes
+and explicit mining and power assumptions. Simultaneous recipe expansion shares demand across both goals.
+The final demand is 75 iron plates, 25 copper plates and 25 gears per minute. Two red and two
+green assemblers serve the science outputs. Green research takes at least 7.5 minutes once
+10 red/min is available, excluding startup and transport delays.
+
+`planning_transport.py` routes producers to consumers through real ports, with splitter branches,
+underground crossings, automatic burner fuel feeds and connected poles. Future machine ports
+are reserved before routing. The plans include transport construction costs and initial coal
+seeding. A static validator checks footprints, belt directions, inserter reach, tunnel pairing,
+power connectivity and paths from every producer to every consumer of its item. Routing is
+heuristic; it tries several orders and rejects a layout if none passes these checks.
+
+Transport power is sized from the installed inserters at their full 13 kW rating. The default
+plan reserves 780 kW for 60 inserters, uses two steam engines and includes coal used to mine
+coal. Layouts prioritize connectivity and stable staging; they are not optimized for belt count.
+Resource checks cover finite planned work
+plus five minutes at the final rates; tree yields remain unquantified. Research times are
+continuous-flow lower bounds. The model does not credit production during untimed construction.
+It sets `execution_ready` and `goal_verified` to false. Its hypothetical state cannot be used as
+a deployment checkpoint or passed to the player executor.
+
+Startup, inserter timing, discrete belt flow and sustained output still need the native
+verifier. The existing `plan` and `apply` commands retain their executable-program contracts.
+
 The iron-ready checkpoint contains paid construction items. To exercise generated procurement,
 use `--checkpoint 12_boiler_feed/out/checkpoints/feed-ready-20260911 --from-feed`. That test
 harness first completes the existing boiler-feed prerequisite, then passes its fresh observation

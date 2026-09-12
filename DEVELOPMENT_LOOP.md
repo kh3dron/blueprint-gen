@@ -1,5 +1,15 @@
 Current development handoff
 
+Offline planning now has a `factory_constructor sequence` command. It generates eight
+cumulative build blueprints from the empty surveyed opening to 10 red and 10 green
+science per minute, with an HTML stage viewer, SVG maps, a blueprint book and a JSON state
+ledger. Research gates and shared recipe demand are calculated without launching Factorio.
+The plans include belts, inserters, splitters, underground crossings, automatic burner fuel
+feeds and wired poles, with transport costs and power sizing. Static geometry and connectivity
+are checked; startup and sustained output still need a native run. These plans carry
+`execution_ready: false` and `goal_verified: false`; they are not deployment evidence.
+See the offline sequence section in [the constructor README](factory_constructor/README.md).
+
 Develop the [declarative constructor](factory_constructor/README.md)
 and its player interpreter. The acceptance criterion is a production declaration generating a
 program that the player executes and verifies. Extend reusable methods and composition instead

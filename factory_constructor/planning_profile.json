@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "base_version": "2.1.17",
+  "provenance": "Offline assumptions for the base opening. Existing recipes, technologies, furnace and assembler mechanics come from the observation. This supplement is not a runtime export.",
+  "recipe_source": "base/prototypes/recipe.lua, logistic-science-pack, splitter and underground-belt; reviewed against the local base prototypes",
+  "recipes": {
+    "splitter": {
+      "category": "crafting", "seconds": 1, "enabled": false,
+      "unlocked_by": ["logistics"],
+      "inputs": {"iron-plate": 5, "electronic-circuit": 5, "transport-belt": 4},
+      "outputs": {"splitter": 1}
+    },
+    "underground-belt": {
+      "category": "crafting", "seconds": 1, "enabled": false,
+      "unlocked_by": ["logistics"],
+      "inputs": {"iron-plate": 10, "transport-belt": 5},
+      "outputs": {"underground-belt": 2}
+    },
+    "logistic-science-pack": {
+      "category": "crafting", "seconds": 6, "enabled": false,
+      "unlocked_by": ["logistic-science-pack"],
+      "inputs": {"inserter": 1, "transport-belt": 1},
+      "outputs": {"logistic-science-pack": 1}
+    }
+  },
+  "burner_mining_speed": 0.25,
+  "burner_mining_kw": 150,
+  "steam_engine_kw": 900,
+  "boiler_kw": 1800,
+  "steam_efficiency": 1,
+  "transport_reserve_kw": 200,
+  "inserter_max_kw": 13,
+  "resource_horizon_minutes": 5
+}

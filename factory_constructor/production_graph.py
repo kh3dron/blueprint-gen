@@ -4,6 +4,12 @@ import math
 
 
 def production_graph(goal, rules, researched, *, available=None, selected=None, machine_metadata=None):
+    return production_graph_many([goal], rules, researched, available=available,
+                                 selected=selected, machine_metadata=machine_metadata)
+
+
+def production_graph_many(goals, rules, researched, *, available=None, selected=None, machine_metadata=None):
+    """Expand simultaneous goals, consuming each shared supply allocation once."""
     available=dict(available or {})
     demands=defaultdict(float)
     nodes={}
@@ -38,7 +44,8 @@ def production_graph(goal, rules, researched, *, available=None, selected=None, 
             node["dependencies"][ingredient]=node["dependencies"].get(ingredient,0)+demand
             require(ingredient,demand,path+(item,))
 
-    require(goal.item,goal.per_minute)
+    for goal in goals:
+        require(goal.item,goal.per_minute)
     active_kw=idle_kw=0
     for node in nodes.values():
         if node.get("method")=="recipe":

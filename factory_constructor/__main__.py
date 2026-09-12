@@ -134,11 +134,29 @@ def main():
     run.add_argument("--from-feed", action="store_true")
     run.add_argument("--record", dest="record_video", action="store_true",
                      help="encode a native science checkpoint replay as MP4/GIF; discard temporary frames")
+    sequence = sub.add_parser("sequence", help="generate routed offline blueprints from a fresh surveyed opening")
+    from .progression import DEFAULT_OBSERVATION
+    sequence.add_argument("--observation", type=Path, default=DEFAULT_OBSERVATION)
+    sequence.add_argument("--red-per-minute", type=float, default=10)
+    sequence.add_argument("--green-per-minute", type=float, default=10)
+    sequence.add_argument("--out", required=True, type=Path)
     for child in (plan, run):
         child.add_argument("--item", required=True)
         child.add_argument("--per-minute", required=True, type=float)
         child.add_argument("--out", required=True, type=Path)
     args = parser.parse_args()
+    if args.command == "sequence":
+        from .progression import compile_progression
+        from .planning_artifacts import write_progression
+        try:
+            result = compile_progression(json.loads(args.observation.read_text()),
+                                         args.red_per_minute, args.green_per_minute)
+            viewer = write_progression(result, args.out)
+        except ValueError as error:
+            parser.error(str(error))
+        print(json.dumps({"status": result["status"], "stages": len(result["stages"]),
+                          "goal": result["goal"], "execution_ready": False, "viewer": str(viewer)}))
+        return
     goal = Automate(args.item, args.per_minute)
     if args.command == "plan":
         program = compile_observation(goal, json.loads(args.observation.read_text()),
