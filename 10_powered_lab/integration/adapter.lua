@@ -16,13 +16,13 @@ local function equal(a,b)
   for k,v in pairs(b) do if a[k]~=v then return false end end
   return true
 end
-function M.place(actor,spec)
-  assert(allowed[spec.name] and not spec.recipe,"unsupported player placement")
+function M.place(actor,spec,extension)
+  assert((allowed[spec.name] or (extension and extension.allowed[spec.name])) and not spec.recipe,"unsupported player placement")
   assert(type(spec.address)=="string" and #spec.address>0,"placement needs a stable address")
   assert(spec.direction==0 or spec.direction==4 or spec.direction==8 or spec.direction==12,"invalid direction")
   storage.power_built=storage.power_built or {}
-  local built=spec.name=="stone-furnace" and storage.built or storage.power_built
-  local prior=storage.built[spec.address] or storage.power_built[spec.address]
+  local built=extension and extension.built or (spec.name=="stone-furnace" and storage.built or storage.power_built)
+  local prior=storage.built[spec.address] or storage.power_built[spec.address] or built[spec.address]
   if prior then
     assert(prior.valid and prior.name==spec.name and prior.direction==spec.direction
       and distance(prior.position,spec.position)<.001 and prior.force==actor.force,"declarative entity drift")

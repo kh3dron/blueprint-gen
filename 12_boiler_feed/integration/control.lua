@@ -1,0 +1,7 @@
+require("coal_control")
+local extension=require("extension")
+local previous=script.get_event_handler(defines.events.on_tick)
+script.on_event(defines.events.on_tick,function(event)
+  extension.observe_tick()
+  previous(event)
+end)

@@ -67,7 +67,9 @@ presence in inventory. Positions and counts are held from recorded samples, neve
 or filled in from a predicted plan. The fixed camera currently frames the mining row; terrain
 outside that view is omitted.
 
-Frames are recorded every 30 game ticks and at action/observation boundaries, in `live-trace.jsonl`.
+With `--record`, frames are recorded every 30 game ticks and at action/observation boundaries
+in `live-trace.jsonl`. Default development runs retain boundary traces with repeated historical
+ledgers omitted; complete observations and action receipts remain on disk.
 `live-world.json` describes the configured proving ground. The tiny player marker and furnace
 symbol represent observed entities; there are no game sprites or fake completed machines.
 Native game footage is now available through [09_player_capture](../09_player_capture/README.md).

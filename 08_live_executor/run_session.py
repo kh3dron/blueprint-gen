@@ -24,6 +24,8 @@ def save(path, value):
 
 
 class Driver:
+    snapshot = staticmethod(observed_snapshot)
+
     def __init__(self, session):
         self.session = session
         self.root = session.root
@@ -36,12 +38,13 @@ class Driver:
         observed = self.session.client.call({"op": "observe"})
         capture_path = self.session.artifact(observed["capture_path"])
         capture = json.loads(capture_path.read_text())
-        snapshot, rules = observed_snapshot(capture, observed["state"])
+        snapshot, rules = self.snapshot(capture, observed["state"])
         record = {**observed, "capture": capture}
         self.observations.append(record)
         directory = self.root / "observations"
         directory.mkdir(exist_ok=True)
         save(directory / f"{len(self.observations):03}.json", record)
+        save(self.root / "latest-observation.json", record)
         self.current = observed["state"]
         return snapshot, rules, capture
 
@@ -52,7 +55,11 @@ class Driver:
                    "tick": current["tick"], "revision": current["revision"],
                    "goal": "Produce 10 red science per minute", "milestone": self.milestone, "label": label}
         started = time.perf_counter()
-        result = self.session.client.call(request)
+        try:
+            result = self.session.client.call(request)
+        except (OSError, ValueError, RuntimeError) as error:
+            save(self.root / "last-failure.json", {"request": request, "error": str(error)})
+            raise
         deadline = time.monotonic() + 40
         while result["status"] == "running" and time.monotonic() < deadline:
             time.sleep(.025)
@@ -61,6 +68,7 @@ class Driver:
         self.actions.append(record)
         save(self.root / "actions.json", self.actions)
         if result["status"] != "done":
+            save(self.root / "last-failure.json", record)
             raise RuntimeError(f"{label}: {result.get('error') or 'wall-time deadline exceeded'}")
         return record
 
@@ -191,13 +199,14 @@ def equal_checkpoint(a, b):
     return a == b
 
 
-def run(binary, destination, config, speed):
+def run(binary, destination, config, speed, *, record=False):
     started = time.perf_counter()
     session = Session(binary, destination, config)
     driver = Driver(session)
     milestones = []
     try:
         session.start()
+        session.client.call({"op": "configure_trace", "mode": "full" if record else "boundaries"})
         session.client.call({"op": "speed", "speed": speed})
         driver.observe()
         initial_tick = driver.current["tick"]
@@ -271,7 +280,7 @@ if __name__ == "__main__":
     parser.add_argument("--record", action="store_true", help="render a recorded-state GIF/MP4 after the run (requires Pillow)")
     args = parser.parse_args()
     try:
-        run(args.factorio, args.out, json.loads(args.config.read_text()), args.speed)
+        run(args.factorio, args.out, json.loads(args.config.read_text()), args.speed, record=args.record)
         if args.record:
             from render_trace import build as render_recording
             print(render_recording(args.out, args.out / "recording"))

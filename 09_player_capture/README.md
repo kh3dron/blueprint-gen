@@ -2,7 +2,7 @@ Player attachment and native game recordings
 
 This separate experiment connects a graphical Factorio client to the
 [persistent executor](../08_live_executor/README.md), attaches its player to the existing
-starter character, and records native images during the finite opening. It reuses the advisor,
+starter character, and optionally records native images during the finite opening. It reuses the advisor,
 surveyed paths and action driver. The headless experiment remains a comparison baseline.
 
 **Result**
@@ -49,8 +49,9 @@ cloud synchronization is disabled for the client. Logs remain local, outside che
 planning and PNG capture, about 7.27× overall. Encoding is additional. Headless comparisons
 can use 40× without the graphical capture cost.
 
-Screenshots are saved even without `--record`; that flag adds GIF/MP4 encoding. Rerender without
-restarting Factorio:
+Default runs retain text evidence without PNGs or periodic native traces. `--record` enables
+screenshots and GIF/MP4 encoding. The player stays connected for native crafting attribution
+even when recording is disabled. Rerender a previously recorded run without restarting Factorio:
 
 ```sh
 python3 09_player_capture/render_native.py /tmp/advisor-player-new \
@@ -67,12 +68,13 @@ The tested engine's screenshots omit the player sprite. An explicitly labeled **
 and machines are Factorio renders. Capture uses daylight, alt mode, and no game GUI/clouds/fog.
 It does not screen-record the desktop or other applications.
 
-Images are requested every 60 game ticks, at action starts and at paused boundaries.
+With `--record`, images are requested every 60 game ticks, at action starts and at paused boundaries.
 `native-trace.jsonl` pairs each request with its tick, action and state. Video frames hold
 the latest captured image and that image's own state together, without interpolation. Metadata
 records the trace hash, every image hash and the source-frame mapping. Missing or unreadable
 PNGs refuse export, including frame loss when a client cannot keep up at higher speeds.
-Raw PNGs consume about **0.6 GB per opening**; keep them for rerendering and hash verification.
+Raw PNGs consume about **0.6 GB per recorded opening**. They are needed for rerendering and
+image-hash verification; after removal, native footage requires another recorded game run.
 Generated media is ignored by Git. Compact evidence is in [integration/fixtures](integration/fixtures).
 
 **Implementation boundaries**

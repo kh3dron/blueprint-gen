@@ -16,7 +16,7 @@ from advisor_core.survey import gather, distance
 from factory import Asset, Factory, Module, Tile, plan
 
 
-def observed_snapshot(capture, state):
+def observed_snapshot(capture, state, *, policy=None):
     if (capture["tick"] != state["tick"] or capture["active_mods"] != state["active_mods"]
             or capture["scope"]["surface_index"] != state["surface_index"]
             or capture["scope"]["force_index"] != state["force_index"]
@@ -29,7 +29,7 @@ def observed_snapshot(capture, state):
     review.update(inventory=state["inventory"], supplies_per_s={}, available_power_kw=0)
     for settings in review["machines"].values():
         settings.update(connected=False, output_open=True)
-    return import_capture(capture, review)
+    return import_capture(capture, review, policy=policy)
 
 
 def procurement(capture, state):

@@ -8,7 +8,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "08_live_executor")
 from run_session import observed_snapshot, completion
 
 
-def verify(final, actions, refusals, design, events):
+def verify(final, actions, refusals, design, events, *, snapshot=observed_snapshot):
     state = final["state"]
     if state["inventory"] != {"burner-mining-drill": 1, "small-electric-pole": 1}:
         raise ValueError("final stock does not conserve the finite bill")
@@ -106,8 +106,8 @@ def verify(final, actions, refusals, design, events):
             raise ValueError("transfer did not conserve inventory")
     if sum(t["count"] for t in transfers if t["item"] == "coal") != 16 or sum(t["count"] for t in transfers if t["item"] == "automation-science-pack") != 10:
         raise ValueError("fuel/science transfers differ from funded jobs")
-    snapshot, rules = observed_snapshot(final["capture"], state)
-    if completion(snapshot, rules)["complete"]:
+    imported, rules = snapshot(final["capture"], state)
+    if completion(imported, rules)["complete"]:
         raise ValueError("finite handcrafting was incorrectly credited as sustained science")
     return {"active_mods": state["active_mods"], "mined": dict(mined), "smelted": dict(smelted),
             "final_inventory": state["inventory"], "native_cursor_builds": len(placements),
@@ -121,9 +121,9 @@ def verify(final, actions, refusals, design, events):
             "next_work": "continuous fuel, automated mining, material routing and science assembly"}
 
 
-def verify_directory(directory):
+def verify_directory(directory, *, snapshot=observed_snapshot):
     directory = Path(directory)
     def read(name):
         return json.loads((directory / name).read_text())
     events = [json.loads(s) for s in (directory / "user-data/script-output/player-crafts.jsonl").read_text().splitlines()]
-    return verify(read("final-observation.json"), read("actions.json"), read("refusals.json"), read("power-design.json"), events)
+    return verify(read("final-observation.json"), read("actions.json"), read("refusals.json"), read("power-design.json"), events, snapshot=snapshot)

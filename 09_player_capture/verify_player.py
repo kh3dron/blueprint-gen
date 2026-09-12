@@ -8,7 +8,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "08_live_executor")
 from run_session import observed_snapshot, next_step, completion
 
 
-def verify(attachment, initial, final, actions, craft_events, milestones):
+def verify(attachment, initial, final, actions, craft_events, milestones, *, snapshot=observed_snapshot):
     joined = attachment["attachment"]
     if not attachment["attached"] or joined["cheat_mode"] or joined["before"] != joined["after"]:
         raise ValueError("player attachment changed the starting character or enabled cheats")
@@ -66,9 +66,9 @@ def verify(attachment, initial, final, actions, craft_events, milestones):
     for transfer in final["transfers"]:
         if transfer["count"] != transfer["removed"] or transfer["count"] != transfer["inserted"]:
             raise ValueError("inventory transfer does not conserve stock")
-    snapshot, rules = observed_snapshot(final["capture"], end)
-    following = next_step(snapshot, rules)
-    if completion(snapshot, rules)["complete"] or following["kind"] != "prepare_lab":
+    imported, rules = snapshot(final["capture"], end)
+    following = next_step(imported, rules)
+    if completion(imported, rules)["complete"] or following["kind"] != "prepare_lab":
         raise ValueError("a crafted lab must lead to powered-lab preparation, not goal completion")
     return {"active_mods": end["active_mods"], "character_id": end["character_id"], "player_index": joined["player_index"],
             "attachment_preserved_state": True, "cheat_mode": False, "mined": dict(mined), "produced": end["crafted"],

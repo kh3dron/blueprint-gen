@@ -1,0 +1,43 @@
+{
+  "factorio_version": "2.1.17",
+  "seed_coal": 3,
+  "additional_gathered": {
+    "coal": 7,
+    "iron-ore": 18,
+    "wood": 4
+  },
+  "additional_smelted": {
+    "iron-plate": 18
+  },
+  "native_handcraft_batches_added": 13,
+  "final_inventory": {
+    "transport-belt": 1,
+    "small-electric-pole": 1,
+    "wood": 2
+  },
+  "native_cursor_builds_added": 11,
+  "wood_harvested": 4,
+  "idle_seconds": 300.0,
+  "startup_seconds": 60.0,
+  "startup_chest_coal": 6,
+  "delivered_per_minute": [
+    12.0,
+    13.0,
+    13.0,
+    11.0,
+    13.0
+  ],
+  "minimum_observed_per_min": 11.0,
+  "coal_mined_while_idle": 75,
+  "chest_coal": 68,
+  "coal_items_started_burning": 17,
+  "total_seed_energy_drill_seconds_bound": 86.66666666666667,
+  "deposit_remaining": 3911,
+  "player_interventions_during_measurement": 0,
+  "self_fueling_observed": true,
+  "repeat_deployment_retained": true,
+  "direction_drift_refused": true,
+  "goal_complete": false,
+  "scope": "five measured minutes of net coal delivery into finite storage",
+  "next_work": "route coal to boiler and ore smelters; automate ore and science production"
+}

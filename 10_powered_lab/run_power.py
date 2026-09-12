@@ -13,6 +13,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 sys.path.insert(0, str(ROOT / "09_player_capture"))
 from run_player import PlayerSession, GraphicalClient, RecordedDriver, capture_call, save, next_step, SOURCE
+from run_player import configure_recording, capture_boundary
 from verify_player import verify as verify_opening
 from advisor_core.construction import bill
 from power_plan import PowerIsland
@@ -72,7 +73,8 @@ def refusals(driver):
     save(driver.root / "refusals.json", results)
 
 
-def run(binary, destination, config, speed):
+def run(binary, destination, config, speed, *, scenario_overlay=None,
+        session_type=PlayerSession, driver_type=RecordedDriver, continue_with=None, record=False):
     started = time.perf_counter()
     with tempfile.TemporaryDirectory(prefix="blueprint-power-overlay-") as temporary:
         overlay = Path(temporary)
@@ -80,18 +82,27 @@ def run(binary, destination, config, speed):
             shutil.copy2(source, overlay / source.name)
         shutil.copy2(ROOT / "09_player_capture/integration/control.lua", overlay / "capture.lua")
         shutil.copy2(ROOT / "07_bootstrap_executor/integration/adapter.lua", overlay / "transfers.lua")
-        session = PlayerSession(binary, destination, config, scenario_overlay=overlay)
+        if scenario_overlay is not None:
+            shutil.copy2(overlay / "extension.lua", overlay / "power.lua")
+            shutil.copy2(overlay / "adapter.lua", overlay / "cursor.lua")
+            shutil.copy2(overlay / "control.lua", overlay / "power_control.lua")
+            for source in Path(scenario_overlay).glob("*.lua"):
+                shutil.copy2(source, overlay / source.name)
+        session = session_type(binary, destination, config, scenario_overlay=overlay)
     graphics = None
     try:
         session.start()
+        configure_recording(session, record)
         graphics = GraphicalClient(session)
+        graphics.record = record
         print("Starting isolated player for native construction and powered research…", flush=True)
         attachment = graphics.start()
         save(session.root / "attachment.json", attachment)
-        first = capture_call(session, "enable")
-        graphics.wait_image(first["image"])
+        if record:
+            first = capture_call(session, "enable")
+            graphics.wait_image(first["image"])
         session.client.call({"op": "speed", "speed": speed})
-        driver = RecordedDriver(session, graphics)
+        driver = driver_type(session, graphics)
         driver.observe()
         milestones = []
         for technology in ("steam-power", "electronics", "automation-science-pack"):
@@ -108,7 +119,7 @@ def run(binary, destination, config, speed):
         driver.observe()
         save(session.root / "opening-final-observation.json", driver.observations[-1])
         opening = verify_opening(attachment, driver.observations[0], driver.observations[-1], driver.actions,
-            read_events(session.output / "player-crafts.jsonl"), milestones)
+            read_events(session.output / "player-crafts.jsonl"), milestones, snapshot=driver.snapshot)
         save(session.root / "opening-verification.json", opening)
         driver.milestone = "powered-lab"
         refusals(driver)
@@ -147,14 +158,15 @@ def run(binary, destination, config, speed):
         save(session.root / "final-observation.json", driver.observations[-1])
         save(session.root / "next-action.json", next_step(*driver.observe()[:2]))
         from verify_power import verify_directory
-        save(session.root / "verification.json", verify_directory(session.root))
-        last = capture_call(session, "capture")
-        graphics.wait_image(last["image"])
+        save(session.root / "verification.json", verify_directory(session.root, snapshot=driver.snapshot))
+        if continue_with is not None:
+            continue_with(driver)
+        capture_boundary(session, graphics)
         save(session.root / "performance.json", {"requested_speed": speed,
             "wall_seconds_before_encoding": time.perf_counter()-started,
             "simulation_ticks": driver.current["tick"]-driver.observations[0]["state"]["tick"]})
-        print(json.dumps({"inventory": driver.current["inventory"], "researched": driver.current["researched"],
-                          "power": driver.current["power_entities"]}, indent=2), flush=True)
+        print(json.dumps({"status": "finished", "tick": driver.current["tick"],
+                          "evidence": str(session.root)}), flush=True)
         return session.root
     finally:
         if graphics:
@@ -175,7 +187,7 @@ if __name__ == "__main__":
         if args.inspect_run:
             inspect_run(args.factorio, args.inspect_run, args.out)
         else:
-            run(args.factorio, args.out, json.loads(args.config.read_text()), args.speed)
+            run(args.factorio, args.out, json.loads(args.config.read_text()), args.speed, record=args.record)
         if args.record and not args.inspect_run:
             from render_power import build
             print(build(args.out, args.out / "recording"))

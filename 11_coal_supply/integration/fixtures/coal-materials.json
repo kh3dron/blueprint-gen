@@ -1,0 +1,191 @@
+{
+  "requested": {
+    "burner-mining-drill": 1,
+    "transport-belt": 7,
+    "burner-inserter": 2,
+    "wooden-chest": 1
+  },
+  "force_new_crafts": false,
+  "inventory_used": {
+    "burner-mining-drill": 1
+  },
+  "gather": {
+    "iron-ore": 18,
+    "coal": 4,
+    "wood": 2
+  },
+  "steps": [
+    {
+      "kind": "gather",
+      "item": "iron-ore",
+      "quantity": 8
+    },
+    {
+      "kind": "gather",
+      "item": "coal",
+      "quantity": 1
+    },
+    {
+      "kind": "smelt",
+      "recipe": "iron-plate",
+      "crafts": 8,
+      "machine": "stone-furnace",
+      "coal": 1,
+      "processing_seconds": 25.6,
+      "inputs": {
+        "iron-ore": 8
+      },
+      "outputs": {
+        "iron-plate": 8
+      }
+    },
+    {
+      "kind": "handcraft",
+      "recipe": "iron-gear-wheel",
+      "crafts": 4,
+      "crafting_seconds": 2.0,
+      "inputs": {
+        "iron-plate": 8
+      },
+      "outputs": {
+        "iron-gear-wheel": 4
+      }
+    },
+    {
+      "kind": "gather",
+      "item": "iron-ore",
+      "quantity": 4
+    },
+    {
+      "kind": "gather",
+      "item": "coal",
+      "quantity": 1
+    },
+    {
+      "kind": "smelt",
+      "recipe": "iron-plate",
+      "crafts": 4,
+      "machine": "stone-furnace",
+      "coal": 1,
+      "processing_seconds": 12.8,
+      "inputs": {
+        "iron-ore": 4
+      },
+      "outputs": {
+        "iron-plate": 4
+      }
+    },
+    {
+      "kind": "handcraft",
+      "recipe": "transport-belt",
+      "crafts": 4,
+      "crafting_seconds": 2.0,
+      "inputs": {
+        "iron-gear-wheel": 4,
+        "iron-plate": 4
+      },
+      "outputs": {
+        "transport-belt": 8
+      }
+    },
+    {
+      "kind": "gather",
+      "item": "iron-ore",
+      "quantity": 4
+    },
+    {
+      "kind": "gather",
+      "item": "coal",
+      "quantity": 1
+    },
+    {
+      "kind": "smelt",
+      "recipe": "iron-plate",
+      "crafts": 4,
+      "machine": "stone-furnace",
+      "coal": 1,
+      "processing_seconds": 12.8,
+      "inputs": {
+        "iron-ore": 4
+      },
+      "outputs": {
+        "iron-plate": 4
+      }
+    },
+    {
+      "kind": "handcraft",
+      "recipe": "iron-gear-wheel",
+      "crafts": 2,
+      "crafting_seconds": 1.0,
+      "inputs": {
+        "iron-plate": 4
+      },
+      "outputs": {
+        "iron-gear-wheel": 2
+      }
+    },
+    {
+      "kind": "gather",
+      "item": "iron-ore",
+      "quantity": 2
+    },
+    {
+      "kind": "gather",
+      "item": "coal",
+      "quantity": 1
+    },
+    {
+      "kind": "smelt",
+      "recipe": "iron-plate",
+      "crafts": 2,
+      "machine": "stone-furnace",
+      "coal": 1,
+      "processing_seconds": 6.4,
+      "inputs": {
+        "iron-ore": 2
+      },
+      "outputs": {
+        "iron-plate": 2
+      }
+    },
+    {
+      "kind": "handcraft",
+      "recipe": "burner-inserter",
+      "crafts": 2,
+      "crafting_seconds": 1.0,
+      "inputs": {
+        "iron-gear-wheel": 2,
+        "iron-plate": 2
+      },
+      "outputs": {
+        "burner-inserter": 2
+      }
+    },
+    {
+      "kind": "gather",
+      "item": "wood",
+      "quantity": 2
+    },
+    {
+      "kind": "handcraft",
+      "recipe": "wooden-chest",
+      "crafts": 1,
+      "crafting_seconds": 0.5,
+      "inputs": {
+        "wood": 2
+      },
+      "outputs": {
+        "wooden-chest": 1
+      }
+    }
+  ],
+  "requires_research": [],
+  "unsupported": [],
+  "remaining_inventory": {
+    "small-electric-pole": 1,
+    "transport-belt": 1
+  },
+  "handcraft_seconds": 6.5,
+  "smelting_machine_seconds": 57.6,
+  "note": "Times exclude gathering, movement, placement and transfers; furnace time may overlap handcrafting."
+}

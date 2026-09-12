@@ -1,0 +1,113 @@
+{
+  "engine": "Factorio 2.1.17",
+  "units": "seconds and decimal bytes",
+  "runs": {
+    "full_10x": {
+      "status": "passed",
+      "wall_seconds": 264.898,
+      "new_actions": 232,
+      "output_bytes": 42950998,
+      "png_frames": 0,
+      "evidence_directory": "/private/tmp/blueprint-gen-fast-full-03",
+      "summary_bytes": 544
+    },
+    "prepare_10x": {
+      "status": "checkpoint_ready",
+      "wall_seconds": 224.333,
+      "new_actions": 162,
+      "output_bytes": 36973990,
+      "png_frames": 0,
+      "evidence_directory": "/private/tmp/blueprint-gen-fast-ready-04",
+      "summary_bytes": 249
+    },
+    "resume_10x": {
+      "status": "passed",
+      "wall_seconds": 52.978,
+      "new_actions": 70,
+      "output_bytes": 12781194,
+      "png_frames": 0,
+      "evidence_directory": "/private/tmp/blueprint-gen-fast-resume-12",
+      "summary_bytes": 531
+    },
+    "resume_fast_1": {
+      "status": "passed",
+      "wall_seconds": 29.078,
+      "new_actions": 70,
+      "output_bytes": 12618120,
+      "png_frames": 0,
+      "evidence_directory": "/private/tmp/blueprint-gen-fast-resume-mixed-01",
+      "summary_bytes": 537
+    },
+    "resume_fast_2": {
+      "status": "passed",
+      "wall_seconds": 29.5,
+      "new_actions": 70,
+      "output_bytes": 12618585,
+      "png_frames": 0,
+      "evidence_directory": "/private/tmp/blueprint-gen-fast-resume-mixed-02",
+      "summary_bytes": 548
+    },
+    "full_40x_failed": {
+      "status": "failed",
+      "wall_seconds": 29.466,
+      "new_actions": 4,
+      "output_bytes": 5695691,
+      "png_frames": 0,
+      "evidence_directory": "/private/tmp/blueprint-gen-fast-full-40",
+      "summary_bytes": 1717,
+      "error": "Walk, then hand-mine 50 iron-ore at (-7.5, -16.5): __level__/live.lua:224: action tick budget exceeded"
+    },
+    "resume_40x_failed": {
+      "status": "failed",
+      "wall_seconds": 19.589,
+      "new_actions": 65,
+      "output_bytes": 10170167,
+      "png_frames": 0,
+      "evidence_directory": "/private/tmp/blueprint-gen-fast-resume-40",
+      "summary_bytes": 1807,
+      "error": "Stand idle during research minute 1/5: __level__/extension.lua:109: player intervened during feed measurement"
+    },
+    "edited_lua_negative_probe": {
+      "status": "failed",
+      "wall_seconds": 12.35,
+      "new_actions": 1,
+      "output_bytes": 6851261,
+      "png_frames": 0,
+      "evidence_directory": "/private/tmp/blueprint-gen-continuation-negative-01",
+      "summary_bytes": 1550,
+      "error": "__level__/extension.lua:77: checkpoint-continuation-probe"
+    }
+  },
+  "checks": {
+    "automatic_boiler_fuel_observed": true,
+    "lab_kw_by_minute": [
+      60.0,
+      60.0,
+      60.0,
+      60.0,
+      60.0
+    ],
+    "coal_delivered_to_boiler_during_measurement": 5,
+    "coal_buffer_gain": 56,
+    "researched": "logistics",
+    "goal_complete": false
+  },
+  "checkpoint": "12_boiler_feed/out/checkpoints/feed-ready-20260911",
+  "checkpoint_manifest_sha256": "3ba8a0679a1cecd1cafec9a36abc84004af7936b16afb027f04695cf9334316a",
+  "fast_mode": {
+    "action_speed": 10,
+    "passive_window_speed": 40,
+    "passive_windows": 6,
+    "ticks_per_window": 3600
+  },
+  "verification": {
+    "prior_action_receipts_preserved": 162,
+    "new_action_ids": "action-163 through action-232",
+    "original_character_id": "12",
+    "complete_final_save": true,
+    "edited_lua_refusal_command": "action-164",
+    "edited_lua_source_restored": true,
+    "python_and_lua_tests_passed": 206
+  },
+  "saved_evidence_verification_seconds": 0.00983
+}

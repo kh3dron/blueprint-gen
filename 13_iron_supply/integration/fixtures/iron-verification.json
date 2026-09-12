@@ -1,0 +1,38 @@
+{
+  "automatic_iron_supply_observed": true,
+  "factorio_version": "2.1.17",
+  "idle_seconds": 300,
+  "plates_per_minute": [
+    30,
+    30,
+    30,
+    30,
+    30
+  ],
+  "iron_ore_mined": 150,
+  "plates_produced": 150,
+  "plates_collected": 150,
+  "coal_burned": 50,
+  "coal_buffer_gain": 25,
+  "native_cursor_builds_added": 62,
+  "additional_gathered": {
+    "coal": 14,
+    "copper-ore": 7,
+    "iron-ore": 104,
+    "stone": 20,
+    "wood": 8
+  },
+  "output_service": {
+    "item": "iron-plate",
+    "minimum_per_minute": 30,
+    "entities": [
+      "60",
+      "66"
+    ],
+    "measurement_ticks": [
+      195266,
+      213266
+    ]
+  },
+  "goal_complete": false
+}

@@ -3,14 +3,53 @@ from copy import deepcopy
 import json
 from pathlib import Path
 import struct
+import shutil
+import subprocess
 import sys
+from types import SimpleNamespace
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 HERE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(HERE))
-from run_player import SynchronizedRcon
+from run_player import SynchronizedRcon, RecordedDriver, configure_recording
 from verify_player import verify
+
+
+class ReconnectTest(unittest.TestCase):
+    @unittest.skipUnless(shutil.which("luajit"), "LuaJIT is required for the controller regression")
+    def test_reconnect_preserves_native_identity_and_refuses_replacement(self):
+        result = subprocess.run(["luajit", str(HERE / "tests/reconnect_test.lua"),
+            str(HERE / "integration/control.lua")], capture_output=True, text=True)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+
+class RecordingModeTest(unittest.TestCase):
+    def test_default_executes_actions_without_captures_or_image_waits(self):
+        graphics=SimpleNamespace(wait_image=Mock())
+        driver=RecordedDriver(SimpleNamespace(root=Path("unused")),graphics)
+        with patch("run_player.Driver.action",return_value={"receipt":"complete"}) as action, \
+                patch("run_player.capture_call") as capture:
+            self.assertEqual(driver.action("walk_to",{},"walk"),{"receipt":"complete"})
+            action.assert_called_once_with("walk_to",{},"walk")
+            capture.assert_not_called()
+            graphics.wait_image.assert_not_called()
+
+    def test_recording_is_explicit_and_waits_for_the_native_frame(self):
+        graphics=SimpleNamespace(record=True,wait_image=Mock())
+        driver=RecordedDriver(SimpleNamespace(root=Path("unused")),graphics)
+        with patch("run_player.Driver.action",return_value={"receipt":"complete"}), \
+                patch("run_player.capture_call",return_value={"image":"native/frame.png"}) as capture:
+            driver.action("walk_to",{},"walk")
+            capture.assert_called_once_with(driver.session,"capture")
+            graphics.wait_image.assert_called_once_with("native/frame.png")
+
+    def test_default_disables_capture_in_a_loaded_save(self):
+        session=SimpleNamespace(client=Mock())
+        with patch("run_player.capture_call") as capture:
+            configure_recording(session,False)
+            session.client.call.assert_called_once_with({"op":"configure_trace","mode":"boundaries"})
+            capture.assert_called_once_with(session,"disable")
 
 
 class PlayerEvidenceTest(unittest.TestCase):

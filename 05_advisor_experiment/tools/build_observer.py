@@ -19,8 +19,8 @@ def lua(value):
     return json.dumps(value)
 
 
-def build(destination):
-    rules = Rules.load()
+def build(destination, *, policy=None):
+    rules = policy or Rules.load()
     info = json.loads((HERE / "observer/info.json").read_text())
     target = Path(destination) / f"{info['name']}_{info['version']}"
     # Never carry stale scripts (especially test scenarios) into a release build.

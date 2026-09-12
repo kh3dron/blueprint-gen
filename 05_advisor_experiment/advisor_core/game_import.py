@@ -170,8 +170,8 @@ def review_template(capture):
             "instructions": "Fill only facts checked for this capture. Null means unknown; {} supply means confirmed zero. Inventory override is used only for a headless capture without player inventory. Power is the shared network's available generation after outside loads."}
 
 
-def import_capture(capture, review=None):
-    rules = runtime_rules(capture)
+def import_capture(capture, review=None, *, policy=None):
+    rules = runtime_rules(capture, policy)
     review = review_template(capture) if review is None else deepcopy(review)
     if review.get("review_schema_version") != 1 or review.get("capture_sha256") != digest(capture):
         raise ValueError("review belongs to another capture; generate a fresh review instead of reusing old facts")

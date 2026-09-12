@@ -89,8 +89,9 @@ def free_port(kind):
 
 class Session:
     rcon_type = Rcon
+    observer_builder = staticmethod(build_observer)
 
-    def __init__(self, binary, destination, config, *, scenario_overlay=None):
+    def __init__(self, binary, destination, config, *, scenario_overlay=None, checkpoint=None):
         self.root = Path(destination).resolve()
         self.root.mkdir(parents=True, exist_ok=False)
         self.process = self.client = self.log = None
@@ -100,7 +101,7 @@ class Session:
         data = next((p / "data" for p in list(binary.parents)[:4] if (p / "data/core").is_dir()), None)
         if data is None:
             raise ValueError("Cannot find Factorio installation data")
-        mod = build_observer(self.root / "mods")
+        mod = self.observer_builder(self.root / "mods")
         scenario = build_ground(config, mod / "scenarios/live-opening")
         for source in (Path(__file__).parent / "integration").glob("*.lua"):
             shutil.copy2(source, scenario / source.name)
@@ -121,6 +122,15 @@ class Session:
                     "require_user_verification": False, "allow_commands": "true", "auto_pause": False,
                     "autosave_interval": 0, "non_blocking_saving": False})
         (self.root / "server-settings.json").write_text(json.dumps(settings))
+        (self.root / "world-config.json").write_text(json.dumps(config, indent=2) + "\n")
+        if checkpoint is not None:
+            from checkpoint import rewrite_scenario
+            # Loading an external save skips scenario creation, which normally
+            # creates this directory before later game.server_save calls.
+            (self.root / "user-data/saves").mkdir(parents=True, exist_ok=True)
+            self.save = self.root / "resume.zip"
+            rewrite_scenario(Path(checkpoint) / "game.zip", self.save, scenario)
+            return
         result = subprocess.run(self.prefix + ["--scenario2map", "blueprint-gen-observer/live-opening"],
                                 text=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=60)
         (self.root / "create.log").write_text(result.stdout)

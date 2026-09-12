@@ -53,6 +53,11 @@ local function frame(event)
   storage.frame=storage.frame+1
   local s=state()
   s.frame=storage.frame;s.event=event;s.action=storage.job and storage.job.request or storage.last_action
+  if storage.trace_mode~="full" then
+    -- The complete ledgers remain in observations and native event files.
+    -- Repeating their entire history at every boundary adds no new evidence.
+    s.cursor_placements=nil;s.player_build_events=nil;s.tree_events=nil;s.coal_seed=nil
+  end
   helpers.write_file("live-trace.jsonl",helpers.table_to_json(s).."\n",true)
 end
 local function finish(value,err)
@@ -270,7 +275,7 @@ local function tick()
 end
 script.on_event(defines.events.on_tick,function()
   if not storage.job then game.tick_paused=true;return end
-  if game.tick%30==0 then frame("sample") end
+  if storage.trace_mode=="full" and game.tick%30==0 then frame("sample") end
   local ok,err=pcall(tick)
   if not ok then finish(nil,tostring(err)) end
 end)
@@ -287,6 +292,16 @@ end)
 
 remote.add_interface("opening-executor",{call=function(request)
   local ok,result=pcall(function()
+    if request.op=="configure_trace" then
+      assert(not storage.job and game.tick_paused,"configure at an idle boundary")
+      assert(request.mode=="full" or request.mode=="boundaries","unknown trace mode")
+      storage.trace_mode=request.mode;return {mode=storage.trace_mode}
+    end
+    if request.op=="checkpoint_state" then
+      assert(not storage.job and game.tick_paused,"checkpoint at an idle boundary")
+      local count=0;for _ in pairs(storage.commands) do count=count+1 end
+      return {state=state(),command_count=count,last_command_id=storage.last_action and storage.last_action.id}
+    end
     if request.op=="status" then return request.id and assert(storage.commands[request.id],"unknown command").outcome or state() end
     if request.op=="observe" then
       assert(not storage.job and game.tick_paused,"observe at a paused boundary")

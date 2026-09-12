@@ -10,3 +10,7 @@ __pycache__/
 08_live_executor/out/
 09_player_capture/out/
 10_powered_lab/out/
+11_coal_supply/out/
+12_boiler_feed/out/
+13_iron_supply/out/
+factory_constructor/out/

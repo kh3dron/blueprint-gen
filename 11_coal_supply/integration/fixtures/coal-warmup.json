@@ -1,0 +1,549 @@
+{
+  "before": {
+    "tick": 61806,
+    "entities": [
+      {
+        "address": "coal.belt.0",
+        "id": "22",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -23.5
+        },
+        "direction": 4,
+        "status": "working",
+        "active": false,
+        "lanes": [
+          {},
+          {}
+        ],
+        "outputs": [
+          "23"
+        ]
+      },
+      {
+        "address": "coal.belt.1",
+        "id": "23",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -22.5
+        },
+        "direction": 4,
+        "status": "working",
+        "active": false,
+        "lanes": [
+          {},
+          {}
+        ],
+        "outputs": [
+          "24"
+        ]
+      },
+      {
+        "address": "coal.belt.2",
+        "id": "24",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -21.5
+        },
+        "direction": 4,
+        "status": "working",
+        "active": false,
+        "lanes": [
+          {},
+          {}
+        ],
+        "outputs": [
+          "25"
+        ]
+      },
+      {
+        "address": "coal.belt.3",
+        "id": "25",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -20.5
+        },
+        "direction": 8,
+        "status": "working",
+        "active": false,
+        "lanes": [
+          {},
+          {}
+        ],
+        "outputs": [
+          "26"
+        ]
+      },
+      {
+        "address": "coal.belt.4",
+        "id": "26",
+        "name": "transport-belt",
+        "position": {
+          "y": -22.5,
+          "x": -20.5
+        },
+        "direction": 8,
+        "status": "working",
+        "active": false,
+        "lanes": [
+          {},
+          {}
+        ],
+        "outputs": [
+          "27"
+        ]
+      },
+      {
+        "address": "coal.belt.5",
+        "id": "27",
+        "name": "transport-belt",
+        "position": {
+          "y": -21.5,
+          "x": -20.5
+        },
+        "direction": 8,
+        "status": "working",
+        "active": false,
+        "lanes": [
+          {},
+          {}
+        ],
+        "outputs": [
+          "28"
+        ]
+      },
+      {
+        "address": "coal.belt.6",
+        "id": "28",
+        "name": "transport-belt",
+        "position": {
+          "y": -20.5,
+          "x": -20.5
+        },
+        "direction": 8,
+        "status": "working",
+        "active": false,
+        "lanes": [
+          {},
+          {}
+        ],
+        "outputs": {}
+      },
+      {
+        "address": "coal.chest",
+        "id": "31",
+        "name": "wooden-chest",
+        "position": {
+          "y": -18.5,
+          "x": -20.5
+        },
+        "direction": 0,
+        "status": "normal",
+        "active": false,
+        "contents": {}
+      },
+      {
+        "address": "coal.drill",
+        "id": "21",
+        "name": "burner-mining-drill",
+        "position": {
+          "y": -22,
+          "x": -23
+        },
+        "direction": 0,
+        "status": "working",
+        "active": true,
+        "fuel": {
+          "coal": 1
+        },
+        "burning_j": 0,
+        "drop_position": {
+          "y": -23.296875,
+          "x": -23.34765625
+        },
+        "energy_usage_j_per_tick": 2500
+      },
+      {
+        "address": "coal.export",
+        "id": "30",
+        "name": "burner-inserter",
+        "position": {
+          "y": -19.5,
+          "x": -20.5
+        },
+        "direction": 0,
+        "status": "working",
+        "active": true,
+        "fuel": {
+          "coal": 1
+        },
+        "burning_j": 500000,
+        "burning_item": "wood",
+        "drop_position": {
+          "y": -18.30078125,
+          "x": -20.5
+        },
+        "pickup_position": {
+          "y": -20.5,
+          "x": -20.5
+        }
+      },
+      {
+        "address": "coal.refuel",
+        "id": "29",
+        "name": "burner-inserter",
+        "position": {
+          "y": -22.5,
+          "x": -21.5
+        },
+        "direction": 4,
+        "status": "working",
+        "active": true,
+        "fuel": {
+          "coal": 1
+        },
+        "burning_j": 500000,
+        "burning_item": "wood",
+        "drop_position": {
+          "y": -22.5,
+          "x": -22.69921875
+        },
+        "pickup_position": {
+          "y": -22.5,
+          "x": -20.5
+        }
+      }
+    ],
+    "deposit_remaining": 4000,
+    "deposits": [
+      {
+        "id": "coal:-22.5:-21.5",
+        "position": {
+          "y": -21.5,
+          "x": -22.5
+        },
+        "amount": 1000
+      },
+      {
+        "id": "coal:-22.5:-22.5",
+        "position": {
+          "y": -22.5,
+          "x": -22.5
+        },
+        "amount": 1000
+      },
+      {
+        "id": "coal:-23.5:-21.5",
+        "position": {
+          "y": -21.5,
+          "x": -23.5
+        },
+        "amount": 1000
+      },
+      {
+        "id": "coal:-23.5:-22.5",
+        "position": {
+          "y": -22.5,
+          "x": -23.5
+        },
+        "amount": 1000
+      }
+    ],
+    "loose_coal": 3,
+    "produced": 23,
+    "coal_fuel_value_j": 4000000
+  },
+  "after": {
+    "tick": 65406,
+    "entities": [
+      {
+        "address": "coal.belt.0",
+        "id": "22",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -23.5
+        },
+        "direction": 4,
+        "status": "working",
+        "active": false,
+        "lanes": [
+          {},
+          {}
+        ],
+        "outputs": [
+          "23"
+        ]
+      },
+      {
+        "address": "coal.belt.1",
+        "id": "23",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -22.5
+        },
+        "direction": 4,
+        "status": "working",
+        "active": false,
+        "lanes": [
+          {},
+          {}
+        ],
+        "outputs": [
+          "24"
+        ]
+      },
+      {
+        "address": "coal.belt.2",
+        "id": "24",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -21.5
+        },
+        "direction": 4,
+        "status": "working",
+        "active": false,
+        "lanes": [
+          {},
+          {}
+        ],
+        "outputs": [
+          "25"
+        ]
+      },
+      {
+        "address": "coal.belt.3",
+        "id": "25",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -20.5
+        },
+        "direction": 8,
+        "status": "working",
+        "active": false,
+        "lanes": [
+          {},
+          {}
+        ],
+        "outputs": [
+          "26"
+        ]
+      },
+      {
+        "address": "coal.belt.4",
+        "id": "26",
+        "name": "transport-belt",
+        "position": {
+          "y": -22.5,
+          "x": -20.5
+        },
+        "direction": 8,
+        "status": "working",
+        "active": false,
+        "lanes": [
+          {},
+          {}
+        ],
+        "outputs": [
+          "27"
+        ]
+      },
+      {
+        "address": "coal.belt.5",
+        "id": "27",
+        "name": "transport-belt",
+        "position": {
+          "y": -21.5,
+          "x": -20.5
+        },
+        "direction": 8,
+        "status": "working",
+        "active": false,
+        "lanes": [
+          {},
+          {}
+        ],
+        "outputs": [
+          "28"
+        ]
+      },
+      {
+        "address": "coal.belt.6",
+        "id": "28",
+        "name": "transport-belt",
+        "position": {
+          "y": -20.5,
+          "x": -20.5
+        },
+        "direction": 8,
+        "status": "working",
+        "active": false,
+        "lanes": [
+          {},
+          {}
+        ],
+        "outputs": {}
+      },
+      {
+        "address": "coal.chest",
+        "id": "31",
+        "name": "wooden-chest",
+        "position": {
+          "y": -18.5,
+          "x": -20.5
+        },
+        "direction": 0,
+        "status": "normal",
+        "active": false,
+        "contents": {
+          "coal": 6
+        }
+      },
+      {
+        "address": "coal.drill",
+        "id": "21",
+        "name": "burner-mining-drill",
+        "position": {
+          "y": -22,
+          "x": -23
+        },
+        "direction": 0,
+        "status": "working",
+        "active": true,
+        "fuel": {
+          "coal": 5
+        },
+        "burning_j": 2999833.3333333335,
+        "burning_item": "coal",
+        "drop_position": {
+          "y": -23.296875,
+          "x": -23.34765625
+        },
+        "drop_target": "22",
+        "mining_target": "coal:-22.5:-21.5",
+        "energy_usage_j_per_tick": 2500
+      },
+      {
+        "address": "coal.export",
+        "id": "30",
+        "name": "burner-inserter",
+        "position": {
+          "y": -19.5,
+          "x": -20.5
+        },
+        "direction": 0,
+        "status": "waiting_for_source_items",
+        "active": true,
+        "fuel": {
+          "coal": 1
+        },
+        "burning_j": 17707.679759182065,
+        "burning_item": "wood",
+        "drop_position": {
+          "y": -18.30078125,
+          "x": -20.5
+        },
+        "drop_target": "31",
+        "pickup_position": {
+          "y": -20.5,
+          "x": -20.5
+        },
+        "pickup_target": "28"
+      },
+      {
+        "address": "coal.refuel",
+        "id": "29",
+        "name": "burner-inserter",
+        "position": {
+          "y": -22.5,
+          "x": -21.5
+        },
+        "direction": 4,
+        "status": "waiting_for_space_in_destination",
+        "active": true,
+        "fuel": {
+          "coal": 1
+        },
+        "burning_j": 3774059.686289038,
+        "burning_item": "coal",
+        "drop_position": {
+          "y": -22.5,
+          "x": -22.69921875
+        },
+        "drop_target": "21",
+        "pickup_position": {
+          "y": -22.5,
+          "x": -20.5
+        },
+        "pickup_target": "26"
+      }
+    ],
+    "deposit_remaining": 3986,
+    "deposits": [
+      {
+        "id": "coal:-22.5:-21.5",
+        "position": {
+          "y": -21.5,
+          "x": -22.5
+        },
+        "amount": 996
+      },
+      {
+        "id": "coal:-22.5:-22.5",
+        "position": {
+          "y": -22.5,
+          "x": -22.5
+        },
+        "amount": 1000
+      },
+      {
+        "id": "coal:-23.5:-21.5",
+        "position": {
+          "y": -21.5,
+          "x": -23.5
+        },
+        "amount": 1000
+      },
+      {
+        "id": "coal:-23.5:-22.5",
+        "position": {
+          "y": -22.5,
+          "x": -23.5
+        },
+        "amount": 990
+      }
+    ],
+    "loose_coal": 13,
+    "produced": 37,
+    "coal_fuel_value_j": 4000000
+  },
+  "idle_ticks": 3600,
+  "inventory_before": {
+    "transport-belt": 1,
+    "small-electric-pole": 1,
+    "wood": 2
+  },
+  "inventory_after": {
+    "transport-belt": 1,
+    "small-electric-pole": 1,
+    "wood": 2
+  },
+  "position_before": {
+    "y": -20.0078125,
+    "x": -25.9140625
+  },
+  "position_after": {
+    "y": -20.0078125,
+    "x": -25.9140625
+  },
+  "transfer_count": 44,
+  "build_count": 18,
+  "player_idle": true
+}

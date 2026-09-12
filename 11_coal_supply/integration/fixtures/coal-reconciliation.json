@@ -1,0 +1,3503 @@
+{
+  "before": {
+    "tick": 61806,
+    "revision": 239,
+    "active_mods": {
+      "base": "2.1.17",
+      "blueprint-gen-observer": "0.3.0"
+    },
+    "character_id": "12",
+    "surface_index": 1,
+    "force_index": 1,
+    "map_seed": 42,
+    "position": {
+      "y": -20.0078125,
+      "x": -25.9140625
+    },
+    "inventory": {
+      "transport-belt": 1,
+      "small-electric-pole": 1,
+      "wood": 2,
+      "coal": 3
+    },
+    "researched": [
+      "automation",
+      "automation-science-pack",
+      "electronics",
+      "steam-power"
+    ],
+    "crafted": {
+      "iron-plate": 109,
+      "copper-plate": 26,
+      "lab": 1
+    },
+    "produced_iron": 109,
+    "build_distance": 10,
+    "reach_distance": 10,
+    "built": [
+      {
+        "address": "smelter/entity/1,1",
+        "id": "14",
+        "name": "stone-furnace",
+        "position": {
+          "y": -14,
+          "x": -9
+        },
+        "crafts": 135,
+        "progress": 0,
+        "fuel_j": 1117200,
+        "input": {},
+        "output": {},
+        "fuel": {
+          "coal": 7
+        }
+      }
+    ],
+    "paid_furnaces": 1,
+    "paused": true,
+    "speed": 10,
+    "power_entities": [
+      {
+        "address": "power.boiler",
+        "id": "17",
+        "name": "boiler",
+        "position": {
+          "y": -20,
+          "x": -36.5
+        },
+        "direction": 0,
+        "status": "no_fuel",
+        "energy_j": 0,
+        "fluids": {
+          "water": 200
+        },
+        "fuel": {},
+        "burning_j": 0
+      },
+      {
+        "address": "power.engine",
+        "id": "18",
+        "name": "steam-engine",
+        "position": {
+          "y": -23.5,
+          "x": -36.5
+        },
+        "direction": 0,
+        "status": "working",
+        "energy_j": 15000,
+        "network_id": 1,
+        "fluids": {
+          "steam": 199.46463519334793
+        }
+      },
+      {
+        "address": "power.lab",
+        "id": "20",
+        "name": "lab",
+        "position": {
+          "y": -23.5,
+          "x": -31.5
+        },
+        "direction": 0,
+        "status": "no_research_in_progress",
+        "energy_j": 1066.6666666666667,
+        "network_id": 1,
+        "fluids": {},
+        "science": {}
+      },
+      {
+        "address": "power.pole",
+        "id": "19",
+        "name": "small-electric-pole",
+        "position": {
+          "y": -21.5,
+          "x": -33.5
+        },
+        "direction": 0,
+        "status": "unknown",
+        "energy_j": 0,
+        "network_id": 1,
+        "fluids": {},
+        "generated_j": 6001066.666625977,
+        "lab_consumed_j": 6001066.666625977,
+        "generation_kw_5s": 0,
+        "lab_load_kw_5s": 0
+      },
+      {
+        "address": "power.pump",
+        "id": "15",
+        "name": "offshore-pump",
+        "position": {
+          "y": -19.5,
+          "x": -39.5
+        },
+        "direction": 12,
+        "status": "working",
+        "energy_j": 2976579765,
+        "fluids": {
+          "water": 100
+        }
+      },
+      {
+        "address": "power.water-pipe",
+        "id": "16",
+        "name": "pipe",
+        "position": {
+          "y": -19.5,
+          "x": -38.5
+        },
+        "direction": 0,
+        "status": "working",
+        "energy_j": 0,
+        "fluids": {
+          "water": 100
+        }
+      }
+    ],
+    "cursor_placements": [
+      {
+        "tick": 6764,
+        "address": "smelter/entity/1,1",
+        "id": "14",
+        "name": "stone-furnace",
+        "position": {
+          "y": -14,
+          "x": -9
+        },
+        "direction": 0,
+        "before": {
+          "burner-mining-drill": 1,
+          "stone-furnace": 1,
+          "wood": 1,
+          "coal": 4,
+          "iron-ore": 50,
+          "iron-plate": 8
+        },
+        "after": {
+          "burner-mining-drill": 1,
+          "wood": 1,
+          "coal": 4,
+          "iron-ore": 50,
+          "iron-plate": 8
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 33681,
+        "address": "power.pump",
+        "id": "15",
+        "name": "offshore-pump",
+        "position": {
+          "y": -19.5,
+          "x": -39.5
+        },
+        "direction": 12,
+        "before": {
+          "small-electric-pole": 2,
+          "pipe": 1,
+          "boiler": 1,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "offshore-pump": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "after": {
+          "small-electric-pole": 2,
+          "pipe": 1,
+          "boiler": 1,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 33681,
+        "address": "power.water-pipe",
+        "id": "16",
+        "name": "pipe",
+        "position": {
+          "y": -19.5,
+          "x": -38.5
+        },
+        "direction": 0,
+        "before": {
+          "small-electric-pole": 2,
+          "pipe": 1,
+          "boiler": 1,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "after": {
+          "small-electric-pole": 2,
+          "boiler": 1,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 33681,
+        "address": "power.boiler",
+        "id": "17",
+        "name": "boiler",
+        "position": {
+          "y": -20,
+          "x": -36.5
+        },
+        "direction": 0,
+        "before": {
+          "small-electric-pole": 2,
+          "boiler": 1,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "after": {
+          "small-electric-pole": 2,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 33681,
+        "address": "power.engine",
+        "id": "18",
+        "name": "steam-engine",
+        "position": {
+          "y": -23.5,
+          "x": -36.5
+        },
+        "direction": 0,
+        "before": {
+          "small-electric-pole": 2,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "after": {
+          "small-electric-pole": 2,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 33681,
+        "address": "power.pole",
+        "id": "19",
+        "name": "small-electric-pole",
+        "position": {
+          "y": -21.5,
+          "x": -33.5
+        },
+        "direction": 0,
+        "before": {
+          "small-electric-pole": 2,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "after": {
+          "small-electric-pole": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 33681,
+        "address": "power.lab",
+        "id": "20",
+        "name": "lab",
+        "position": {
+          "y": -23.5,
+          "x": -31.5
+        },
+        "direction": 0,
+        "before": {
+          "small-electric-pole": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "after": {
+          "small-electric-pole": 1,
+          "burner-mining-drill": 1,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.drill",
+        "id": "21",
+        "name": "burner-mining-drill",
+        "position": {
+          "y": -22,
+          "x": -23
+        },
+        "direction": 0,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 8,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "burner-mining-drill": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 8,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.0",
+        "id": "22",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -23.5
+        },
+        "direction": 4,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 8,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 7,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.1",
+        "id": "23",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -22.5
+        },
+        "direction": 4,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 7,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 6,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.2",
+        "id": "24",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -21.5
+        },
+        "direction": 4,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 6,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 5,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.3",
+        "id": "25",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -20.5
+        },
+        "direction": 8,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 5,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 4,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.4",
+        "id": "26",
+        "name": "transport-belt",
+        "position": {
+          "y": -22.5,
+          "x": -20.5
+        },
+        "direction": 8,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 4,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 3,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.5",
+        "id": "27",
+        "name": "transport-belt",
+        "position": {
+          "y": -21.5,
+          "x": -20.5
+        },
+        "direction": 8,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 3,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 2,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.6",
+        "id": "28",
+        "name": "transport-belt",
+        "position": {
+          "y": -20.5,
+          "x": -20.5
+        },
+        "direction": 8,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 2,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 1,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.refuel",
+        "id": "29",
+        "name": "burner-inserter",
+        "position": {
+          "y": -22.5,
+          "x": -21.5
+        },
+        "direction": 4,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 1,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 1,
+          "burner-inserter": 1,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.export",
+        "id": "30",
+        "name": "burner-inserter",
+        "position": {
+          "y": -19.5,
+          "x": -20.5
+        },
+        "direction": 0,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 1,
+          "burner-inserter": 1,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 1,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.chest",
+        "id": "31",
+        "name": "wooden-chest",
+        "position": {
+          "y": -18.5,
+          "x": -20.5
+        },
+        "direction": 0,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 1,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "transport-belt": 1,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      }
+    ],
+    "player_build_events": [
+      {
+        "tick": 6764,
+        "player_index": 1,
+        "id": "14",
+        "name": "stone-furnace",
+        "position": {
+          "y": -14,
+          "x": -9
+        }
+      },
+      {
+        "tick": 33681,
+        "player_index": 1,
+        "id": "15",
+        "name": "offshore-pump",
+        "position": {
+          "y": -19.5,
+          "x": -39.5
+        }
+      },
+      {
+        "tick": 33681,
+        "player_index": 1,
+        "id": "16",
+        "name": "pipe",
+        "position": {
+          "y": -19.5,
+          "x": -38.5
+        }
+      },
+      {
+        "tick": 33681,
+        "player_index": 1,
+        "id": "17",
+        "name": "boiler",
+        "position": {
+          "y": -20,
+          "x": -36.5
+        }
+      },
+      {
+        "tick": 33681,
+        "player_index": 1,
+        "id": "18",
+        "name": "steam-engine",
+        "position": {
+          "y": -23.5,
+          "x": -36.5
+        }
+      },
+      {
+        "tick": 33681,
+        "player_index": 1,
+        "id": "19",
+        "name": "small-electric-pole",
+        "position": {
+          "y": -21.5,
+          "x": -33.5
+        }
+      },
+      {
+        "tick": 33681,
+        "player_index": 1,
+        "id": "20",
+        "name": "lab",
+        "position": {
+          "y": -23.5,
+          "x": -31.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "21",
+        "name": "burner-mining-drill",
+        "position": {
+          "y": -22,
+          "x": -23
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "22",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -23.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "23",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -22.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "24",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -21.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "25",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -20.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "26",
+        "name": "transport-belt",
+        "position": {
+          "y": -22.5,
+          "x": -20.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "27",
+        "name": "transport-belt",
+        "position": {
+          "y": -21.5,
+          "x": -20.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "28",
+        "name": "transport-belt",
+        "position": {
+          "y": -20.5,
+          "x": -20.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "29",
+        "name": "burner-inserter",
+        "position": {
+          "y": -22.5,
+          "x": -21.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "30",
+        "name": "burner-inserter",
+        "position": {
+          "y": -19.5,
+          "x": -20.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "31",
+        "name": "wooden-chest",
+        "position": {
+          "y": -18.5,
+          "x": -20.5
+        }
+      }
+    ],
+    "automation_progress": 1,
+    "science_produced": 10,
+    "coal": {
+      "tick": 61806,
+      "entities": [
+        {
+          "address": "coal.belt.0",
+          "id": "22",
+          "name": "transport-belt",
+          "position": {
+            "y": -23.5,
+            "x": -23.5
+          },
+          "direction": 4,
+          "status": "working",
+          "active": false,
+          "lanes": [
+            {},
+            {}
+          ],
+          "outputs": [
+            "23"
+          ]
+        },
+        {
+          "address": "coal.belt.1",
+          "id": "23",
+          "name": "transport-belt",
+          "position": {
+            "y": -23.5,
+            "x": -22.5
+          },
+          "direction": 4,
+          "status": "working",
+          "active": false,
+          "lanes": [
+            {},
+            {}
+          ],
+          "outputs": [
+            "24"
+          ]
+        },
+        {
+          "address": "coal.belt.2",
+          "id": "24",
+          "name": "transport-belt",
+          "position": {
+            "y": -23.5,
+            "x": -21.5
+          },
+          "direction": 4,
+          "status": "working",
+          "active": false,
+          "lanes": [
+            {},
+            {}
+          ],
+          "outputs": [
+            "25"
+          ]
+        },
+        {
+          "address": "coal.belt.3",
+          "id": "25",
+          "name": "transport-belt",
+          "position": {
+            "y": -23.5,
+            "x": -20.5
+          },
+          "direction": 8,
+          "status": "working",
+          "active": false,
+          "lanes": [
+            {},
+            {}
+          ],
+          "outputs": [
+            "26"
+          ]
+        },
+        {
+          "address": "coal.belt.4",
+          "id": "26",
+          "name": "transport-belt",
+          "position": {
+            "y": -22.5,
+            "x": -20.5
+          },
+          "direction": 8,
+          "status": "working",
+          "active": false,
+          "lanes": [
+            {},
+            {}
+          ],
+          "outputs": [
+            "27"
+          ]
+        },
+        {
+          "address": "coal.belt.5",
+          "id": "27",
+          "name": "transport-belt",
+          "position": {
+            "y": -21.5,
+            "x": -20.5
+          },
+          "direction": 8,
+          "status": "working",
+          "active": false,
+          "lanes": [
+            {},
+            {}
+          ],
+          "outputs": [
+            "28"
+          ]
+        },
+        {
+          "address": "coal.belt.6",
+          "id": "28",
+          "name": "transport-belt",
+          "position": {
+            "y": -20.5,
+            "x": -20.5
+          },
+          "direction": 8,
+          "status": "working",
+          "active": false,
+          "lanes": [
+            {},
+            {}
+          ],
+          "outputs": {}
+        },
+        {
+          "address": "coal.chest",
+          "id": "31",
+          "name": "wooden-chest",
+          "position": {
+            "y": -18.5,
+            "x": -20.5
+          },
+          "direction": 0,
+          "status": "normal",
+          "active": false,
+          "contents": {}
+        },
+        {
+          "address": "coal.drill",
+          "id": "21",
+          "name": "burner-mining-drill",
+          "position": {
+            "y": -22,
+            "x": -23
+          },
+          "direction": 0,
+          "status": "no_fuel",
+          "active": true,
+          "fuel": {},
+          "burning_j": 0,
+          "drop_position": {
+            "y": -23.296875,
+            "x": -23.34765625
+          },
+          "energy_usage_j_per_tick": 2500
+        },
+        {
+          "address": "coal.export",
+          "id": "30",
+          "name": "burner-inserter",
+          "position": {
+            "y": -19.5,
+            "x": -20.5
+          },
+          "direction": 0,
+          "status": "working",
+          "active": true,
+          "fuel": {},
+          "burning_j": 500000,
+          "burning_item": "wood",
+          "drop_position": {
+            "y": -18.30078125,
+            "x": -20.5
+          },
+          "pickup_position": {
+            "y": -20.5,
+            "x": -20.5
+          }
+        },
+        {
+          "address": "coal.refuel",
+          "id": "29",
+          "name": "burner-inserter",
+          "position": {
+            "y": -22.5,
+            "x": -21.5
+          },
+          "direction": 4,
+          "status": "working",
+          "active": true,
+          "fuel": {},
+          "burning_j": 500000,
+          "burning_item": "wood",
+          "drop_position": {
+            "y": -22.5,
+            "x": -22.69921875
+          },
+          "pickup_position": {
+            "y": -22.5,
+            "x": -20.5
+          }
+        }
+      ],
+      "deposit_remaining": 0,
+      "deposits": {},
+      "loose_coal": 0,
+      "produced": 23,
+      "coal_fuel_value_j": 4000000
+    },
+    "tree_events": [
+      {
+        "tick": 56866,
+        "player_index": 1,
+        "id": "tree-01:40.5:-23.5",
+        "name": "tree-01",
+        "position": {
+          "y": -23.5,
+          "x": 40.5
+        },
+        "products": {
+          "wood": 4
+        }
+      }
+    ]
+  },
+  "after": {
+    "tick": 61806,
+    "revision": 261,
+    "active_mods": {
+      "base": "2.1.17",
+      "blueprint-gen-observer": "0.3.0"
+    },
+    "character_id": "12",
+    "surface_index": 1,
+    "force_index": 1,
+    "map_seed": 42,
+    "position": {
+      "y": -20.0078125,
+      "x": -25.9140625
+    },
+    "inventory": {
+      "transport-belt": 1,
+      "small-electric-pole": 1,
+      "wood": 2,
+      "coal": 3
+    },
+    "researched": [
+      "automation",
+      "automation-science-pack",
+      "electronics",
+      "steam-power"
+    ],
+    "crafted": {
+      "iron-plate": 109,
+      "copper-plate": 26,
+      "lab": 1
+    },
+    "produced_iron": 109,
+    "build_distance": 10,
+    "reach_distance": 10,
+    "built": [
+      {
+        "address": "smelter/entity/1,1",
+        "id": "14",
+        "name": "stone-furnace",
+        "position": {
+          "y": -14,
+          "x": -9
+        },
+        "crafts": 135,
+        "progress": 0,
+        "fuel_j": 1117200,
+        "input": {},
+        "output": {},
+        "fuel": {
+          "coal": 7
+        }
+      }
+    ],
+    "paid_furnaces": 1,
+    "paused": true,
+    "speed": 10,
+    "power_entities": [
+      {
+        "address": "power.boiler",
+        "id": "17",
+        "name": "boiler",
+        "position": {
+          "y": -20,
+          "x": -36.5
+        },
+        "direction": 0,
+        "status": "no_fuel",
+        "energy_j": 0,
+        "fluids": {
+          "water": 200
+        },
+        "fuel": {},
+        "burning_j": 0
+      },
+      {
+        "address": "power.engine",
+        "id": "18",
+        "name": "steam-engine",
+        "position": {
+          "y": -23.5,
+          "x": -36.5
+        },
+        "direction": 0,
+        "status": "working",
+        "energy_j": 15000,
+        "network_id": 1,
+        "fluids": {
+          "steam": 199.46463519334793
+        }
+      },
+      {
+        "address": "power.lab",
+        "id": "20",
+        "name": "lab",
+        "position": {
+          "y": -23.5,
+          "x": -31.5
+        },
+        "direction": 0,
+        "status": "no_research_in_progress",
+        "energy_j": 1066.6666666666667,
+        "network_id": 1,
+        "fluids": {},
+        "science": {}
+      },
+      {
+        "address": "power.pole",
+        "id": "19",
+        "name": "small-electric-pole",
+        "position": {
+          "y": -21.5,
+          "x": -33.5
+        },
+        "direction": 0,
+        "status": "unknown",
+        "energy_j": 0,
+        "network_id": 1,
+        "fluids": {},
+        "generated_j": 6001066.666625977,
+        "lab_consumed_j": 6001066.666625977,
+        "generation_kw_5s": 0,
+        "lab_load_kw_5s": 0
+      },
+      {
+        "address": "power.pump",
+        "id": "15",
+        "name": "offshore-pump",
+        "position": {
+          "y": -19.5,
+          "x": -39.5
+        },
+        "direction": 12,
+        "status": "working",
+        "energy_j": 2976579765,
+        "fluids": {
+          "water": 100
+        }
+      },
+      {
+        "address": "power.water-pipe",
+        "id": "16",
+        "name": "pipe",
+        "position": {
+          "y": -19.5,
+          "x": -38.5
+        },
+        "direction": 0,
+        "status": "working",
+        "energy_j": 0,
+        "fluids": {
+          "water": 100
+        }
+      }
+    ],
+    "cursor_placements": [
+      {
+        "tick": 6764,
+        "address": "smelter/entity/1,1",
+        "id": "14",
+        "name": "stone-furnace",
+        "position": {
+          "y": -14,
+          "x": -9
+        },
+        "direction": 0,
+        "before": {
+          "burner-mining-drill": 1,
+          "stone-furnace": 1,
+          "wood": 1,
+          "coal": 4,
+          "iron-ore": 50,
+          "iron-plate": 8
+        },
+        "after": {
+          "burner-mining-drill": 1,
+          "wood": 1,
+          "coal": 4,
+          "iron-ore": 50,
+          "iron-plate": 8
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 33681,
+        "address": "power.pump",
+        "id": "15",
+        "name": "offshore-pump",
+        "position": {
+          "y": -19.5,
+          "x": -39.5
+        },
+        "direction": 12,
+        "before": {
+          "small-electric-pole": 2,
+          "pipe": 1,
+          "boiler": 1,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "offshore-pump": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "after": {
+          "small-electric-pole": 2,
+          "pipe": 1,
+          "boiler": 1,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 33681,
+        "address": "power.water-pipe",
+        "id": "16",
+        "name": "pipe",
+        "position": {
+          "y": -19.5,
+          "x": -38.5
+        },
+        "direction": 0,
+        "before": {
+          "small-electric-pole": 2,
+          "pipe": 1,
+          "boiler": 1,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "after": {
+          "small-electric-pole": 2,
+          "boiler": 1,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 33681,
+        "address": "power.boiler",
+        "id": "17",
+        "name": "boiler",
+        "position": {
+          "y": -20,
+          "x": -36.5
+        },
+        "direction": 0,
+        "before": {
+          "small-electric-pole": 2,
+          "boiler": 1,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "after": {
+          "small-electric-pole": 2,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 33681,
+        "address": "power.engine",
+        "id": "18",
+        "name": "steam-engine",
+        "position": {
+          "y": -23.5,
+          "x": -36.5
+        },
+        "direction": 0,
+        "before": {
+          "small-electric-pole": 2,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "after": {
+          "small-electric-pole": 2,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 33681,
+        "address": "power.pole",
+        "id": "19",
+        "name": "small-electric-pole",
+        "position": {
+          "y": -21.5,
+          "x": -33.5
+        },
+        "direction": 0,
+        "before": {
+          "small-electric-pole": 2,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "after": {
+          "small-electric-pole": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 33681,
+        "address": "power.lab",
+        "id": "20",
+        "name": "lab",
+        "position": {
+          "y": -23.5,
+          "x": -31.5
+        },
+        "direction": 0,
+        "before": {
+          "small-electric-pole": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "after": {
+          "small-electric-pole": 1,
+          "burner-mining-drill": 1,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.drill",
+        "id": "21",
+        "name": "burner-mining-drill",
+        "position": {
+          "y": -22,
+          "x": -23
+        },
+        "direction": 0,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 8,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "burner-mining-drill": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 8,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.0",
+        "id": "22",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -23.5
+        },
+        "direction": 4,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 8,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 7,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.1",
+        "id": "23",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -22.5
+        },
+        "direction": 4,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 7,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 6,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.2",
+        "id": "24",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -21.5
+        },
+        "direction": 4,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 6,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 5,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.3",
+        "id": "25",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -20.5
+        },
+        "direction": 8,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 5,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 4,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.4",
+        "id": "26",
+        "name": "transport-belt",
+        "position": {
+          "y": -22.5,
+          "x": -20.5
+        },
+        "direction": 8,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 4,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 3,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.5",
+        "id": "27",
+        "name": "transport-belt",
+        "position": {
+          "y": -21.5,
+          "x": -20.5
+        },
+        "direction": 8,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 3,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 2,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.6",
+        "id": "28",
+        "name": "transport-belt",
+        "position": {
+          "y": -20.5,
+          "x": -20.5
+        },
+        "direction": 8,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 2,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 1,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.refuel",
+        "id": "29",
+        "name": "burner-inserter",
+        "position": {
+          "y": -22.5,
+          "x": -21.5
+        },
+        "direction": 4,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 1,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 1,
+          "burner-inserter": 1,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.export",
+        "id": "30",
+        "name": "burner-inserter",
+        "position": {
+          "y": -19.5,
+          "x": -20.5
+        },
+        "direction": 0,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 1,
+          "burner-inserter": 1,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 1,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.chest",
+        "id": "31",
+        "name": "wooden-chest",
+        "position": {
+          "y": -18.5,
+          "x": -20.5
+        },
+        "direction": 0,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 1,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "transport-belt": 1,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      }
+    ],
+    "player_build_events": [
+      {
+        "tick": 6764,
+        "player_index": 1,
+        "id": "14",
+        "name": "stone-furnace",
+        "position": {
+          "y": -14,
+          "x": -9
+        }
+      },
+      {
+        "tick": 33681,
+        "player_index": 1,
+        "id": "15",
+        "name": "offshore-pump",
+        "position": {
+          "y": -19.5,
+          "x": -39.5
+        }
+      },
+      {
+        "tick": 33681,
+        "player_index": 1,
+        "id": "16",
+        "name": "pipe",
+        "position": {
+          "y": -19.5,
+          "x": -38.5
+        }
+      },
+      {
+        "tick": 33681,
+        "player_index": 1,
+        "id": "17",
+        "name": "boiler",
+        "position": {
+          "y": -20,
+          "x": -36.5
+        }
+      },
+      {
+        "tick": 33681,
+        "player_index": 1,
+        "id": "18",
+        "name": "steam-engine",
+        "position": {
+          "y": -23.5,
+          "x": -36.5
+        }
+      },
+      {
+        "tick": 33681,
+        "player_index": 1,
+        "id": "19",
+        "name": "small-electric-pole",
+        "position": {
+          "y": -21.5,
+          "x": -33.5
+        }
+      },
+      {
+        "tick": 33681,
+        "player_index": 1,
+        "id": "20",
+        "name": "lab",
+        "position": {
+          "y": -23.5,
+          "x": -31.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "21",
+        "name": "burner-mining-drill",
+        "position": {
+          "y": -22,
+          "x": -23
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "22",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -23.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "23",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -22.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "24",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -21.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "25",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -20.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "26",
+        "name": "transport-belt",
+        "position": {
+          "y": -22.5,
+          "x": -20.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "27",
+        "name": "transport-belt",
+        "position": {
+          "y": -21.5,
+          "x": -20.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "28",
+        "name": "transport-belt",
+        "position": {
+          "y": -20.5,
+          "x": -20.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "29",
+        "name": "burner-inserter",
+        "position": {
+          "y": -22.5,
+          "x": -21.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "30",
+        "name": "burner-inserter",
+        "position": {
+          "y": -19.5,
+          "x": -20.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "31",
+        "name": "wooden-chest",
+        "position": {
+          "y": -18.5,
+          "x": -20.5
+        }
+      }
+    ],
+    "automation_progress": 1,
+    "science_produced": 10,
+    "coal": {
+      "tick": 61806,
+      "entities": [
+        {
+          "address": "coal.belt.0",
+          "id": "22",
+          "name": "transport-belt",
+          "position": {
+            "y": -23.5,
+            "x": -23.5
+          },
+          "direction": 4,
+          "status": "working",
+          "active": false,
+          "lanes": [
+            {},
+            {}
+          ],
+          "outputs": [
+            "23"
+          ]
+        },
+        {
+          "address": "coal.belt.1",
+          "id": "23",
+          "name": "transport-belt",
+          "position": {
+            "y": -23.5,
+            "x": -22.5
+          },
+          "direction": 4,
+          "status": "working",
+          "active": false,
+          "lanes": [
+            {},
+            {}
+          ],
+          "outputs": [
+            "24"
+          ]
+        },
+        {
+          "address": "coal.belt.2",
+          "id": "24",
+          "name": "transport-belt",
+          "position": {
+            "y": -23.5,
+            "x": -21.5
+          },
+          "direction": 4,
+          "status": "working",
+          "active": false,
+          "lanes": [
+            {},
+            {}
+          ],
+          "outputs": [
+            "25"
+          ]
+        },
+        {
+          "address": "coal.belt.3",
+          "id": "25",
+          "name": "transport-belt",
+          "position": {
+            "y": -23.5,
+            "x": -20.5
+          },
+          "direction": 8,
+          "status": "working",
+          "active": false,
+          "lanes": [
+            {},
+            {}
+          ],
+          "outputs": [
+            "26"
+          ]
+        },
+        {
+          "address": "coal.belt.4",
+          "id": "26",
+          "name": "transport-belt",
+          "position": {
+            "y": -22.5,
+            "x": -20.5
+          },
+          "direction": 8,
+          "status": "working",
+          "active": false,
+          "lanes": [
+            {},
+            {}
+          ],
+          "outputs": [
+            "27"
+          ]
+        },
+        {
+          "address": "coal.belt.5",
+          "id": "27",
+          "name": "transport-belt",
+          "position": {
+            "y": -21.5,
+            "x": -20.5
+          },
+          "direction": 8,
+          "status": "working",
+          "active": false,
+          "lanes": [
+            {},
+            {}
+          ],
+          "outputs": [
+            "28"
+          ]
+        },
+        {
+          "address": "coal.belt.6",
+          "id": "28",
+          "name": "transport-belt",
+          "position": {
+            "y": -20.5,
+            "x": -20.5
+          },
+          "direction": 8,
+          "status": "working",
+          "active": false,
+          "lanes": [
+            {},
+            {}
+          ],
+          "outputs": {}
+        },
+        {
+          "address": "coal.chest",
+          "id": "31",
+          "name": "wooden-chest",
+          "position": {
+            "y": -18.5,
+            "x": -20.5
+          },
+          "direction": 0,
+          "status": "normal",
+          "active": false,
+          "contents": {}
+        },
+        {
+          "address": "coal.drill",
+          "id": "21",
+          "name": "burner-mining-drill",
+          "position": {
+            "y": -22,
+            "x": -23
+          },
+          "direction": 0,
+          "status": "no_fuel",
+          "active": true,
+          "fuel": {},
+          "burning_j": 0,
+          "drop_position": {
+            "y": -23.296875,
+            "x": -23.34765625
+          },
+          "energy_usage_j_per_tick": 2500
+        },
+        {
+          "address": "coal.export",
+          "id": "30",
+          "name": "burner-inserter",
+          "position": {
+            "y": -19.5,
+            "x": -20.5
+          },
+          "direction": 0,
+          "status": "working",
+          "active": true,
+          "fuel": {},
+          "burning_j": 500000,
+          "burning_item": "wood",
+          "drop_position": {
+            "y": -18.30078125,
+            "x": -20.5
+          },
+          "pickup_position": {
+            "y": -20.5,
+            "x": -20.5
+          }
+        },
+        {
+          "address": "coal.refuel",
+          "id": "29",
+          "name": "burner-inserter",
+          "position": {
+            "y": -22.5,
+            "x": -21.5
+          },
+          "direction": 4,
+          "status": "working",
+          "active": true,
+          "fuel": {},
+          "burning_j": 500000,
+          "burning_item": "wood",
+          "drop_position": {
+            "y": -22.5,
+            "x": -22.69921875
+          },
+          "pickup_position": {
+            "y": -22.5,
+            "x": -20.5
+          }
+        }
+      ],
+      "deposit_remaining": 0,
+      "deposits": {},
+      "loose_coal": 0,
+      "produced": 23,
+      "coal_fuel_value_j": 4000000
+    },
+    "tree_events": [
+      {
+        "tick": 56866,
+        "player_index": 1,
+        "id": "tree-01:40.5:-23.5",
+        "name": "tree-01",
+        "position": {
+          "y": -23.5,
+          "x": 40.5
+        },
+        "products": {
+          "wood": 4
+        }
+      }
+    ]
+  },
+  "drift_before": {
+    "inventory": {
+      "transport-belt": 1,
+      "small-electric-pole": 1,
+      "wood": 2,
+      "coal": 3
+    },
+    "player_build_events": [
+      {
+        "tick": 6764,
+        "player_index": 1,
+        "id": "14",
+        "name": "stone-furnace",
+        "position": {
+          "y": -14,
+          "x": -9
+        }
+      },
+      {
+        "tick": 33681,
+        "player_index": 1,
+        "id": "15",
+        "name": "offshore-pump",
+        "position": {
+          "y": -19.5,
+          "x": -39.5
+        }
+      },
+      {
+        "tick": 33681,
+        "player_index": 1,
+        "id": "16",
+        "name": "pipe",
+        "position": {
+          "y": -19.5,
+          "x": -38.5
+        }
+      },
+      {
+        "tick": 33681,
+        "player_index": 1,
+        "id": "17",
+        "name": "boiler",
+        "position": {
+          "y": -20,
+          "x": -36.5
+        }
+      },
+      {
+        "tick": 33681,
+        "player_index": 1,
+        "id": "18",
+        "name": "steam-engine",
+        "position": {
+          "y": -23.5,
+          "x": -36.5
+        }
+      },
+      {
+        "tick": 33681,
+        "player_index": 1,
+        "id": "19",
+        "name": "small-electric-pole",
+        "position": {
+          "y": -21.5,
+          "x": -33.5
+        }
+      },
+      {
+        "tick": 33681,
+        "player_index": 1,
+        "id": "20",
+        "name": "lab",
+        "position": {
+          "y": -23.5,
+          "x": -31.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "21",
+        "name": "burner-mining-drill",
+        "position": {
+          "y": -22,
+          "x": -23
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "22",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -23.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "23",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -22.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "24",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -21.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "25",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -20.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "26",
+        "name": "transport-belt",
+        "position": {
+          "y": -22.5,
+          "x": -20.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "27",
+        "name": "transport-belt",
+        "position": {
+          "y": -21.5,
+          "x": -20.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "28",
+        "name": "transport-belt",
+        "position": {
+          "y": -20.5,
+          "x": -20.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "29",
+        "name": "burner-inserter",
+        "position": {
+          "y": -22.5,
+          "x": -21.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "30",
+        "name": "burner-inserter",
+        "position": {
+          "y": -19.5,
+          "x": -20.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "31",
+        "name": "wooden-chest",
+        "position": {
+          "y": -18.5,
+          "x": -20.5
+        }
+      }
+    ],
+    "cursor_placements": [
+      {
+        "tick": 6764,
+        "address": "smelter/entity/1,1",
+        "id": "14",
+        "name": "stone-furnace",
+        "position": {
+          "y": -14,
+          "x": -9
+        },
+        "direction": 0,
+        "before": {
+          "burner-mining-drill": 1,
+          "stone-furnace": 1,
+          "wood": 1,
+          "coal": 4,
+          "iron-ore": 50,
+          "iron-plate": 8
+        },
+        "after": {
+          "burner-mining-drill": 1,
+          "wood": 1,
+          "coal": 4,
+          "iron-ore": 50,
+          "iron-plate": 8
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 33681,
+        "address": "power.pump",
+        "id": "15",
+        "name": "offshore-pump",
+        "position": {
+          "y": -19.5,
+          "x": -39.5
+        },
+        "direction": 12,
+        "before": {
+          "small-electric-pole": 2,
+          "pipe": 1,
+          "boiler": 1,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "offshore-pump": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "after": {
+          "small-electric-pole": 2,
+          "pipe": 1,
+          "boiler": 1,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 33681,
+        "address": "power.water-pipe",
+        "id": "16",
+        "name": "pipe",
+        "position": {
+          "y": -19.5,
+          "x": -38.5
+        },
+        "direction": 0,
+        "before": {
+          "small-electric-pole": 2,
+          "pipe": 1,
+          "boiler": 1,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "after": {
+          "small-electric-pole": 2,
+          "boiler": 1,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 33681,
+        "address": "power.boiler",
+        "id": "17",
+        "name": "boiler",
+        "position": {
+          "y": -20,
+          "x": -36.5
+        },
+        "direction": 0,
+        "before": {
+          "small-electric-pole": 2,
+          "boiler": 1,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "after": {
+          "small-electric-pole": 2,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 33681,
+        "address": "power.engine",
+        "id": "18",
+        "name": "steam-engine",
+        "position": {
+          "y": -23.5,
+          "x": -36.5
+        },
+        "direction": 0,
+        "before": {
+          "small-electric-pole": 2,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "after": {
+          "small-electric-pole": 2,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 33681,
+        "address": "power.pole",
+        "id": "19",
+        "name": "small-electric-pole",
+        "position": {
+          "y": -21.5,
+          "x": -33.5
+        },
+        "direction": 0,
+        "before": {
+          "small-electric-pole": 2,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "after": {
+          "small-electric-pole": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 33681,
+        "address": "power.lab",
+        "id": "20",
+        "name": "lab",
+        "position": {
+          "y": -23.5,
+          "x": -31.5
+        },
+        "direction": 0,
+        "before": {
+          "small-electric-pole": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "after": {
+          "small-electric-pole": 1,
+          "burner-mining-drill": 1,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.drill",
+        "id": "21",
+        "name": "burner-mining-drill",
+        "position": {
+          "y": -22,
+          "x": -23
+        },
+        "direction": 0,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 8,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "burner-mining-drill": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 8,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.0",
+        "id": "22",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -23.5
+        },
+        "direction": 4,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 8,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 7,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.1",
+        "id": "23",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -22.5
+        },
+        "direction": 4,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 7,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 6,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.2",
+        "id": "24",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -21.5
+        },
+        "direction": 4,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 6,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 5,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.3",
+        "id": "25",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -20.5
+        },
+        "direction": 8,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 5,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 4,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.4",
+        "id": "26",
+        "name": "transport-belt",
+        "position": {
+          "y": -22.5,
+          "x": -20.5
+        },
+        "direction": 8,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 4,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 3,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.5",
+        "id": "27",
+        "name": "transport-belt",
+        "position": {
+          "y": -21.5,
+          "x": -20.5
+        },
+        "direction": 8,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 3,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 2,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.6",
+        "id": "28",
+        "name": "transport-belt",
+        "position": {
+          "y": -20.5,
+          "x": -20.5
+        },
+        "direction": 8,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 2,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 1,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.refuel",
+        "id": "29",
+        "name": "burner-inserter",
+        "position": {
+          "y": -22.5,
+          "x": -21.5
+        },
+        "direction": 4,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 1,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 1,
+          "burner-inserter": 1,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.export",
+        "id": "30",
+        "name": "burner-inserter",
+        "position": {
+          "y": -19.5,
+          "x": -20.5
+        },
+        "direction": 0,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 1,
+          "burner-inserter": 1,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 1,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.chest",
+        "id": "31",
+        "name": "wooden-chest",
+        "position": {
+          "y": -18.5,
+          "x": -20.5
+        },
+        "direction": 0,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 1,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "transport-belt": 1,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      }
+    ]
+  },
+  "drift_after": {
+    "inventory": {
+      "transport-belt": 1,
+      "small-electric-pole": 1,
+      "wood": 2,
+      "coal": 3
+    },
+    "player_build_events": [
+      {
+        "tick": 6764,
+        "player_index": 1,
+        "id": "14",
+        "name": "stone-furnace",
+        "position": {
+          "y": -14,
+          "x": -9
+        }
+      },
+      {
+        "tick": 33681,
+        "player_index": 1,
+        "id": "15",
+        "name": "offshore-pump",
+        "position": {
+          "y": -19.5,
+          "x": -39.5
+        }
+      },
+      {
+        "tick": 33681,
+        "player_index": 1,
+        "id": "16",
+        "name": "pipe",
+        "position": {
+          "y": -19.5,
+          "x": -38.5
+        }
+      },
+      {
+        "tick": 33681,
+        "player_index": 1,
+        "id": "17",
+        "name": "boiler",
+        "position": {
+          "y": -20,
+          "x": -36.5
+        }
+      },
+      {
+        "tick": 33681,
+        "player_index": 1,
+        "id": "18",
+        "name": "steam-engine",
+        "position": {
+          "y": -23.5,
+          "x": -36.5
+        }
+      },
+      {
+        "tick": 33681,
+        "player_index": 1,
+        "id": "19",
+        "name": "small-electric-pole",
+        "position": {
+          "y": -21.5,
+          "x": -33.5
+        }
+      },
+      {
+        "tick": 33681,
+        "player_index": 1,
+        "id": "20",
+        "name": "lab",
+        "position": {
+          "y": -23.5,
+          "x": -31.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "21",
+        "name": "burner-mining-drill",
+        "position": {
+          "y": -22,
+          "x": -23
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "22",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -23.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "23",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -22.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "24",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -21.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "25",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -20.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "26",
+        "name": "transport-belt",
+        "position": {
+          "y": -22.5,
+          "x": -20.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "27",
+        "name": "transport-belt",
+        "position": {
+          "y": -21.5,
+          "x": -20.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "28",
+        "name": "transport-belt",
+        "position": {
+          "y": -20.5,
+          "x": -20.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "29",
+        "name": "burner-inserter",
+        "position": {
+          "y": -22.5,
+          "x": -21.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "30",
+        "name": "burner-inserter",
+        "position": {
+          "y": -19.5,
+          "x": -20.5
+        }
+      },
+      {
+        "tick": 61806,
+        "player_index": 1,
+        "id": "31",
+        "name": "wooden-chest",
+        "position": {
+          "y": -18.5,
+          "x": -20.5
+        }
+      }
+    ],
+    "cursor_placements": [
+      {
+        "tick": 6764,
+        "address": "smelter/entity/1,1",
+        "id": "14",
+        "name": "stone-furnace",
+        "position": {
+          "y": -14,
+          "x": -9
+        },
+        "direction": 0,
+        "before": {
+          "burner-mining-drill": 1,
+          "stone-furnace": 1,
+          "wood": 1,
+          "coal": 4,
+          "iron-ore": 50,
+          "iron-plate": 8
+        },
+        "after": {
+          "burner-mining-drill": 1,
+          "wood": 1,
+          "coal": 4,
+          "iron-ore": 50,
+          "iron-plate": 8
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 33681,
+        "address": "power.pump",
+        "id": "15",
+        "name": "offshore-pump",
+        "position": {
+          "y": -19.5,
+          "x": -39.5
+        },
+        "direction": 12,
+        "before": {
+          "small-electric-pole": 2,
+          "pipe": 1,
+          "boiler": 1,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "offshore-pump": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "after": {
+          "small-electric-pole": 2,
+          "pipe": 1,
+          "boiler": 1,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 33681,
+        "address": "power.water-pipe",
+        "id": "16",
+        "name": "pipe",
+        "position": {
+          "y": -19.5,
+          "x": -38.5
+        },
+        "direction": 0,
+        "before": {
+          "small-electric-pole": 2,
+          "pipe": 1,
+          "boiler": 1,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "after": {
+          "small-electric-pole": 2,
+          "boiler": 1,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 33681,
+        "address": "power.boiler",
+        "id": "17",
+        "name": "boiler",
+        "position": {
+          "y": -20,
+          "x": -36.5
+        },
+        "direction": 0,
+        "before": {
+          "small-electric-pole": 2,
+          "boiler": 1,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "after": {
+          "small-electric-pole": 2,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 33681,
+        "address": "power.engine",
+        "id": "18",
+        "name": "steam-engine",
+        "position": {
+          "y": -23.5,
+          "x": -36.5
+        },
+        "direction": 0,
+        "before": {
+          "small-electric-pole": 2,
+          "steam-engine": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "after": {
+          "small-electric-pole": 2,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 33681,
+        "address": "power.pole",
+        "id": "19",
+        "name": "small-electric-pole",
+        "position": {
+          "y": -21.5,
+          "x": -33.5
+        },
+        "direction": 0,
+        "before": {
+          "small-electric-pole": 2,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "after": {
+          "small-electric-pole": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 33681,
+        "address": "power.lab",
+        "id": "20",
+        "name": "lab",
+        "position": {
+          "y": -23.5,
+          "x": -31.5
+        },
+        "direction": 0,
+        "before": {
+          "small-electric-pole": 1,
+          "burner-mining-drill": 1,
+          "lab": 1,
+          "coal": 3
+        },
+        "after": {
+          "small-electric-pole": 1,
+          "burner-mining-drill": 1,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.drill",
+        "id": "21",
+        "name": "burner-mining-drill",
+        "position": {
+          "y": -22,
+          "x": -23
+        },
+        "direction": 0,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 8,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "burner-mining-drill": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 8,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.0",
+        "id": "22",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -23.5
+        },
+        "direction": 4,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 8,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 7,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.1",
+        "id": "23",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -22.5
+        },
+        "direction": 4,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 7,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 6,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.2",
+        "id": "24",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -21.5
+        },
+        "direction": 4,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 6,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 5,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.3",
+        "id": "25",
+        "name": "transport-belt",
+        "position": {
+          "y": -23.5,
+          "x": -20.5
+        },
+        "direction": 8,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 5,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 4,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.4",
+        "id": "26",
+        "name": "transport-belt",
+        "position": {
+          "y": -22.5,
+          "x": -20.5
+        },
+        "direction": 8,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 4,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 3,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.5",
+        "id": "27",
+        "name": "transport-belt",
+        "position": {
+          "y": -21.5,
+          "x": -20.5
+        },
+        "direction": 8,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 3,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 2,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.belt.6",
+        "id": "28",
+        "name": "transport-belt",
+        "position": {
+          "y": -20.5,
+          "x": -20.5
+        },
+        "direction": 8,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 2,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 1,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.refuel",
+        "id": "29",
+        "name": "burner-inserter",
+        "position": {
+          "y": -22.5,
+          "x": -21.5
+        },
+        "direction": 4,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 1,
+          "burner-inserter": 2,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 1,
+          "burner-inserter": 1,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.export",
+        "id": "30",
+        "name": "burner-inserter",
+        "position": {
+          "y": -19.5,
+          "x": -20.5
+        },
+        "direction": 0,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 1,
+          "burner-inserter": 1,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "wooden-chest": 1,
+          "transport-belt": 1,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      },
+      {
+        "tick": 61806,
+        "address": "coal.chest",
+        "id": "31",
+        "name": "wooden-chest",
+        "position": {
+          "y": -18.5,
+          "x": -20.5
+        },
+        "direction": 0,
+        "before": {
+          "wooden-chest": 1,
+          "transport-belt": 1,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "after": {
+          "transport-belt": 1,
+          "small-electric-pole": 1,
+          "wood": 2,
+          "coal": 3
+        },
+        "player_index": 1
+      }
+    ]
+  },
+  "refusal_id": "action-131"
+}

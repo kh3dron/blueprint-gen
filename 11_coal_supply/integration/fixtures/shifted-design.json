@@ -1,0 +1,161 @@
+{
+  "method": "coal drill with burner fuel return and surplus chest",
+  "placements": [
+    {
+      "address": "coal.drill",
+      "name": "burner-mining-drill",
+      "position": {
+        "x": -31,
+        "y": -10
+      },
+      "direction": 0
+    },
+    {
+      "address": "coal.belt.0",
+      "name": "transport-belt",
+      "position": {
+        "x": -31.5,
+        "y": -11.5
+      },
+      "direction": 4
+    },
+    {
+      "address": "coal.belt.1",
+      "name": "transport-belt",
+      "position": {
+        "x": -30.5,
+        "y": -11.5
+      },
+      "direction": 4
+    },
+    {
+      "address": "coal.belt.2",
+      "name": "transport-belt",
+      "position": {
+        "x": -29.5,
+        "y": -11.5
+      },
+      "direction": 4
+    },
+    {
+      "address": "coal.belt.3",
+      "name": "transport-belt",
+      "position": {
+        "x": -28.5,
+        "y": -11.5
+      },
+      "direction": 8
+    },
+    {
+      "address": "coal.belt.4",
+      "name": "transport-belt",
+      "position": {
+        "x": -28.5,
+        "y": -10.5
+      },
+      "direction": 8
+    },
+    {
+      "address": "coal.belt.5",
+      "name": "transport-belt",
+      "position": {
+        "x": -28.5,
+        "y": -9.5
+      },
+      "direction": 8
+    },
+    {
+      "address": "coal.belt.6",
+      "name": "transport-belt",
+      "position": {
+        "x": -28.5,
+        "y": -8.5
+      },
+      "direction": 8
+    },
+    {
+      "address": "coal.refuel",
+      "name": "burner-inserter",
+      "position": {
+        "x": -29.5,
+        "y": -10.5
+      },
+      "direction": 4
+    },
+    {
+      "address": "coal.export",
+      "name": "burner-inserter",
+      "position": {
+        "x": -28.5,
+        "y": -7.5
+      },
+      "direction": 0
+    },
+    {
+      "address": "coal.chest",
+      "name": "wooden-chest",
+      "position": {
+        "x": -28.5,
+        "y": -6.5
+      },
+      "direction": 0
+    }
+  ],
+  "bill": {
+    "burner-mining-drill": 1,
+    "transport-belt": 7,
+    "burner-inserter": 2,
+    "wooden-chest": 1
+  },
+  "staging": {
+    "x": -34,
+    "y": -8
+  },
+  "mining_area": [
+    [
+      -32,
+      -11
+    ],
+    [
+      -30,
+      -9
+    ]
+  ],
+  "links": [
+    [
+      "coal.drill",
+      "coal.belt.0"
+    ],
+    [
+      "coal.belt.4",
+      "coal.refuel"
+    ],
+    [
+      "coal.refuel",
+      "coal.drill"
+    ],
+    [
+      "coal.belt.6",
+      "coal.export"
+    ],
+    [
+      "coal.export",
+      "coal.chest"
+    ]
+  ],
+  "seed": {
+    "coal.drill": 1,
+    "coal.refuel": 1,
+    "coal.export": 1
+  },
+  "output": {
+    "address": "coal.chest",
+    "item": "coal",
+    "minimum_per_min": 10
+  },
+  "measurement": {
+    "warmup_ticks": 3600,
+    "window_ticks": 3600,
+    "windows": 5
+  }
+}

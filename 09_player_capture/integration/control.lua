@@ -26,6 +26,21 @@ local function attach(event)
 end
 script.on_event(defines.events.on_player_created,attach)
 
+script.on_event(defines.events.on_player_joined_game,function(event)
+  local player=game.get_player(event.player_index)
+  assert(player.index==storage.capture_player,"unexpected experiment player")
+  assert(not storage.job and game.tick_paused,"reconnect at an idle boundary")
+  local actor=player.character
+  -- Logged-off characters invalidate saved LuaEntity references. Rebind only
+  -- the original native character; never spawn or grant a replacement.
+  assert(actor and actor.valid and tostring(actor.unit_number)==storage.attachment.after.character_id,
+    "reconnected character identity changed")
+  assert(not player.cheat_mode and actor.player==player,"reconnected player attribution changed")
+  storage.actor=actor
+  helpers.write_file("player-reconnect.json",helpers.table_to_json{character_id=tostring(actor.unit_number),
+    player_index=player.index,position=actor.position,inventory=contents(actor),tick=game.tick},false)
+end)
+
 script.on_event(defines.events.on_player_crafted_item,function(event)
   if event.player_index~=storage.capture_player then return end
   helpers.write_file("player-crafts.jsonl",helpers.table_to_json{tick=game.tick,player_index=event.player_index,
@@ -58,6 +73,11 @@ script.on_event(defines.events.on_tick,function(event)
   end
 end)
 remote.add_interface("player-capture",{
+  disable=function()
+    assert(not storage.job and game.tick_paused,"disable at an idle boundary")
+    storage.capture_enabled=false
+    return {enabled=false}
+  end,
   status=function()
     local p=storage.capture_player and game.get_player(storage.capture_player)
     return {attached=p and p.connected and p.character==storage.actor or false,attachment=storage.attachment}

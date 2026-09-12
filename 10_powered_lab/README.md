@@ -75,6 +75,11 @@ boiler's three-coal allocation is exhausted by the end; residual steam remains i
 The advisor now requests ongoing ore delivery. **Sustained 10 red science/min is still incomplete**:
 continuous fuel, automated mining, smelting, transport and science assembly are next.
 
+The separate [coal-supply continuation](../11_coal_supply/README.md) now reuses this opening
+in the same world and adds native tree harvesting plus a measured self-fueling coal module.
+Its coal output still needs routing to the power island and smelters. Optional runner,
+observer-profile and cursor-registry hooks keep this experiment's defaults unchanged.
+
 ```sh
 python3 -m unittest discover -s 10_powered_lab/tests -v
 ```

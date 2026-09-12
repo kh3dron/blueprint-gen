@@ -1,0 +1,247 @@
+{
+  "requested": {
+    "burner-inserter": 2,
+    "transport-belt": 18,
+    "automation-science-pack": 20
+  },
+  "force_new_crafts": false,
+  "inventory_used": {
+    "transport-belt": 1
+  },
+  "gather": {
+    "iron-ore": 73,
+    "coal": 10,
+    "copper-ore": 20
+  },
+  "steps": [
+    {
+      "kind": "gather",
+      "item": "iron-ore",
+      "quantity": 4
+    },
+    {
+      "kind": "gather",
+      "item": "coal",
+      "quantity": 1
+    },
+    {
+      "kind": "smelt",
+      "recipe": "iron-plate",
+      "crafts": 4,
+      "machine": "stone-furnace",
+      "coal": 1,
+      "processing_seconds": 12.8,
+      "inputs": {
+        "iron-ore": 4
+      },
+      "outputs": {
+        "iron-plate": 4
+      }
+    },
+    {
+      "kind": "handcraft",
+      "recipe": "iron-gear-wheel",
+      "crafts": 2,
+      "crafting_seconds": 1.0,
+      "inputs": {
+        "iron-plate": 4
+      },
+      "outputs": {
+        "iron-gear-wheel": 2
+      }
+    },
+    {
+      "kind": "gather",
+      "item": "iron-ore",
+      "quantity": 2
+    },
+    {
+      "kind": "gather",
+      "item": "coal",
+      "quantity": 1
+    },
+    {
+      "kind": "smelt",
+      "recipe": "iron-plate",
+      "crafts": 2,
+      "machine": "stone-furnace",
+      "coal": 1,
+      "processing_seconds": 6.4,
+      "inputs": {
+        "iron-ore": 2
+      },
+      "outputs": {
+        "iron-plate": 2
+      }
+    },
+    {
+      "kind": "handcraft",
+      "recipe": "burner-inserter",
+      "crafts": 2,
+      "crafting_seconds": 1.0,
+      "inputs": {
+        "iron-gear-wheel": 2,
+        "iron-plate": 2
+      },
+      "outputs": {
+        "burner-inserter": 2
+      }
+    },
+    {
+      "kind": "gather",
+      "item": "iron-ore",
+      "quantity": 18
+    },
+    {
+      "kind": "gather",
+      "item": "coal",
+      "quantity": 2
+    },
+    {
+      "kind": "smelt",
+      "recipe": "iron-plate",
+      "crafts": 18,
+      "machine": "stone-furnace",
+      "coal": 2,
+      "processing_seconds": 57.6,
+      "inputs": {
+        "iron-ore": 18
+      },
+      "outputs": {
+        "iron-plate": 18
+      }
+    },
+    {
+      "kind": "handcraft",
+      "recipe": "iron-gear-wheel",
+      "crafts": 9,
+      "crafting_seconds": 4.5,
+      "inputs": {
+        "iron-plate": 18
+      },
+      "outputs": {
+        "iron-gear-wheel": 9
+      }
+    },
+    {
+      "kind": "gather",
+      "item": "iron-ore",
+      "quantity": 9
+    },
+    {
+      "kind": "gather",
+      "item": "coal",
+      "quantity": 1
+    },
+    {
+      "kind": "smelt",
+      "recipe": "iron-plate",
+      "crafts": 9,
+      "machine": "stone-furnace",
+      "coal": 1,
+      "processing_seconds": 28.8,
+      "inputs": {
+        "iron-ore": 9
+      },
+      "outputs": {
+        "iron-plate": 9
+      }
+    },
+    {
+      "kind": "handcraft",
+      "recipe": "transport-belt",
+      "crafts": 9,
+      "crafting_seconds": 4.5,
+      "inputs": {
+        "iron-gear-wheel": 9,
+        "iron-plate": 9
+      },
+      "outputs": {
+        "transport-belt": 18
+      }
+    },
+    {
+      "kind": "gather",
+      "item": "copper-ore",
+      "quantity": 20
+    },
+    {
+      "kind": "gather",
+      "item": "coal",
+      "quantity": 2
+    },
+    {
+      "kind": "smelt",
+      "recipe": "copper-plate",
+      "crafts": 20,
+      "machine": "stone-furnace",
+      "coal": 2,
+      "processing_seconds": 64.0,
+      "inputs": {
+        "copper-ore": 20
+      },
+      "outputs": {
+        "copper-plate": 20
+      }
+    },
+    {
+      "kind": "gather",
+      "item": "iron-ore",
+      "quantity": 40
+    },
+    {
+      "kind": "gather",
+      "item": "coal",
+      "quantity": 3
+    },
+    {
+      "kind": "smelt",
+      "recipe": "iron-plate",
+      "crafts": 40,
+      "machine": "stone-furnace",
+      "coal": 3,
+      "processing_seconds": 128.0,
+      "inputs": {
+        "iron-ore": 40
+      },
+      "outputs": {
+        "iron-plate": 40
+      }
+    },
+    {
+      "kind": "handcraft",
+      "recipe": "iron-gear-wheel",
+      "crafts": 20,
+      "crafting_seconds": 10.0,
+      "inputs": {
+        "iron-plate": 40
+      },
+      "outputs": {
+        "iron-gear-wheel": 20
+      }
+    },
+    {
+      "kind": "handcraft",
+      "recipe": "automation-science-pack",
+      "crafts": 20,
+      "crafting_seconds": 100,
+      "inputs": {
+        "copper-plate": 20,
+        "iron-gear-wheel": 20
+      },
+      "outputs": {
+        "automation-science-pack": 20
+      }
+    }
+  ],
+  "requires_research": [],
+  "unsupported": [],
+  "remaining_inventory": {
+    "transport-belt": 1,
+    "small-electric-pole": 1,
+    "wood": 2
+  },
+  "handcraft_seconds": 121.0,
+  "smelting_machine_seconds": 297.6,
+  "note": "Times exclude gathering, movement, placement and transfers; furnace time may overlap handcrafting."
+}

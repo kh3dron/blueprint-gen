@@ -1,5 +1,9 @@
 Factorio recipe tools
 
+Active architecture: [declarative factory constructor and player interpreter](factory_constructor/README.md).
+The goal is to generate and execute a construction program from a production declaration.
+The earlier factory scenarios provide tested methods and engine evidence for that program.
+
 Current research direction: [project review](RESEARCH_REVIEW.md).
 New progression work lives separately in [05_advisor_experiment](05_advisor_experiment/README.md),
 with [scenario results and next experiments](05_advisor_experiment/EXPERIMENTS.md).
@@ -93,6 +97,30 @@ with [scenario results and next experiments](05_advisor_experiment/EXPERIMENTS.m
   - [x] observed shoreline → declared power island → runtime bill → walked player construction
   - [x] ten red science packs consumed by a steam-powered lab; Automation research unlocks
   - [ ] continuous fuel, automated ore/plate/ingredient delivery and measured science assembly
+
+- [x] 12: self-fueling coal supply ([11_coal_supply](11_coal_supply/README.md))
+  - [x] harvest a real tree; pay for a declared drill, fuel-return belt, burner inserters and chest
+  - [x] seed three coal; observe five idle minutes after startup, delivering 11–13 coal/min to storage
+  - [x] preserve all module entities on repeat deployment; refuse direction drift
+  - [x] connect coal to the boiler in `12_boiler_feed/`
+  - [x] connect fuel to automatic iron smelting in `13_iron_supply/`
+  - [ ] automate copper and science production
+
+- [x] 13: automatic boiler fuel ([12_boiler_feed](12_boiler_feed/README.md))
+  - [x] paid belts and burner inserters connect the coal chest to the boiler
+  - [x] five idle research minutes at 60 kW; new coal reaches the boiler and fuel buffers grow
+  - [x] twenty finite red science packs consumed; Logistics research completes
+  - [x] optional recording, compact diagnostics and a sealed development checkpoint
+  - [ ] automated ore/plate/ingredient delivery and sustained science assembly
+
+- [x] 14: automatic iron supply ([13_iron_supply](13_iron_supply/README.md))
+  - [x] two drills feed furnaces, with coal from the existing mine and powered plate collection
+  - [x] five idle minutes at 30 plates/min; 150 ore mined, 150 plates collected, fuel buffers gain 25 coal
+  - [x] 62 paid native builds, repeat-deployment checks and complete connected coal accounting
+  - [x] sealed preparation checkpoint and native checks for clear construction approaches
+  - [ ] copper supply, gear/science assembly and measured 10 red science/min
+
+See [DEVELOPMENT_LOOP.md](DEVELOPMENT_LOOP.md) for the current handoff and measured test workflow.
 
 ## GAME LOOP
 

@@ -151,27 +151,44 @@ class RecordedDriver(Driver):
     def __init__(self, session, graphics):
         super().__init__(session)
         self.graphics = graphics
+        self.record = getattr(graphics, "record", False)
 
     def action(self, op, args, label):
         result = super().action(op, args, label)
-        boundary = capture_call(self.session, "capture")
-        self.graphics.wait_image(boundary["image"])
+        if self.record:
+            boundary = capture_call(self.session, "capture")
+            self.graphics.wait_image(boundary["image"])
         return result
 
 
-def run(binary, destination, config, speed):
+def configure_recording(session, record):
+    session.client.call({"op": "configure_trace", "mode": "full" if record else "boundaries"})
+    if not record:
+        capture_call(session, "disable")
+
+
+def capture_boundary(session, graphics):
+    if getattr(graphics, "record", False):
+        frame = capture_call(session, "capture")
+        graphics.wait_image(frame["image"])
+
+
+def run(binary, destination, config, speed, *, record=False):
     started = time.perf_counter()
     session = PlayerSession(binary, destination, config, scenario_overlay=HERE / "integration")
     graphics = None
     try:
         session.start()
+        configure_recording(session, record)
         graphics = GraphicalClient(session)
+        graphics.record = record
         print("Starting isolated graphical client…", flush=True)
         attachment = graphics.start()
         save(session.root / "attachment.json", attachment)
         print("Player attached to existing character.", flush=True)
-        first = capture_call(session, "enable")
-        graphics.wait_image(first["image"])
+        if record:
+            first = capture_call(session, "enable")
+            graphics.wait_image(first["image"])
         session.client.call({"op": "speed", "speed": speed})
         driver = RecordedDriver(session, graphics)
         driver.observe()
@@ -194,8 +211,7 @@ def run(binary, destination, config, speed):
         save(session.root / "next-action.json", next_step(snapshot, rules))
         from verify_player import verify_directory
         save(session.root / "verification.json", verify_directory(session.root))
-        last = capture_call(session, "capture")
-        graphics.wait_image(last["image"])
+        capture_boundary(session, graphics)
         save(session.root / "performance.json", {"requested_speed": speed,
             "total_wall_seconds": time.perf_counter() - started,
             "simulation_ticks": driver.current["tick"] - driver.observations[0]["state"]["tick"]})
@@ -217,7 +233,7 @@ if __name__ == "__main__":
     parser.add_argument("--record", action="store_true", help="encode native screenshots as GIF/MP4 after completion")
     args = parser.parse_args()
     try:
-        run(args.factorio, args.out, json.loads(args.config.read_text()), args.speed)
+        run(args.factorio, args.out, json.loads(args.config.read_text()), args.speed, record=args.record)
         if args.record:
             from render_native import build
             print(build(args.out, args.out / "recording"))

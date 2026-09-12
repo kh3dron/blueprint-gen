@@ -1,0 +1,22 @@
+{
+  "kind": "native Factorio screenshots with synchronized state overlay",
+  "trace_sha256": "34d734007a2a32350312d27f57f64eae869930897b875080aeebc0e93135e9cf",
+  "method": "hold latest captured image and its own state together; no interpolation",
+  "missing_frames": 0,
+  "fps": 12,
+  "playback_simulated_seconds_per_second": 12,
+  "first_tick": 0,
+  "last_tick": 83406,
+  "duration_seconds": 116.91666666666667,
+  "mp4": true,
+  "camera": "follow character; zoom 0.8",
+  "visual_settings": "960x640 source; daylight override; alt mode; no game GUI, clouds or fog",
+  "source_frame_count": 1738,
+  "rendered_frame_count": 1403,
+  "file_bytes": {
+    "run.gif": 115586267,
+    "run.mp4": 10439374,
+    "poster.png": 1157003,
+    "recording.json": 325341
+  }
+}
