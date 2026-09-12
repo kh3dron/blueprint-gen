@@ -1,0 +1,21 @@
+{
+  "restored_exact_world_and_ledger": true,
+  "native_science_proof_replayed": true,
+  "tick": 448266,
+  "revision": 2031,
+  "last_command_id": "action-1015",
+  "actions": 1015,
+  "entities": 255,
+  "checkpoint_state_sha256": "9438435ab4d24ce08e6894e72475aba2e76e7543c9f1efd3208e7a5202b55cd8",
+  "source_game_sha256": "632034d3a98da06c17db2f8f3e5bd643f75a2964fe29c8f223b4e967d8f5042f",
+  "science_per_minute": [
+    12,
+    12,
+    12,
+    12,
+    12
+  ],
+  "server_starts": 1,
+  "png_count": 0,
+  "simulation_ticks_advanced": 0
+}

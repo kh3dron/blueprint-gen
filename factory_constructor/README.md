@@ -25,8 +25,15 @@ and observations.
 
 [Engine evidence](integration/README.md): 10/min and 20/min declarations generated one and two
 lines, then measured 15/min and 30/min for five minutes through the same interpreter. The larger
-case also executed its generated procurement bill. All 240 tests across experiments 05–13 and
-the constructor pass, including 16 constructor/interpreter/evidence tests.
+case also executed its generated procurement bill. Fresh-process checkpoint tests also repeat a
+15/min service with zero construction and extend it to 30/min with 16 paid additions.
+
+The 10 science/min declaration also passes through this compiler and interpreter. Run
+`/tmp/constructor-science-12` retained 60 entities and built 158 through paid native placement.
+It stabilized after eight minutes, then produced and collected 12 packs/min for five consecutive
+minutes. Connected coal buffers gained 59 coal. Execution from prepared inventory took
+284.721 seconds and captured zero PNGs. A fresh native process restored the completed checkpoint's
+exact world and ledger without advancing simulation. All 90 constructor tests pass.
 
 `program.py` defines the declaration, hierarchy, dependencies and interpreter. `compiler.py`
 owns requirement expansion and method selection. `methods.py` contains reusable construction
@@ -56,12 +63,22 @@ builds, verifies retained entities without spending again, waits through startup
 five consecutive minutes. The verifier reconciles ore depletion, native smelting, collected
 plates, every connected burner and the combined coal stocks.
 
-Missing construction methods produce a blocked program before player work. For example,
-10 red science/min expands to 20 iron plates/min and 10 copper plates/min, with gear/science
-recipes, but currently lacks executable composition and consumer routing. The iron method
-refuses an existing managed iron deployment because incremental expansion and crash recovery
-need observed deployment reconciliation. It also refuses unsupported geometry and larger goals.
-There is no implicit demolition or fallback to a handwritten experiment.
+Verified deployments preserve entity identities and configurations. A fresh declaration refreshes
+that record against current observations, retains sufficient capacity, and adds the deficit.
+The player checks retained entities before each capability, stopping drift before paid work.
+
+The science method accepts a verified two-output iron checkpoint. `production_graph.py`
+backchains science through gears and copper, shares available iron capacity, and derives machine
+counts from runtime recipes. `science_layout.py` generates copper mining/smelting, gear and science
+assembly, belt routes, and poles connected to the existing steam network. Its added coal drill
+feeds the original collection route and receives automatic fuel from the shared coal chest.
+The serialized hierarchy identifies each production service and its placements. Finite
+construction procurement is separate from sustained production and is paid in full.
+
+This is bounded construction knowledge: the current layout recognizes the surveyed opening,
+supports at most 12 science/min, and uses one copper line and one gear assembler. Arbitrary terrain,
+new coal/power bootstrap, and migration of an existing science deployment remain unsupported.
+Unknown methods or unsupported boundaries produce a blocked program before player work.
 
 **Run**
 
@@ -85,15 +102,74 @@ to the constructor. This setup is outside the constructor proof; autonomous coal
 is still work to do. Both paths disable recording and preserve the existing 10× action / 40× wait
 policy. Read `run-summary.json` first; detailed evidence remains on disk.
 
+**Science run**
+
+```sh
+.venv/bin/python -m factory_constructor apply \
+  --checkpoint factory_constructor/out/checkpoints/science-10-prepared \
+  --factorio /path/to/factorio --item automation-science-pack --per-minute 10 \
+  --out /tmp/constructor-science-new
+```
+
+The prepared checkpoint retains the verified iron service and paid construction inventory.
+The completed run12 checkpoint is `factory_constructor/out/checkpoints/science-10`; compact
+evidence is in `factory_constructor/integration/fixtures/science-10.json.gz`. Starting from
+`/tmp/constructor-expand-01/checkpoints/factory-idle` also exercises generated procurement.
+
+Check the completed checkpoint in a fresh native process with:
+
+```sh
+.venv/bin/python -m factory_constructor.integration.restore_checkpoint \
+  --checkpoint factory_constructor/out/checkpoints/science-10 \
+  --out /tmp/science-restore-new --factorio /path/to/factorio
+```
+
+A `constructor-prepared` checkpoint saves paid construction inventory before placement. It is an
+explicit preparation boundary, with no claim that the science goal is complete. A
+`constructor-idle` checkpoint is written only after observed service verification. Both validate
+sealed files, prerequisite code, deployment identity, and the exact native idle world on restore.
+
+The science verifier requires five consecutive idle minutes of new science production and chest
+collection at the target rate. Native machine counters, recipe inputs, work in progress, resource
+depletion, all inventories, fuel meters, and electricity statistics must balance. Fresh upstream
+production must sustain the measured output; drawing down a finite iron or fuel stock cannot
+pass the service check.
+
+Before that measurement, the player waits through 5–30 simulated startup minutes. Startup ends
+after three consecutive balanced windows with enough fresh inputs, science collection at the
+target rate, and nondeclining connected fuel reserves. Invalid accounting or disconnected
+machinery stops execution immediately. Failure to stabilize within 30 minutes also stops the
+program. Startup windows do not count toward the five-minute service proof.
+
+The runner prints compact text-only progress for each startup and measurement minute and saves
+the balance result in `constructor-stabilization.json`. On failure, read `run-summary.json`,
+the persisted stack in `execution.json`, and `constructor-failure-state.json`. The native
+`user-data/script-output/live-trace.jsonl` provides later action boundaries when the last full
+observation is stale. Normal runs keep images disabled.
+
+**Native video replay**
+
+Record construction and the production test from paid inventory with:
+
+```sh
+.venv/bin/python -m factory_constructor apply \
+  --checkpoint factory_constructor/out/checkpoints/science-10-prepared \
+  --factorio /path/to/factorio --item automation-science-pack --per-minute 10 \
+  --out /tmp/science-video-new --record
+```
+
+This requires Pillow and ffmpeg. Recording uses a fixed camera covering the factory, captures
+build boundaries and five-second production samples, and encodes `recording/replay.mp4` and
+`recording/preview.gif`. Temporary native frames are removed after encoding; a poster and
+frame hashes remain. The video is labeled as a checkpoint replay and uses that replay's own
+service verification. Recording remains opt-in; earlier text-only runs contain no native footage.
+
 **Next acceptance criteria**
 
-1. Reconcile a desired module against a fresh observed deployment, retaining sufficient existing
-   capacity and adding only the deficit. Prove repeat declarations need no construction.
-2. Compose registered methods recursively for intermediate items and required services. Share
-   dependencies, allocate fuel/power capacity, and generate actual consumer connections.
-3. Reach the red-science target through that compiler and interpreter, varying requested rate,
-   inventory and supported world layout without changing the runner.
-4. Persist safe execution boundaries and add the stack viewer, then extend to in-flight recovery.
+Extend composition to independently registered service methods, allocate remaining fuel and
+power capacity quantitatively, and support more surveyed layouts. Add safe migration for an
+existing science deployment and a viewer for the persisted execution stack. Arbitrary in-flight
+recovery remains separate from the current idle checkpoint boundaries.
 
 Method implementations may encode proven layouts and game mechanics. Per-experiment action
 sequences, manually selected counts and a goal label attached after choosing commands do not

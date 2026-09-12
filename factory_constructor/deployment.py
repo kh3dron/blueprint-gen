@@ -8,21 +8,35 @@ SCOPE = ("active_mods", "surface_index", "force_index", "map_seed", "character_i
 CONFIG = ("name", "position", "direction")
 
 
+def configuration(row):
+    result={k:deepcopy(row[k]) for k in CONFIG}
+    if row["name"].startswith("assembling-machine-"):
+        result["recipe"]=row.get("recipe")
+    return result
+
+
+def placements(design):
+    return design.get("retained_placements",[])+design["placements"]
+
+
 def entities(state):
-    rows = state.get("iron", {}).get("entities", [])
-    result = {r["address"]: {k: deepcopy(r[k]) for k in ("id", *CONFIG)} for r in rows}
+    rows = (state.get("iron", {}).get("entities") or []) + (state.get("science", {}).get("entities") or [])
+    result = {r["address"]: {"id":r["id"],**configuration(r)} for r in rows}
     if len(result) != len(rows) or len({r["id"] for r in result.values()}) != len(result):
         raise ValueError("deployment has duplicate entity addresses or identities")
     return result
 
 
 def record(program, observation, verification):
-    if not verification["automatic_iron_supply_observed"] or min(verification["plates_per_minute"]) < program["goal"]["per_minute"]:
+    science=program["goal"]["item"]=="automation-science-pack"
+    flag="automatic_science_observed" if science else "automatic_iron_supply_observed"
+    rates="science_per_minute" if science else "plates_per_minute"
+    if not verification[flag] or min(verification[rates]) < program["goal"]["per_minute"]:
         raise ValueError("cannot record an unverified deployment")
     state = observation["state"]
     actual = entities(state)
-    desired = {p["address"]: {k: p[k] for k in CONFIG} for p in program["design"]["placements"]}
-    if {k: {f: e[f] for f in CONFIG} for k, e in actual.items()} != desired:
+    desired = {p["address"]: configuration(p) for p in placements(program["design"])}
+    if {k: {f:v for f,v in e.items() if f!="id"} for k, e in actual.items()} != desired:
         raise ValueError("verified deployment does not match its design")
     value = {"schema_version": 1, "program_sha256": program["sha256"], "method": program["method"]["id"],
              "scope": {k: state[k] for k in SCOPE}, "tick": state["tick"],
@@ -39,8 +53,8 @@ def refresh(deployment, observation):
     if any(state[k] != deployment["scope"][k] for k in SCOPE) or state["tick"] < deployment["tick"]:
         raise ValueError("deployment belongs to a different world, actor or observation history")
     expected = deployment["entities"]
-    design = {p["address"]: {k: p[k] for k in CONFIG} for p in deployment["design"]["placements"]}
-    if {k: {f: e[f] for f in CONFIG} for k, e in expected.items()} != design:
+    design = {p["address"]: configuration(p) for p in placements(deployment["design"])}
+    if {k: {f:v for f,v in e.items() if f!="id"} for k, e in expected.items()} != design:
         raise ValueError("deployment baseline and entity configuration disagree")
     if entities(state) != expected:
         raise ValueError("observed deployment drift: missing, replaced, added or changed entity")

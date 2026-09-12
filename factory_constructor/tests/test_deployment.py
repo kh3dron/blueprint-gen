@@ -10,7 +10,7 @@ from unittest.mock import patch
 from factory_constructor import Automate
 from factory_constructor.__main__ import compile_observation
 from factory_constructor import checkpoints
-from factory_constructor.deployment import additions, record, refresh
+from factory_constructor.deployment import additions, entities, record, refresh
 from factory_constructor.program import digest, save, validate
 from factory_constructor.legacy import ROOT
 from factory_constructor.player import PlayerPort
@@ -28,6 +28,11 @@ class DeploymentTest(unittest.TestCase):
 
     def compile(self,rate=10):
         return compile_observation(Automate("iron-plate",rate),self.observation,self.deployment)
+
+    def test_native_empty_science_table_preserves_retained_entities(self):
+        state = deepcopy(self.observation["state"])
+        state["science"] = {"entities": {}}
+        self.assertEqual(entities(state), self.deployment["entities"])
 
     def test_repeat_reuses_entities_and_emits_only_observation_and_retention(self):
         p=self.compile()

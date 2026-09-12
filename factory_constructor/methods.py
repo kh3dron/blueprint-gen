@@ -61,6 +61,8 @@ class IronPlateMethod:
     source = "factory_constructor.methods:IronPlateMethod/v2"
 
     def lower(self, goal, observation, snapshot, rules, builder, *, deployment=None):
+        if deployment and deployment["service"]["item"]!=self.output:
+            raise ValueError("iron construction requires an iron deployment boundary")
         if observation["state"].get("iron") and deployment is None:
             raise ValueError("incremental migration needs the previous verified deployment record")
         retained=refresh(deployment, observation) if deployment else {}

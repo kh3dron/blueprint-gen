@@ -65,12 +65,12 @@ class CompilerTest(unittest.TestCase):
         for a, b in zip(original["design"]["placements"], shifted["design"]["placements"]):
             self.assertEqual(b["position"], {"x": a["position"]["x"]+4, "y": a["position"]["y"]-7})
 
-    def test_science_expands_rates_and_reports_missing_methods(self):
+    def test_science_expands_rates_and_requires_an_iron_checkpoint(self):
         program = self.compile(10, "automation-science-pack")
         self.assertTrue(program["blockers"])
         self.assertEqual(program["requirements"]["crafts_per_minute"]["iron-plate"], 20)
         self.assertEqual(program["requirements"]["crafts_per_minute"]["copper-plate"], 10)
-        self.assertIn("automation-science-pack", program["unimplemented_recipes"])
+        self.assertIn("verified iron deployment checkpoint", program["blockers"][0])
         self.assertFalse(any(n["operation"] for n in program["nodes"]))
 
     def test_existing_factory_is_not_blindly_reconstructed(self):
